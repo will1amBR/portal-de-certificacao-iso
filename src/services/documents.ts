@@ -7,6 +7,7 @@ export interface IsoDocument {
   name: string
   required: boolean
   status: 'pendente' | 'enviado' | 'aprovado' | 'rejeitado'
+  category: 'documentação' | 'evidência' | 'formulário' | 'certificado' | 'outro'
   file?: string
   comment?: string
   created: string
@@ -19,6 +20,13 @@ export interface IsoDocument {
     }
   }
 }
+
+export const bulkDocumentAction = (ids: string[], action: 'approve' | 'reject', comment?: string) =>
+  pb.send('/backend/v1/documents/bulk-action', {
+    method: 'POST',
+    body: JSON.stringify({ ids, action, comment }),
+    headers: { 'Content-Type': 'application/json' },
+  })
 
 export const getDocumentsByCertification = (certificationId: string) =>
   pb.collection('documents').getFullList<IsoDocument>({
