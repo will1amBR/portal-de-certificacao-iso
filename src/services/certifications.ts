@@ -15,6 +15,7 @@ export interface Certification {
   consultant?: string
   start_date?: string
   company_name?: string
+  template_applied?: boolean
   created: string
   updated: string
   expand?: {
@@ -35,12 +36,12 @@ export const getCertification = (id: string) =>
     expand: 'iso_type,consultant,user',
   })
 
-export const createCertification = (data: {
+export const createCertification = async (data: {
   iso_type: string
   company_name?: string
   start_date?: string
-}) =>
-  pb.collection('certifications').create<Certification>({
+}) => {
+  const cert = await pb.collection('certifications').create<Certification>({
     user: pb.authStore.record?.id,
     iso_type: data.iso_type,
     status: 'não iniciado',
@@ -48,6 +49,24 @@ export const createCertification = (data: {
     company_name: data.company_name,
     start_date: data.start_date || new Date().toISOString(),
   })
+
+  const businessModel = pb.authStore.record?.['business_model'] as string | undefined
+  if (businessModel) {
+    try {
+      const { instantiateTemplatesForCertification } = await import('./templates')
+      await instantiateTemplatesForCertification(
+        cert.id,
+        businessModel,
+        pb.authStore.record!.id,
+        cert.start_date,
+      )
+    } catch {
+      /* templates failed - cert still created */
+    }
+  }
+
+  return cert
+}
 
 export const updateCertification = (id: string, data: Partial<Certification>) =>
   pb.collection('certifications').update<Certification>(id, data)

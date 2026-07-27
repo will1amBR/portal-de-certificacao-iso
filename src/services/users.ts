@@ -6,6 +6,8 @@ export interface IsoUser {
   email: string
   avatar?: string
   role: string
+  cnpj?: string
+  business_model?: string
   created: string
   updated: string
 }
@@ -19,5 +21,5 @@ export const getAllUsers = () => pb.collection('users').getFullList<IsoUser>({ s
 
 export const updateUser = (
   id: string,
-  data: Partial<{ name: string; avatar: File; role: string }>,
+  data: Partial<{ name: string; avatar: File; role: string; cnpj: string; business_model: string }>,
 ) => pb.collection('users').update<IsoUser>(id, data)
