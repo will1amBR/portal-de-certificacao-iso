@@ -14,3 +14,11 @@ export const getBusinessModels = () =>
 
 export const getBusinessModel = (id: string) =>
   pb.collection('business_models').getOne<BusinessModel>(id)
+
+export const createBusinessModel = (data: Partial<BusinessModel>) =>
+  pb.collection('business_models').create<BusinessModel>(data)
+
+export const updateBusinessModel = (id: string, data: Partial<BusinessModel>) =>
+  pb.collection('business_models').update<BusinessModel>(id, data)
+
+export const deleteBusinessModel = (id: string) => pb.collection('business_models').delete(id)
