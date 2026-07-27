@@ -12,6 +12,7 @@ import {
   Bell,
   CheckCircle2,
   LayoutTemplate,
+  Settings,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -39,6 +40,9 @@ export default function Layout() {
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Minhas Certificações', path: '/certificacoes', icon: ShieldCheck },
     { label: 'Meus Modelos', path: '/modelos', icon: LayoutTemplate },
+    ...(user?.role === 'admin'
+      ? [{ label: 'Gerenciar Modelos', path: '/admin/modelos', icon: Settings }]
+      : []),
     { label: 'Documentos', path: '/documentos', icon: FileText },
     { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
     { label: 'Meu Perfil', path: '/perfil', icon: User },

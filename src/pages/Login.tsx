@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ShieldCheck, Leaf, HeartPulse } from 'lucide-react'
+import { useNavigate, useLocation, Link, Navigate } from 'react-router-dom'
+import { ShieldCheck, Leaf, HeartPulse, ChevronLeft } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,12 +9,16 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { toast } from 'sonner'
 
 export default function Login() {
-  const { signIn, signUp } = useAuth()
+  const { signIn, signUp, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const isSignup = location.pathname === '/signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
+
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,7 +52,7 @@ export default function Login() {
         </div>
 
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-          <Tabs defaultValue="login">
+          <Tabs defaultValue={isSignup ? 'signup' : 'login'}>
             <TabsList className="grid grid-cols-2 w-full mb-4">
               <TabsTrigger value="login">Entrar</TabsTrigger>
               <TabsTrigger value="signup">Criar Conta</TabsTrigger>
@@ -132,7 +136,14 @@ export default function Login() {
           </Tabs>
         </div>
 
-        <div className="flex items-center justify-center gap-6 mt-6 text-slate-400">
+        <Link
+          to="/"
+          className="flex items-center gap-1 justify-center mt-4 text-sm text-slate-500 hover:text-slate-700"
+        >
+          <ChevronLeft className="h-4 w-4" /> Voltar para o início
+        </Link>
+
+        <div className="flex items-center justify-center gap-6 mt-4 text-slate-400">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="h-4 w-4 text-sky-600" />
             <span className="text-xs">ISO 9001</span>

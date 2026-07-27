@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ShieldCheck, Leaf, HeartPulse } from 'lucide-react'
+import { ChevronLeft, ShieldCheck, Leaf, HeartPulse, FileDown } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 import { getCertification, Certification } from '@/services/certifications'
 import { useRealtime } from '@/hooks/use-realtime'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
@@ -66,7 +68,14 @@ export default function CertificationDetail() {
           </h1>
           <p className="text-sm text-slate-500">{cert.company_name || 'Empresa'}</p>
         </div>
-        <Badge className="ml-auto bg-[#0055A4]">{cert.status}</Badge>
+        <div className="ml-auto flex items-center gap-2">
+          <Badge className="bg-[#0055A4]">{cert.status}</Badge>
+          <Link to="/relatorio-onboarding">
+            <Button variant="outline" size="sm">
+              <FileDown className="h-4 w-4" /> Relatório
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Tabs defaultValue="overview">

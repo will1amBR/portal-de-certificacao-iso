@@ -28,6 +28,30 @@ export const getTemplatesByBusinessModel = (businessModelId: string) =>
     sort: 'type,title',
   })
 
+export const createTemplate = (data: {
+  business_model: string
+  type: 'task' | 'document' | 'schedule'
+  title: string
+  description?: string
+  category?: string
+  required?: boolean
+  due_days?: number
+}) => pb.collection('templates').create<Template>(data)
+
+export const updateTemplate = (
+  id: string,
+  data: Partial<{
+    type: string
+    title: string
+    description: string
+    category: string
+    required: boolean
+    due_days: number
+  }>,
+) => pb.collection('templates').update<Template>(id, data)
+
+export const deleteTemplate = (id: string) => pb.collection('templates').delete(id)
+
 export const instantiateTemplatesForCertification = async (
   certId: string,
   businessModelId: string,

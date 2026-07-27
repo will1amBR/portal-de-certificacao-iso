@@ -5,7 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { AuthProvider } from '@/hooks/use-auth'
 import { ProtectedRoute, OnboardingRoute } from '@/components/ProtectedRoute'
 import Layout from '@/components/Layout'
-import Index from './pages/Index'
+import Landing from './pages/Landing'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
@@ -13,6 +13,9 @@ import Certifications from './pages/Certifications'
 import CertificationDetail from './pages/CertificationDetail'
 import Onboarding from './pages/Onboarding'
 import Templates from './pages/Templates'
+import AdminModels from './pages/AdminModels'
+import OnboardingReport from './pages/OnboardingReport'
+import Profile from './pages/Profile'
 
 const App = () => (
   <BrowserRouter>
@@ -21,9 +24,10 @@ const App = () => (
         <Toaster />
         <Sonner />
         <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Login />} />
           <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/onboarding" element={<Onboarding />} />
               <Route element={<OnboardingRoute />}>
@@ -31,6 +35,9 @@ const App = () => (
                 <Route path="/certificacoes" element={<Certifications />} />
                 <Route path="/certificacoes/:id" element={<CertificationDetail />} />
                 <Route path="/modelos" element={<Templates />} />
+                <Route path="/admin/modelos" element={<AdminModels />} />
+                <Route path="/relatorio-onboarding" element={<OnboardingReport />} />
+                <Route path="/perfil" element={<Profile />} />
               </Route>
             </Route>
           </Route>
