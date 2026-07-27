@@ -44,7 +44,11 @@ export function CertDocuments({ certId }: { certId: string }) {
   const canManage = user?.role === 'admin' || user?.role === 'consultor'
   const toggle = (id: string) => {
     const next = new Set(selected)
-    next.has(id) ? next.delete(id) : next.add(id)
+    if (next.has(id)) {
+      next.delete(id)
+    } else {
+      next.add(id)
+    }
     setSelected(next)
   }
   const toggleAll = () =>
