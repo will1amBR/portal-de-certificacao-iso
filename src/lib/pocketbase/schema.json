@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T13:33:02.463Z",
+  "generatedAt": "2026-08-04T13:41:34.538Z",
   "collections": [
     {
       "name": "users",
@@ -71,9 +71,9 @@
       "apiRules": {
         "list": "@request.auth.id != ''",
         "view": "@request.auth.id != ''",
-        "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": null
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
       },
       "fields": [
         {
@@ -473,8 +473,8 @@
       "name": "notifications",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id = user",
-        "view": "@request.auth.id = user",
+        "list": "@request.auth.id = user || @request.auth.role = 'admin'",
+        "view": "@request.auth.id = user || @request.auth.role = 'admin'",
         "create": "@request.auth.id != ''",
         "update": "@request.auth.id = user",
         "delete": "@request.auth.id = user"

@@ -137,7 +137,7 @@ migrate(
         t: 'document',
         title: 'Controle de infecção hospitalar',
         desc: 'Programa de controle de infecção.',
-        cat: 'documentação',
+        cat: 'outro',
         req: true,
       },
       {
@@ -159,7 +159,7 @@ migrate(
         t: 'document',
         title: 'Termo de confidencialidade e LGPD',
         desc: 'Documentos de privacidade e proteção de dados.',
-        cat: 'documentação',
+        cat: 'outro',
         req: true,
       },
       {
