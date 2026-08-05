@@ -17,7 +17,13 @@ export default function Dashboard() {
   const load = async () => {
     try {
       const all = await getCertifications()
-      setCerts(user?.role === 'cliente' ? all.filter((c) => c.user === user?.id) : all)
+      if (user?.role === 'cliente') {
+        setCerts(all.filter((c) => c.user === user?.id))
+      } else if (user?.role === 'consultor') {
+        setCerts(all.filter((c) => c.consultant === user?.id))
+      } else {
+        setCerts(all)
+      }
     } catch {
       /* noop */
     }
@@ -31,9 +37,9 @@ export default function Dashboard() {
     load()
   })
 
-  const myCerts = certs.filter((c) => c.user === user?.id)
-  const pendingDocs = certs.filter((c) => c.status === 'pendente de documentos').length
-  const upcomingAudits = certs.filter((c) => c.status === 'aguardando auditoria').length
+  const myCerts = certs
+  const pendingDocs = myCerts.filter((c) => c.status === 'pendente de documentos').length
+  const upcomingAudits = myCerts.filter((c) => c.status === 'aguardando auditoria').length
 
   const kpis = [
     {
@@ -93,7 +99,9 @@ export default function Dashboard() {
 
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-900">Minhas Certificações</h2>
+          <h2 className="text-lg font-semibold text-slate-900">
+            {user?.role === 'consultor' ? 'Certificações Atribuídas' : 'Minhas Certificações'}
+          </h2>
           <Link
             to="/certificacoes"
             className="text-sm text-[#0055A4] hover:underline flex items-center gap-1"

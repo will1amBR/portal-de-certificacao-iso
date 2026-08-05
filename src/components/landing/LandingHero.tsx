@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, ShieldCheck, Leaf, HeartPulse, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
+import { DemoSelector } from '@/components/DemoSelector'
 
 export function LandingHero() {
   const { isAuthenticated } = useAuth()
@@ -48,6 +49,11 @@ export function LandingHero() {
             </Button>
           </Link>
         </div>
+        {!isAuthenticated && (
+          <div className="mt-5 flex justify-center animate-fade-in-up">
+            <DemoSelector variant="hero" />
+          </div>
+        )}
         <div className="mt-12 flex items-center justify-center gap-6 md:gap-8 text-blue-200">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-sky-300" />

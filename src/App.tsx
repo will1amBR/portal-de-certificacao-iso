@@ -16,6 +16,8 @@ import Templates from './pages/Templates'
 import AdminModels from './pages/AdminModels'
 import OnboardingReport from './pages/OnboardingReport'
 import Profile from './pages/Profile'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminIsoTypes from './pages/AdminIsoTypes'
 
 const App = () => (
   <BrowserRouter>
@@ -30,6 +32,8 @@ const App = () => (
           <Route element={<Layout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
               <Route element={<OnboardingRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/certificacoes" element={<Certifications />} />

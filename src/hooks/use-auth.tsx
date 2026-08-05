@@ -12,6 +12,7 @@ interface AuthContextType {
     companyName?: string,
   ) => Promise<{ error: any }>
   signIn: (email: string, password: string) => Promise<{ error: any }>
+  signInAsDemo: (email: string) => Promise<{ error: any; role: string | null }>
   signOut: () => void
   loading: boolean
 }
@@ -74,6 +75,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const signInAsDemo = async (email: string) => {
+    try {
+      await pb.collection('users').authWithPassword(email, 'Skip@Pass')
+      return { error: null, role: (pb.authStore.record as any)?.role || null }
+    } catch (error) {
+      return { error, role: null }
+    }
+  }
+
   const signOut = () => {
     pb.authStore.clear()
   }
@@ -86,6 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         signUp,
         signIn,
+        signInAsDemo,
         signOut,
         loading,
       }}

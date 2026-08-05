@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { toast } from 'sonner'
+import { DemoSelector } from '@/components/DemoSelector'
 
 export default function Login() {
-  const { signIn, signUp, isAuthenticated } = useAuth()
+  const { signIn, signUp, isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const isSignup = location.pathname === '/signup'
@@ -18,7 +19,10 @@ export default function Login() {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
 
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />
+  if (isAuthenticated) {
+    if (user?.role === 'admin') return <Navigate to="/admin" replace />
+    return <Navigate to="/dashboard" replace />
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -135,6 +139,17 @@ export default function Login() {
             </TabsContent>
           </Tabs>
         </div>
+
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-slate-200" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-slate-400">ou</span>
+          </div>
+        </div>
+
+        <DemoSelector />
 
         <Link
           to="/"
