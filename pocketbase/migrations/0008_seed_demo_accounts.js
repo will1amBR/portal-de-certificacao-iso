@@ -106,7 +106,7 @@ migrate(
           req: true,
           st: 'aprovado',
           cm: 'Documento verificado e aprovado.',
-          cat: 'documentacao',
+          cat: 'documentação',
         },
         {
           c: cert1.id,
@@ -138,7 +138,7 @@ migrate(
           req: true,
           st: 'rejeitado',
           cm: 'Documento incompleto. Favor revisar secao 4.2.',
-          cat: 'evidencia',
+          cat: 'evidência',
         },
         {
           c: cert1.id,
@@ -146,7 +146,7 @@ migrate(
           req: false,
           st: 'pendente',
           cm: '',
-          cat: 'formulario',
+          cat: 'formulário',
         },
         {
           c: cert2.id,
@@ -162,7 +162,7 @@ migrate(
           req: true,
           st: 'pendente',
           cm: 'Aguardando envio.',
-          cat: 'formulario',
+          cat: 'formulário',
         },
         {
           c: cert2.id,
@@ -178,7 +178,7 @@ migrate(
           req: true,
           st: 'rejeitado',
           cm: 'Dados desatualizados. Atualizar relatorio.',
-          cat: 'evidencia',
+          cat: 'evidência',
         },
       ]
       for (var i = 0; i < docs.length; i++) {
