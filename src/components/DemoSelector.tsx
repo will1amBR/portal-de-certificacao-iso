@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Building2, ClipboardCheck, Landmark, ChevronDown, Loader2, Users } from 'lucide-react'
+import {
+  Building2,
+  ClipboardCheck,
+  Landmark,
+  ChevronDown,
+  Loader2,
+  Users,
+  ArrowRight,
+} from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,15 +24,15 @@ import { cn } from '@/lib/utils'
 
 const demoAccounts = [
   {
-    email: 'demo.cliente@portal-iso.com',
+    email: 'demo.cliente@alc.com.br',
     label: 'Cliente (Construtora)',
     description:
       'Construtora Horizonte — Acompanhe certificações, envie documentos e veja o progresso.',
     icon: Building2,
-    redirect: '/dashboard',
+    redirect: '/app',
   },
   {
-    email: 'demo.auditor@portal-iso.com',
+    email: 'demo.auditor@alc.com.br',
     label: 'Auditor',
     description:
       'Ana Costa — Analise documentos, agende auditorias e gerencie tarefas dos clientes.',
@@ -32,7 +40,7 @@ const demoAccounts = [
     redirect: '/dashboard',
   },
   {
-    email: 'demo.admin@portal-iso.com',
+    email: 'demo.admin@alc.com.br',
     label: 'Empresa de Auditoria',
     description: 'ALC Certificadora — Gerencie clientes, certificações, modelos e visualize KPIs.',
     icon: Landmark,
@@ -76,12 +84,17 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
           ) : (
             <Users className="h-4 w-4" />
           )}
-          Entrar como Demo
+          Explore sem criar conta
           {!loadingEmail && <ChevronDown className="h-4 w-4 ml-1" />}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-80">
-        <DropdownMenuLabel>Escolha um perfil demo</DropdownMenuLabel>
+      <DropdownMenuContent align="center" className="w-96">
+        <DropdownMenuLabel className="text-center text-base font-bold text-slate-900">
+          Explore sem criar conta
+        </DropdownMenuLabel>
+        <p className="text-xs text-slate-500 text-center px-3 pb-2">
+          Escolha um perfil para experimentar o portal instantaneamente
+        </p>
         <DropdownMenuSeparator />
         {demoAccounts.map((acc) => {
           const Icon = acc.icon
@@ -89,19 +102,24 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
             <DropdownMenuItem
               key={acc.email}
               onClick={() => handleSelect(acc.email, acc.redirect)}
-              className="cursor-pointer p-3"
+              className="cursor-pointer p-3 flex-col items-start"
             >
               <div className="flex items-center gap-3 w-full">
                 <div className="p-2 rounded-lg bg-slate-100">
                   <Icon className="h-4 w-4 text-slate-600" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-900">{acc.label}</p>
+                  <p className="text-sm font-semibold text-slate-900">{acc.label}</p>
                   <p className="text-xs text-slate-500">{acc.description}</p>
                 </div>
-                {loadingEmail === acc.email && (
+                {loadingEmail === acc.email ? (
                   <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
+                ) : (
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
                 )}
+              </div>
+              <div className="ml-9 mt-1 text-[10px] text-slate-400 font-mono">
+                {acc.email} · Senha: Skip@Pass
               </div>
             </DropdownMenuItem>
           )

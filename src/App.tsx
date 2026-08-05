@@ -35,6 +35,7 @@ const App = () => (
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
               <Route element={<OnboardingRoute />}>
+                <Route path="/app" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/certificacoes" element={<Certifications />} />
                 <Route path="/certificacoes/:id" element={<CertificationDetail />} />
