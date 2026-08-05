@@ -114,7 +114,7 @@ migrate(
           req: true,
           st: 'enviado',
           cm: 'Em analise pelo consultor.',
-          cat: 'documentacao',
+          cat: 'documentação',
         },
         {
           c: cert1.id,
@@ -122,7 +122,7 @@ migrate(
           req: true,
           st: 'aprovado',
           cm: 'Manual aprovado pelo auditor.',
-          cat: 'documentacao',
+          cat: 'documentação',
         },
         {
           c: cert1.id,
@@ -130,7 +130,7 @@ migrate(
           req: true,
           st: 'pendente',
           cm: 'Aguardando envio do documento.',
-          cat: 'formulario',
+          cat: 'formulário',
         },
         {
           c: cert1.id,
@@ -154,7 +154,7 @@ migrate(
           req: true,
           st: 'enviado',
           cm: 'Em analise.',
-          cat: 'documentacao',
+          cat: 'documentação',
         },
         {
           c: cert2.id,

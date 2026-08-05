@@ -38,3 +38,9 @@ export const markAllAsRead = async () => {
     unread.map((n) => pb.collection('notifications').update(n.id, { is_read: true })),
   )
 }
+
+export const getAllNotifications = () =>
+  pb.collection('notifications').getList<Notification>(1, 50, {
+    sort: '-created',
+    expand: 'certification',
+  })
