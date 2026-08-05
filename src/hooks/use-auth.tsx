@@ -14,6 +14,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>
   signInAsDemo: (email: string) => Promise<{ error: any; role: string | null }>
   signOut: () => void
+  isDemoMode: boolean
   loading: boolean
 }
 
@@ -29,11 +30,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any>(pb.authStore.isValid ? pb.authStore.record : null)
   const [isAuthenticated, setIsAuthenticated] = useState(pb.authStore.isValid)
   const [loading, setLoading] = useState(true)
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(
+    () => localStorage.getItem('iso_demo_mode') === 'true',
+  )
 
   useEffect(() => {
     const unsubscribe = pb.authStore.onChange((_token, record) => {
       setUser(pb.authStore.isValid ? record : null)
       setIsAuthenticated(pb.authStore.isValid)
+      if (!pb.authStore.isValid) {
+        localStorage.removeItem('iso_demo_mode')
+        setIsDemoMode(false)
+      }
     })
 
     if (pb.authStore.isValid) {
@@ -69,6 +77,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     try {
       await pb.collection('users').authWithPassword(email, password)
+      localStorage.removeItem('iso_demo_mode')
+      setIsDemoMode(false)
       return { error: null }
     } catch (error) {
       return { error }
@@ -78,6 +88,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInAsDemo = async (email: string) => {
     try {
       await pb.collection('users').authWithPassword(email, 'Skip@Pass')
+      localStorage.setItem('iso_demo_mode', 'true')
+      setIsDemoMode(true)
       return { error: null, role: (pb.authStore.record as any)?.role || null }
     } catch (error) {
       return { error, role: null }
@@ -86,6 +98,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = () => {
     pb.authStore.clear()
+    localStorage.removeItem('iso_demo_mode')
+    setIsDemoMode(false)
   }
 
   return (
@@ -98,6 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signIn,
         signInAsDemo,
         signOut,
+        isDemoMode,
         loading,
       }}
     >

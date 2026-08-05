@@ -18,21 +18,23 @@ const demoAccounts = [
   {
     email: 'demo.cliente@portal-iso.com',
     label: 'Cliente (Construtora)',
-    description: 'Construtora Horizonte',
+    description:
+      'Construtora Horizonte — Acompanhe certificações, envie documentos e veja o progresso.',
     icon: Building2,
     redirect: '/dashboard',
   },
   {
     email: 'demo.auditor@portal-iso.com',
     label: 'Auditor',
-    description: 'Ana Costa',
+    description:
+      'Ana Costa — Analise documentos, agende auditorias e gerencie tarefas dos clientes.',
     icon: ClipboardCheck,
     redirect: '/dashboard',
   },
   {
     email: 'demo.admin@portal-iso.com',
     label: 'Empresa de Auditoria',
-    description: 'ALC Certificadora',
+    description: 'ALC Certificadora — Gerencie clientes, certificações, modelos e visualize KPIs.',
     icon: Landmark,
     redirect: '/admin',
   },
@@ -74,11 +76,11 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
           ) : (
             <Users className="h-4 w-4" />
           )}
-          Experimentar como Demo
+          Entrar como Demo
           {!loadingEmail && <ChevronDown className="h-4 w-4 ml-1" />}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-64">
+      <DropdownMenuContent align="center" className="w-80">
         <DropdownMenuLabel>Escolha um perfil demo</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {demoAccounts.map((acc) => {
@@ -104,6 +106,9 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
             </DropdownMenuItem>
           )
         })}
+        <div className="px-3 py-2 text-[10px] text-slate-400 text-center border-t mt-1">
+          Todas as contas usam a senha: Skip@Pass
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )

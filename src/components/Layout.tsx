@@ -9,7 +9,6 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
   CheckCircle2,
   LayoutTemplate,
   Settings,
@@ -26,6 +25,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { DemoBanner, DemoBadge } from '@/components/DemoBanner'
+import { NotificationBell } from '@/components/NotificationBell'
 
 export default function Layout() {
   const { user, signOut, isAuthenticated } = useAuth()
@@ -161,6 +162,7 @@ export default function Layout() {
       </div>
 
       <div className="flex-1 flex flex-col min-w-0">
+        <DemoBanner />
         <header className="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
           <div className="flex items-center gap-3">
             <button
@@ -169,18 +171,14 @@ export default function Layout() {
             >
               <Menu className="h-6 w-6" />
             </button>
+            <DemoBadge />
             <span className="text-xs md:text-sm text-slate-500 font-medium hidden sm:inline-block">
               Portal de Adequação ISO 9001, 14001 e 45001
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <Button variant="ghost" size="icon" className="text-slate-600 relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-[#00A86B] rounded-full" />
-              </Button>
-            </div>
+            <NotificationBell />
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
