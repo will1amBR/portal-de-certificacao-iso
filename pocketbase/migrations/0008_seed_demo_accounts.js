@@ -240,7 +240,7 @@ migrate(
         },
         {
           c: cert1.id,
-          tp: 'reuniao',
+          tp: 'reunião',
           dt: '2026-08-15 14:00:00.000Z',
           nt: 'Reuniao de alinhamento com o consultor.',
           st: 'solicitado',
