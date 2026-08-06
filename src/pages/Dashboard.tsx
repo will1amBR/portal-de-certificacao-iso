@@ -1,124 +1,110 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { ShieldCheck, FileText, Calendar, Plus, ChevronRight } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
-import { getCertifications, Certification } from '@/services/certifications'
+import { getCertifications, type Certification } from '@/services/certifications'
+import { KpiSection } from '@/components/KpiSection'
 import { CertificationCard } from '@/components/CertificationCard'
-import { NewCertificationDialog } from '@/components/NewCertificationDialog'
-import { useRealtime } from '@/hooks/use-realtime'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import { useRealtime } from '@/hooks/use-realtime'
+import { FileCheck, Clock, TrendingUp, Award, Plus } from 'lucide-react'
 
 export default function Dashboard() {
   const { user } = useAuth()
-  const [certs, setCerts] = useState<Certification[]>([])
+  const [certifications, setCertifications] = useState<Certification[]>([])
   const [loading, setLoading] = useState(true)
 
-  const load = async () => {
+  const loadData = useCallback(async () => {
     try {
-      const all = await getCertifications()
-      if (user?.role === 'cliente') {
-        setCerts(all.filter((c) => c.user === user?.id))
-      } else if (user?.role === 'consultor') {
-        setCerts(all.filter((c) => c.consultant === user?.id))
-      } else {
-        setCerts(all)
-      }
+      setCertifications(await getCertifications())
     } catch {
-      /* noop */
+      setCertifications([])
     }
     setLoading(false)
-  }
+  }, [])
 
   useEffect(() => {
-    load()
-  }, [])
+    loadData()
+  }, [loadData])
+
   useRealtime('certifications', () => {
-    load()
+    loadData()
   })
 
-  const myCerts = certs
-  const pendingDocs = myCerts.filter((c) => c.status === 'pendente de documentos').length
-  const upcomingAudits = myCerts.filter((c) => c.status === 'aguardando auditoria').length
+  const stats = {
+    total: certifications.length,
+    inProgress: certifications.filter((c) => c.status === 'em andamento').length,
+    pending: certifications.filter((c) => c.status === 'pendente de documentos').length,
+    completed: certifications.filter((c) => c.status === 'concluído').length,
+  }
 
-  const kpis = [
-    {
-      label: 'Certificações Ativas',
-      value: myCerts.length,
-      icon: ShieldCheck,
-      color: 'text-[#0055A4]',
-    },
-    {
-      label: 'Pendências de Documentos',
-      value: pendingDocs,
-      icon: FileText,
-      color: 'text-amber-600',
-    },
-    {
-      label: 'Aguardando Auditoria',
-      value: upcomingAudits,
-      icon: Calendar,
-      color: 'text-purple-600',
-    },
-  ]
-
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#0055A4] border-t-transparent" />
+      <div className="space-y-6 p-4 md:p-6">
+        <Skeleton className="h-20 w-full" />
+        <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-20" />
+          ))}
+        </div>
+        <Skeleton className="h-64 w-full" />
       </div>
     )
+  }
+
+  const statCards = [
+    { icon: FileCheck, label: 'Certificações', value: stats.total, color: 'text-blue-600' },
+    { icon: Clock, label: 'Em Andamento', value: stats.inProgress, color: 'text-yellow-600' },
+    { icon: TrendingUp, label: 'Pendentes', value: stats.pending, color: 'text-orange-600' },
+    { icon: Award, label: 'Concluídas', value: stats.completed, color: 'text-green-600' },
+  ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 p-4 md:p-6">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">
-            Olá, {user?.name?.split(' ')[0] || 'Usuário'}!
-          </h1>
-          <p className="text-sm text-slate-500">Bem-vindo ao seu portal de certificação</p>
+          <h1 className="text-2xl font-bold tracking-tight">Olá, {user?.name || 'Bem-vindo'}</h1>
+          <p className="text-muted-foreground">Acompanhe suas certificações e indicadores.</p>
         </div>
-        <NewCertificationDialog onCreated={load} />
+        <Button asChild>
+          <Link to="/certificacoes">
+            <Plus className="h-4 w-4 mr-2" />
+            Nova Certificação
+          </Link>
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {kpis.map((k) => (
-          <Card key={k.label}>
-            <CardContent className="flex items-center gap-4 p-4">
-              <div className="p-3 rounded-lg bg-slate-100">
-                <k.icon className={`h-6 w-6 ${k.color}`} />
-              </div>
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        {statCards.map((s, i) => (
+          <Card key={i}>
+            <CardContent className="p-4 flex items-center gap-3">
+              <s.icon className={`h-5 w-5 ${s.color}`} />
               <div>
-                <p className="text-2xl font-bold text-slate-900">{k.value}</p>
-                <p className="text-xs text-slate-500">{k.label}</p>
+                <p className="text-sm text-muted-foreground">{s.label}</p>
+                <p className="text-2xl font-bold">{s.value}</p>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
+      <KpiSection certifications={certifications} />
+
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-900">
-            {user?.role === 'consultor' ? 'Certificações Atribuídas' : 'Minhas Certificações'}
-          </h2>
-          <Link
-            to="/certificacoes"
-            className="text-sm text-[#0055A4] hover:underline flex items-center gap-1"
-          >
-            Ver todas <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
-        {myCerts.length === 0 ? (
+        <h2 className="text-lg font-semibold mb-3">Minhas Certificações</h2>
+        {certifications.length === 0 ? (
           <Card>
-            <CardContent className="text-center py-12 text-slate-500">
-              Nenhuma certificação iniciada. Clique em "Nova Certificação" para começar.
+            <CardContent className="p-8 text-center text-muted-foreground">
+              Nenhuma certificação encontrada. Clique em "Nova Certificação" para começar.
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {myCerts.map((c) => (
-              <CertificationCard key={c.id} cert={c} />
+          <div className="grid gap-4 md:grid-cols-2">
+            {certifications.map((cert) => (
+              <Link key={cert.id} to={`/certificacoes/${cert.id}`}>
+                <CertificationCard certification={cert} />
+              </Link>
             ))}
           </div>
         )}
