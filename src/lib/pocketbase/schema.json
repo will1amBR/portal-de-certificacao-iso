@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T16:10:00.801Z",
+  "generatedAt": "2026-08-06T16:20:36.509Z",
   "collections": [
     {
       "name": "users",
@@ -633,19 +633,6 @@
           "system": false
         },
         {
-          "name": "category",
-          "type": "select",
-          "required": false,
-          "system": false,
-          "selectValues": [
-            "cotação",
-            "controle de estoque",
-            "renovação",
-            "gestão de funcionários",
-            "outro"
-          ]
-        },
-        {
           "name": "required",
           "type": "bool",
           "required": false,
@@ -670,6 +657,24 @@
           "required": false,
           "system": false,
           "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "category",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "cotação",
+            "controle de estoque",
+            "renovação",
+            "gestão de funcionários",
+            "outro",
+            "qualidade",
+            "meio ambiente",
+            "saúde e segurança",
+            "indicadores",
+            "licenças e documentos"
+          ]
         }
       ],
       "indexes": ["CREATE INDEX idx_tpl_bm ON templates (business_model)"]

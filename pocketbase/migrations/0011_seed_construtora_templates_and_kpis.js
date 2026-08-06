@@ -3,7 +3,7 @@ migrate(
     var tplCol = app.findCollectionByNameOrId('templates')
     var catField = tplCol.fields.getByName('category')
     if (catField) {
-      tplCol.fields.remove(catField)
+      tplCol.fields.removeById(catField.id)
     }
     tplCol.fields.add(
       new SelectField({
