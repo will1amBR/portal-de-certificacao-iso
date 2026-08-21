@@ -58,13 +58,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [])
 
-  const signUp = async (email: string, password: string, name?: string) => {
+  const signUp = async (email: string, password: string, name?: string, companyName?: string) => {
     try {
       await pb.collection('users').create({
         email,
         password,
         passwordConfirm: password,
-        name: name || '',
+        name: name || companyName || '',
         role: 'cliente',
       })
       await pb.collection('users').authWithPassword(email, password)

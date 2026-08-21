@@ -102,9 +102,7 @@ export default function Dashboard() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {certifications.map((cert) => (
-              <Link key={cert.id} to={`/certificacoes/${cert.id}`}>
-                <CertificationCard certification={cert} />
-              </Link>
+              <CertificationCard key={cert.id} cert={cert} />
             ))}
           </div>
         )}

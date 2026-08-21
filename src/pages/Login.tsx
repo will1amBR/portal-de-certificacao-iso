@@ -28,8 +28,12 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
     const { error } = await signIn(email, password)
-    if (error) toast.error('Credenciais inválidas')
-    else navigate('/dashboard')
+    if (error) {
+      toast.error('Credenciais inválidas. Verifique seu e-mail e senha.')
+    } else {
+      toast.success('Login realizado com sucesso!')
+      navigate('/dashboard')
+    }
     setLoading(false)
   }
 
@@ -37,8 +41,14 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
     const { error } = await signUp(email, password, name)
-    if (error) toast.error('Erro ao criar conta')
-    else navigate('/dashboard')
+    if (error) {
+      toast.error(
+        'Erro ao criar conta. O e-mail já pode estar em uso ou a senha deve ter no mínimo 8 caracteres.',
+      )
+    } else {
+      toast.success('Conta criada com sucesso! Complete a configuração inicial da sua empresa.')
+      navigate('/onboarding')
+    }
     setLoading(false)
   }
 

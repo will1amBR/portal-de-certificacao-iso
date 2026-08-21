@@ -10,6 +10,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
+import pb from '@/lib/pocketbase/client'
 import { getBusinessModels, BusinessModel } from '@/services/business_models'
 import { updateUser } from '@/services/users'
 import { instantiateTemplatesForUser } from '@/services/templates'
@@ -32,8 +33,13 @@ const iconMap: Record<string, React.ReactNode> = {
   ShoppingCart: <ShoppingCart className="h-7 w-7" />,
   Building2: <Building2 className="h-7 w-7" />,
   Briefcase: <Briefcase className="h-7 w-7" />,
+  Factory: <Building2 className="h-7 w-7" />,
+  Stethoscope: <Briefcase className="h-7 w-7" />,
+  Cpu: <Briefcase className="h-7 w-7" />,
+  Wheat: <Building2 className="h-7 w-7" />,
+  Truck: <Briefcase className="h-7 w-7" />,
+  GraduationCap: <Briefcase className="h-7 w-7" />,
 }
-
 export default function Onboarding() {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -58,12 +64,21 @@ export default function Onboarding() {
   const handleSubmit = async () => {
     setSubmitting(true)
     try {
+      const cleanCnpj = cnpj.replace(/\D/g, '')
       await updateUser(user.id, {
-        cnpj: cnpj.replace(/\D/g, ''),
+        cnpj: cleanCnpj,
         business_model: selectedModel,
       } as any)
       await instantiateTemplatesForUser(user.id, selectedModel)
-      toast.success('Onboarding concluído! Templates aplicados às suas certificações.')
+
+      // Refresh auth store so user has updated cnpj and business_model
+      try {
+        await pb.collection('users').authRefresh()
+      } catch {
+        /* if auth refresh fails, local values can persist */
+      }
+
+      toast.success('Onboarding concluído com sucesso! Bem-vindo ao portal.')
       navigate('/dashboard')
     } catch (err: any) {
       toast.error('Erro ao salvar dados: ' + (err?.message || 'Tente novamente'))

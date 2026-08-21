@@ -6,7 +6,7 @@ export interface Template {
   type: 'task' | 'document' | 'schedule'
   title: string
   description: string
-  category: 'cotação' | 'controle de estoque' | 'renovação' | 'gestão de funcionários' | 'outro'
+  category: string
   required: boolean
   due_days: number
   created: string
@@ -66,6 +66,31 @@ export const instantiateTemplatesForCertification = async (
       ? new Date(start.getTime() + tpl.due_days * 86400000).toISOString()
       : undefined
 
+    // Map template category to allowed documents category
+    // Allowed categories in documents: 'documentação' | 'evidência' | 'formulário' | 'certificado' | 'outro'
+    let docCategory: 'documentação' | 'evidência' | 'formulário' | 'certificado' | 'outro' =
+      'documentação'
+    const cat = (tpl.category || '').toLowerCase()
+    if (cat === 'outro') {
+      docCategory = 'outro'
+    } else if (
+      cat === 'cotação' ||
+      cat === 'controle de estoque' ||
+      cat === 'gestão de funcionários' ||
+      cat === 'qualidade' ||
+      cat === 'meio ambiente' ||
+      cat === 'saúde e segurança' ||
+      cat === 'indicadores'
+    ) {
+      docCategory = 'evidência'
+    } else if (cat === 'renovação' || cat === 'licenças e documentos' || cat === 'documentação') {
+      docCategory = 'documentação'
+    } else if (cat === 'formulário') {
+      docCategory = 'formulário'
+    } else if (cat === 'certificado') {
+      docCategory = 'certificado'
+    }
+
     if (tpl.type === 'task') {
       await pb.collection('tasks').create({
         certification: certId,
@@ -81,7 +106,7 @@ export const instantiateTemplatesForCertification = async (
         name: tpl.title,
         required: tpl.required ?? false,
         status: 'pendente',
-        category: 'documentação',
+        category: docCategory,
         comment: tpl.description || '',
       })
     } else if (tpl.type === 'schedule') {

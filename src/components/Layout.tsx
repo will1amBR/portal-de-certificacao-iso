@@ -44,7 +44,7 @@ export default function Layout() {
     { label: 'Meus Modelos', path: '/modelos', icon: LayoutTemplate },
     ...(user?.role === 'admin'
       ? [
-          { label: 'Área Admin', path: '/admin', icon: Building2 },
+          { label: 'Painel Admin & Funil', path: '/admin', icon: Building2 },
           { label: 'Gerenciar Modelos', path: '/admin/modelos', icon: Settings },
         ]
       : []),
