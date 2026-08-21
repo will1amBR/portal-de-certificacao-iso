@@ -41,6 +41,8 @@ export default function Layout() {
   const navItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Processos & Pipes', path: '/certificacoes', icon: ShieldCheck },
+    { label: 'Documentos', path: '/documentos', icon: FileText },
+    { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
     { label: 'Meus Modelos', path: '/modelos', icon: LayoutTemplate },
     ...(user?.role === 'admin'
       ? [
@@ -48,8 +50,6 @@ export default function Layout() {
           { label: 'Gerenciar Modelos', path: '/admin/modelos', icon: Settings },
         ]
       : []),
-    { label: 'Documentos', path: '/documentos', icon: FileText },
-    { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
     { label: 'Meu Perfil', path: '/perfil', icon: User },
   ]
 
@@ -59,6 +59,12 @@ export default function Layout() {
   }
 
   const userInitials = user?.name ? user.name.slice(0, 2).toUpperCase() : 'US'
+  const userRoleBadge =
+    user?.role === 'admin'
+      ? 'Empresa de Auditoria'
+      : user?.role === 'consultor'
+        ? 'Auditor Técnico'
+        : 'Cliente'
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] flex flex-col md:flex-row">
@@ -189,9 +195,14 @@ export default function Layout() {
                       {userInitials}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm font-medium text-slate-800 hidden md:inline-block">
-                    {user?.name || user?.email}
-                  </span>
+                  <div className="text-left hidden md:flex flex-col">
+                    <span className="text-xs font-bold text-slate-800 leading-none">
+                      {user?.name || user?.email}
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-medium mt-0.5">
+                      {userRoleBadge}
+                    </span>
+                  </div>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">

@@ -18,24 +18,23 @@ import type { Certification } from '@/services/certifications'
 const ISO_GROUPS = [
   {
     code: '9001',
-    label: 'Qualidade ISO 9001',
+    label: 'Gestão da Qualidade — ISO 9001',
     icon: Shield,
-    accent: 'border-blue-200 bg-blue-50/50',
+    accent: 'border-blue-200 bg-blue-50/30',
   },
   {
     code: '14001',
-    label: 'Meio Ambiente ISO 14001',
+    label: 'Gestão Ambiental — ISO 14001',
     icon: Leaf,
-    accent: 'border-green-200 bg-green-50/50',
+    accent: 'border-emerald-200 bg-emerald-50/30',
   },
   {
     code: '45001',
-    label: 'Saúde e Segurança ISO 45001',
+    label: 'Saúde e Segurança — ISO 45001',
     icon: HardHat,
-    accent: 'border-orange-200 bg-orange-50/50',
+    accent: 'border-rose-200 bg-rose-50/30',
   },
 ] as const
-
 const STATUS = {
   atendendo: { icon: CheckCircle2, className: 'text-green-600' },
   'em atenção': { icon: AlertTriangle, className: 'text-yellow-600' },
@@ -91,9 +90,12 @@ export function KpiSection({ certifications }: { certifications: Certification[]
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <BarChart3 className="h-5 w-5 text-primary" />
-        <h2 className="text-lg font-semibold">Indicadores / KPIs</h2>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <BarChart3 className="h-5 w-5 text-[#0055A4]" />
+          <h2 className="text-lg font-bold text-slate-900">Indicadores de Desempenho & KPIs</h2>
+        </div>
+        <span className="text-xs text-slate-500">Monitoramento Contínuo</span>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {ISO_GROUPS.map((group) => {

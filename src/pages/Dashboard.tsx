@@ -56,35 +56,66 @@ export default function Dashboard() {
   }
 
   const statCards = [
-    { icon: FileCheck, label: 'Certificações', value: stats.total, color: 'text-blue-600' },
-    { icon: Clock, label: 'Em Andamento', value: stats.inProgress, color: 'text-yellow-600' },
-    { icon: TrendingUp, label: 'Pendentes', value: stats.pending, color: 'text-orange-600' },
-    { icon: Award, label: 'Concluídas', value: stats.completed, color: 'text-green-600' },
+    {
+      icon: FileCheck,
+      label: 'Certificações Ativas',
+      value: stats.total,
+      color: 'text-[#0055A4]',
+      bg: 'bg-blue-50',
+    },
+    {
+      icon: Clock,
+      label: 'Em Andamento',
+      value: stats.inProgress,
+      color: 'text-amber-600',
+      bg: 'bg-amber-50',
+    },
+    {
+      icon: TrendingUp,
+      label: 'Pendente Documentos',
+      value: stats.pending,
+      color: 'text-orange-600',
+      bg: 'bg-orange-50',
+    },
+    {
+      icon: Award,
+      label: 'Concluídas / Auditadas',
+      value: stats.completed,
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
+    },
   ]
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Olá, {user?.name || 'Bem-vindo'}</h1>
-          <p className="text-muted-foreground">Acompanhe suas certificações e indicadores.</p>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            Olá, {user?.name || 'Bem-vindo'}
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Acompanhe o progresso das certificações, indicadores de conformidade e fluxos
+            operacionais
+          </p>
         </div>
-        <Button asChild>
+        <Button asChild className="bg-[#0055A4] hover:bg-[#1A73E8] text-white">
           <Link to="/certificacoes">
             <Plus className="h-4 w-4 mr-2" />
-            Nova Certificação
+            Nova Certificação / Pipe
           </Link>
         </Button>
       </div>
 
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         {statCards.map((s, i) => (
-          <Card key={i}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <s.icon className={`h-5 w-5 ${s.color}`} />
+          <Card key={i} className="border-slate-200 shadow-sm">
+            <CardContent className="p-4 flex items-center gap-3.5">
+              <div className={`p-2.5 rounded-xl ${s.bg} ${s.color}`}>
+                <s.icon className="h-5 w-5" />
+              </div>
               <div>
-                <p className="text-sm text-muted-foreground">{s.label}</p>
-                <p className="text-2xl font-bold">{s.value}</p>
+                <p className="text-xs font-medium text-slate-500">{s.label}</p>
+                <p className="text-2xl font-extrabold text-slate-900">{s.value}</p>
               </div>
             </CardContent>
           </Card>

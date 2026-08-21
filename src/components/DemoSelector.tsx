@@ -53,15 +53,20 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
   const navigate = useNavigate()
   const [loadingEmail, setLoadingEmail] = useState<string | null>(null)
 
-  const handleSelect = async (email: string, redirect: string) => {
+  const handleSelect = async (email: string, redirect: string, label: string) => {
     setLoadingEmail(email)
-    const { error } = await signInAsDemo(email)
-    if (error) {
-      toast.error('Não foi possível entrar como demo. Tente novamente.')
+    try {
+      const { error } = await signInAsDemo(email)
+      if (error) {
+        toast.error('Não foi possível entrar como demo. Tente novamente.')
+        setLoadingEmail(null)
+      } else {
+        toast.success(`Acessando como ${label}!`)
+        navigate(redirect)
+      }
+    } catch {
+      toast.error('Erro na conexão. Tente novamente.')
       setLoadingEmail(null)
-    } else {
-      toast.success('Entrando na conta demo...')
-      navigate(redirect)
     }
   }
 
@@ -74,58 +79,68 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
           variant={isHero ? 'secondary' : 'outline'}
           disabled={loadingEmail !== null}
           className={cn(
+            'gap-2 font-semibold transition-all',
             isHero
-              ? 'bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm'
-              : 'w-full border-slate-300 text-slate-700 hover:bg-slate-50',
+              ? 'bg-white/15 border-white/40 text-white hover:bg-white/25 backdrop-blur-md shadow-md text-sm px-5 py-2.5 h-auto'
+              : 'w-full border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-sm',
           )}
         >
           {loadingEmail ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Users className="h-4 w-4" />
+            <Users className="h-4 w-4 text-sky-300" />
           )}
-          Explore sem criar conta
-          {!loadingEmail && <ChevronDown className="h-4 w-4 ml-1" />}
+          <span>{loadingEmail ? 'Carregando perfil...' : 'Explorar Demo (3 Perfis)'}</span>
+          {!loadingEmail && <ChevronDown className="h-4 w-4 opacity-70" />}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-96">
-        <DropdownMenuLabel className="text-center text-base font-bold text-slate-900">
-          Explore sem criar conta
-        </DropdownMenuLabel>
-        <p className="text-xs text-slate-500 text-center px-3 pb-2">
-          Escolha um perfil para experimentar o portal instantaneamente
-        </p>
-        <DropdownMenuSeparator />
-        {demoAccounts.map((acc) => {
-          const Icon = acc.icon
-          return (
-            <DropdownMenuItem
-              key={acc.email}
-              onClick={() => handleSelect(acc.email, acc.redirect)}
-              className="cursor-pointer p-3 flex-col items-start"
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="p-2 rounded-lg bg-slate-100">
-                  <Icon className="h-4 w-4 text-slate-600" />
+      <DropdownMenuContent align="center" className="w-96 p-2 shadow-xl border-slate-200">
+        <div className="px-3 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100 mb-2">
+          <DropdownMenuLabel className="p-0 text-sm font-bold text-slate-900 flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            Demonstração Interativa
+          </DropdownMenuLabel>
+          <p className="text-xs text-slate-600 mt-0.5">
+            Selecione o perfil desejado para navegar com dados reais pré-carregados
+          </p>
+        </div>
+
+        <DropdownMenuSeparator className="my-1" />
+
+        <div className="space-y-1">
+          {demoAccounts.map((acc) => {
+            const Icon = acc.icon
+            const isLoading = loadingEmail === acc.email
+            return (
+              <DropdownMenuItem
+                key={acc.email}
+                onClick={() => handleSelect(acc.email, acc.redirect, acc.label)}
+                disabled={loadingEmail !== null}
+                className="cursor-pointer p-3 rounded-lg border border-transparent hover:border-blue-200 hover:bg-blue-50/50 flex flex-col items-start transition-all"
+              >
+                <div className="flex items-center gap-3 w-full">
+                  <div className="p-2 rounded-lg bg-[#003B73] text-white shrink-0">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-slate-900">{acc.label}</p>
+                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                      {acc.description}
+                    </p>
+                  </div>
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-[#0055A4] shrink-0" />
+                  ) : (
+                    <ArrowRight className="h-4 w-4 text-slate-400 shrink-0" />
+                  )}
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-900">{acc.label}</p>
-                  <p className="text-xs text-slate-500">{acc.description}</p>
-                </div>
-                {loadingEmail === acc.email ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
-                ) : (
-                  <ArrowRight className="h-4 w-4 text-slate-400" />
-                )}
-              </div>
-              <div className="ml-9 mt-1 text-[10px] text-slate-400 font-mono">
-                {acc.email} · Senha: Skip@Pass
-              </div>
-            </DropdownMenuItem>
-          )
-        })}
-        <div className="px-3 py-2 text-[10px] text-slate-400 text-center border-t mt-1">
-          Todas as contas usam a senha: Skip@Pass
+              </DropdownMenuItem>
+            )
+          })}
+        </div>
+
+        <div className="px-3 py-2 text-[11px] text-slate-500 text-center bg-slate-50 rounded-md mt-2 border border-slate-100">
+          Acesso instantâneo com permissões completas
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

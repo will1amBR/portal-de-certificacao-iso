@@ -7,9 +7,12 @@ import { cn } from '@/lib/utils'
 
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
+  { label: 'Certificações', href: '#certificacoes' },
   { label: 'Como Funciona', href: '#como-funciona' },
-  { label: 'Benefícios', href: '#beneficios' },
+  { label: 'Demonstração', href: '#demo-interativa' },
+  { label: 'Diferenciais', href: '#beneficios' },
   { label: 'Time', href: '#time' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contato', href: '#contato' },
 ]
 

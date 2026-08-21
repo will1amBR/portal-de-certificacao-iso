@@ -18,6 +18,8 @@ import OnboardingReport from './pages/OnboardingReport'
 import Profile from './pages/Profile'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminIsoTypes from './pages/AdminIsoTypes'
+import DocumentsPage from './pages/Documents'
+import SchedulesPage from './pages/Schedules'
 
 const App = () => (
   <BrowserRouter>
@@ -41,6 +43,8 @@ const App = () => (
                 <Route path="/certificacoes/:id" element={<CertificationDetail />} />
                 <Route path="/modelos" element={<Templates />} />
                 <Route path="/admin/modelos" element={<AdminModels />} />
+                <Route path="/documentos" element={<DocumentsPage />} />
+                <Route path="/agendamentos" element={<SchedulesPage />} />
                 <Route path="/relatorio-onboarding" element={<OnboardingReport />} />
                 <Route path="/perfil" element={<Profile />} />
               </Route>

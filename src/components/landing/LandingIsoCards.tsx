@@ -46,13 +46,19 @@ export function LandingIsoCards() {
   const [selected, setSelected] = useState<(typeof isoData)[0] | null>(null)
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-16 md:py-20">
-      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-2">
-        Certificações Disponíveis
-      </h2>
-      <p className="text-slate-500 text-center mb-10">
-        As três normas mais demandadas pelo mercado
-      </p>
+    <section id="certificacoes" className="max-w-6xl mx-auto px-4 py-16 md:py-24 scroll-mt-16">
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-[#0055A4] text-xs font-bold mb-3 border border-sky-200">
+          <ShieldCheck className="h-3.5 w-3.5" /> Padrões Globais
+        </div>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Certificações Disponíveis
+        </h2>
+        <p className="text-slate-600 mt-2 text-base">
+          Metodologia completa e validada para as três principais normas exigidas em licitações e
+          grandes contratos.
+        </p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {isoData.map((iso) => (
           <div
