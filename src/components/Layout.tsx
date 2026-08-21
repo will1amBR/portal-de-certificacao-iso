@@ -40,7 +40,7 @@ export default function Layout() {
 
   const navItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { label: 'Minhas Certificações', path: '/certificacoes', icon: ShieldCheck },
+    { label: 'Processos & Pipes', path: '/certificacoes', icon: ShieldCheck },
     { label: 'Meus Modelos', path: '/modelos', icon: LayoutTemplate },
     ...(user?.role === 'admin'
       ? [

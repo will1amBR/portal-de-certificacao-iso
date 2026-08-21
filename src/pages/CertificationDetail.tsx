@@ -12,6 +12,8 @@ import { CertDocuments } from '@/components/cert/CertDocuments'
 import { CertTasks } from '@/components/cert/CertTasks'
 import { CertSchedules } from '@/components/cert/CertSchedules'
 import { CertMessages } from '@/components/cert/CertMessages'
+import { PipesGrid } from '@/components/pipes/PipesGrid'
+import { LayoutGrid } from 'lucide-react'
 
 export default function CertificationDetail() {
   const { id } = useParams()
@@ -78,14 +80,23 @@ export default function CertificationDetail() {
         </div>
       </div>
 
-      <Tabs defaultValue="overview">
-        <TabsList className="grid grid-cols-5 w-full max-w-2xl">
+      <Tabs defaultValue="pipes">
+        <TabsList className="grid grid-cols-6 w-full max-w-3xl">
+          <TabsTrigger
+            value="pipes"
+            className="font-semibold text-blue-700 data-[state=active]:bg-blue-50"
+          >
+            <LayoutGrid className="h-3.5 w-3.5 mr-1" /> Pipes & Fluxos
+          </TabsTrigger>
           <TabsTrigger value="overview">Visão Geral</TabsTrigger>
           <TabsTrigger value="documents">Documentos</TabsTrigger>
           <TabsTrigger value="tasks">Tarefas</TabsTrigger>
           <TabsTrigger value="schedules">Agenda</TabsTrigger>
           <TabsTrigger value="messages">Mensagens</TabsTrigger>
         </TabsList>
+        <TabsContent value="pipes" className="mt-4">
+          <PipesGrid certId={cert.id} />
+        </TabsContent>
         <TabsContent value="overview" className="mt-4">
           <CertOverview cert={cert} />
         </TabsContent>

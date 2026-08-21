@@ -4,11 +4,13 @@ import { useAuth } from '@/hooks/use-auth'
 import { getCertifications, type Certification } from '@/services/certifications'
 import { KpiSection } from '@/components/KpiSection'
 import { CertificationCard } from '@/components/CertificationCard'
+import { PipesGrid } from '@/components/pipes/PipesGrid'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { useRealtime } from '@/hooks/use-realtime'
-import { FileCheck, Clock, TrendingUp, Award, Plus } from 'lucide-react'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { FileCheck, Clock, TrendingUp, Award, Plus, LayoutGrid, ShieldCheck } from 'lucide-react'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -91,21 +93,41 @@ export default function Dashboard() {
 
       <KpiSection certifications={certifications} />
 
-      <div>
-        <h2 className="text-lg font-semibold mb-3">Minhas Certificações</h2>
-        {certifications.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center text-muted-foreground">
-              Nenhuma certificação encontrada. Clique em "Nova Certificação" para começar.
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {certifications.map((cert) => (
-              <CertificationCard key={cert.id} cert={cert} />
-            ))}
+      <div className="space-y-4">
+        <Tabs defaultValue="pipes" className="w-full">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <TabsList className="bg-slate-100 p-1 border border-slate-200">
+              <TabsTrigger value="pipes" className="gap-2 font-semibold">
+                <LayoutGrid className="h-4 w-4 text-blue-600" />
+                Pipes e Processos ISO (Pipefy)
+              </TabsTrigger>
+              <TabsTrigger value="certs" className="gap-2 font-semibold">
+                <ShieldCheck className="h-4 w-4 text-sky-700" />
+                Certificações em Andamento
+              </TabsTrigger>
+            </TabsList>
           </div>
-        )}
+
+          <TabsContent value="pipes" className="space-y-4">
+            <PipesGrid />
+          </TabsContent>
+
+          <TabsContent value="certs" className="space-y-4">
+            {certifications.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center text-muted-foreground">
+                  Nenhuma certificação encontrada. Clique em "Nova Certificação" para começar.
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-2">
+                {certifications.map((cert) => (
+                  <CertificationCard key={cert.id} cert={cert} />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )

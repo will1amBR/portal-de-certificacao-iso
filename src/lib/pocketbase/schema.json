@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T04:20:49.106Z",
+  "generatedAt": "2026-08-21T21:44:32.628Z",
   "collections": [
     {
       "name": "users",
@@ -678,6 +678,202 @@
         }
       ],
       "indexes": ["CREATE INDEX idx_tpl_bm ON templates (business_model)"]
+    },
+    {
+      "name": "pipes",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "code",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "icon",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "color",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "stages",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "business_model",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "business_models"
+        },
+        {
+          "name": "iso_type",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "iso_types"
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_pipes_order ON pipes (order)",
+        "CREATE INDEX idx_pipes_bm ON pipes (business_model)"
+      ]
+    },
+    {
+      "name": "pipe_cards",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "pipe",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "pipes"
+        },
+        {
+          "name": "certification",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "certifications"
+        },
+        {
+          "name": "user",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "origin",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "stage",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "priority",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["baixa", "média", "alta", "crítica"]
+        },
+        {
+          "name": "due_date",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "assignee",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "data",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_pipe_cards_pipe ON pipe_cards (pipe)",
+        "CREATE INDEX idx_pipe_cards_stage ON pipe_cards (stage)",
+        "CREATE INDEX idx_pipe_cards_cert ON pipe_cards (certification)"
+      ]
     }
   ]
 }
