@@ -8,11 +8,11 @@ import {
   User,
   LogOut,
   Menu,
-  X,
   CheckCircle2,
   LayoutTemplate,
   Settings,
   Building2,
+  ChevronRight,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { DemoBanner, DemoBadge } from '@/components/DemoBanner'
 import { NotificationBell } from '@/components/NotificationBell'
@@ -32,7 +33,7 @@ export default function Layout() {
   const { user, signOut, isAuthenticated } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   if (!isAuthenticated) {
     return <Outlet />
@@ -66,188 +67,197 @@ export default function Layout() {
         ? 'Auditor Técnico'
         : 'Cliente'
 
+  const currentItem = navItems.find((item) =>
+    item.path === '/dashboard'
+      ? location.pathname === '/dashboard' || location.pathname === '/app'
+      : location.pathname.startsWith(item.path),
+  )
+
   return (
-    <div className="min-h-screen bg-[#F5F7FA] flex flex-col md:flex-row">
-      <aside className="hidden md:flex md:w-64 flex-col bg-[#003B73] text-white border-r border-blue-900 shrink-0">
-        <div className="p-6 border-b border-blue-900/50 flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-white/10 text-white font-black text-xl">ISO</div>
-          <div>
-            <h1 className="font-bold text-base leading-tight">Certificação ISO</h1>
-            <p className="text-xs text-blue-200">Portal de Qualidade</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
+      <DemoBanner />
 
-        <nav className="flex-1 p-4 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon
-            const active = location.pathname.startsWith(item.path)
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                  active
-                    ? 'bg-[#0055A4] text-white font-semibold shadow-sm'
-                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
-                }`}
+      {/* Clean Global Header with Hamburger Menu */}
+      <header className="h-16 bg-white border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+        {/* Left: Hamburger Button & App Logo */}
+        <div className="flex items-center gap-3">
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label="Abrir menu de navegação"
+                className="p-2 h-10 w-10 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center cursor-pointer"
               >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
 
-        <div className="p-4 border-t border-blue-900/50">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-blue-200 hover:bg-rose-500/20 hover:text-rose-100 transition-colors"
-          >
-            <LogOut className="h-4 w-4" />
-            Sair da Conta
-          </button>
-        </div>
-      </aside>
-
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-slate-900/60 z-40 md:hidden backdrop-blur-sm"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      <div
-        className={`fixed top-0 left-0 bottom-0 w-72 bg-[#003B73] text-white z-50 flex flex-col transition-transform duration-300 md:hidden ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="p-5 border-b border-blue-900/50 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded bg-white/10 text-white font-black">ISO</div>
-            <span className="font-bold text-base">Portal de Certificação</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Fechar menu lateral"
-            className="p-2 text-blue-200 hover:text-white rounded-lg hover:bg-white/10 min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <nav className="flex-1 p-4 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon
-            const active = location.pathname.startsWith(item.path)
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                  active
-                    ? 'bg-[#0055A4] text-white font-semibold'
-                    : 'text-blue-100 hover:bg-white/10'
-                }`}
-              >
-                <Icon className="h-5 w-5" />
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-
-        <div className="p-4 border-t border-blue-900/50">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-rose-200 hover:bg-rose-500/20"
-          >
-            <LogOut className="h-5 w-5" />
-            Sair
-          </button>
-        </div>
-      </div>
-
-      <div className="flex-1 flex flex-col min-w-0">
-        <DemoBanner />
-        <header className="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Abrir menu lateral"
-              className="p-2 text-slate-600 hover:text-slate-900 md:hidden rounded-lg hover:bg-slate-100 min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer"
+            <SheetContent
+              side="left"
+              className="w-[280px] sm:w-[320px] p-0 flex flex-col justify-between bg-white border-r border-slate-200"
             >
-              <Menu className="h-6 w-6" />
-            </button>{' '}
-            <DemoBadge />
-            <span className="text-xs md:text-sm text-slate-500 font-medium hidden sm:inline-block">
-              Portal de Adequação ISO 9001, 14001 e 45001
-            </span>
-          </div>
+              <div>
+                <SheetHeader className="p-5 border-b border-slate-100 text-left bg-slate-50/50">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm">
+                      ISO
+                    </div>
+                    <div>
+                      <SheetTitle className="text-sm font-bold text-slate-900 leading-tight">
+                        Portal de Certificação
+                      </SheetTitle>
+                      <p className="text-[11px] text-slate-500">Menu Principal</p>
+                    </div>
+                  </div>
+                </SheetHeader>
 
-          <div className="flex items-center gap-3">
-            <NotificationBell />
+                {/* Navigation Items */}
+                <nav className="p-3 space-y-1">
+                  {navItems.map((item) => {
+                    const Icon = item.icon
+                    const active =
+                      item.path === '/dashboard'
+                        ? location.pathname === '/dashboard' || location.pathname === '/app'
+                        : location.pathname.startsWith(item.path)
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  type="button"
-                  aria-label="Menu do usuário"
-                  className="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-100 transition-colors min-h-[36px] cursor-pointer"
-                >
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setMenuOpen(false)}
+                        className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                          active
+                            ? 'bg-[#0055A4] text-white font-semibold shadow-xs'
+                            : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Icon className={`h-4 w-4 ${active ? 'text-white' : 'text-slate-500'}`} />
+                          <span>{item.label}</span>
+                        </div>
+                        {active && <ChevronRight className="h-4 w-4 opacity-70" />}
+                      </Link>
+                    )
+                  })}
+                </nav>
+              </div>
+
+              {/* Bottom user profile quick link and logout */}
+              <div className="p-4 border-t border-slate-100 bg-slate-50 space-y-2">
+                <div className="flex items-center gap-2.5 px-2 py-1">
                   <Avatar className="h-8 w-8 border border-slate-200">
                     <AvatarImage src={user?.avatar} />
                     <AvatarFallback className="bg-[#0055A4] text-white text-xs font-bold">
                       {userInitials}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="text-left hidden md:flex flex-col">
-                    <span className="text-xs font-bold text-slate-800 leading-none">
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-xs font-bold text-slate-800 truncate">
                       {user?.name || user?.email}
                     </span>
-                    <span className="text-[10px] text-slate-500 font-medium mt-0.5">
-                      {userRoleBadge}
-                    </span>
+                    <span className="text-[10px] text-slate-500">{userRoleBadge}</span>
                   </div>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuLabel>
-                  <p className="text-sm font-semibold">{user?.name || 'Usuário'}</p>
-                  <p className="text-xs font-normal text-slate-500 truncate">{user?.email}</p>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate('/perfil')} className="cursor-pointer">
-                  <User className="h-4 w-4 mr-2" />
-                  Meu Perfil
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => navigate('/certificacoes')}
-                  className="cursor-pointer"
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="w-full text-xs text-rose-600 border-rose-200 hover:bg-rose-50 hover:text-rose-700 justify-center h-9"
                 >
-                  <CheckCircle2 className="h-4 w-4 mr-2" />
-                  Certificações
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-rose-600 cursor-pointer">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </header>
+                  <LogOut className="h-3.5 w-3.5 mr-1.5" /> Sair da Conta
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
 
-        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
-          <Outlet />
-        </main>
+          {/* Clean Logo */}
+          <Link to="/dashboard" className="flex items-center gap-2">
+            <div className="p-1 rounded bg-[#003B73] text-white font-black text-xs">ISO</div>
+            <span className="font-bold text-slate-900 text-sm hidden sm:inline">
+              Portal de Certificação
+            </span>
+          </Link>
 
-        <footer className="py-4 border-t border-slate-200 text-center text-xs text-slate-500 bg-white">
-          © {new Date().getFullYear()} Portal de Certificação ISO. Todos os direitos reservados.
-        </footer>
-      </div>
+          {currentItem && (
+            <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-400 pl-2 border-l border-slate-200">
+              <span className="text-slate-600 font-medium">{currentItem.label}</span>
+            </div>
+          )}
+
+          <DemoBadge />
+        </div>
+
+        {/* Right Actions: Notifications & User Avatar Dropdown */}
+        <div className="flex items-center gap-3">
+          <NotificationBell />
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label="Menu do usuário"
+                className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                <Avatar className="h-8 w-8 border border-slate-200">
+                  <AvatarImage src={user?.avatar} />
+                  <AvatarFallback className="bg-[#0055A4] text-white text-xs font-bold">
+                    {userInitials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-left hidden md:flex flex-col">
+                  <span className="text-xs font-bold text-slate-800 leading-none">
+                    {user?.name || user?.email}
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-medium mt-0.5">
+                    {userRoleBadge}
+                  </span>
+                </div>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuLabel>
+                <p className="text-xs font-semibold text-slate-900">{user?.name || 'Usuário'}</p>
+                <p className="text-[11px] font-normal text-slate-500 truncate">{user?.email}</p>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigate('/perfil')}
+                className="cursor-pointer text-xs"
+              >
+                <User className="h-3.5 w-3.5 mr-2" />
+                Meu Perfil
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigate('/certificacoes')}
+                className="cursor-pointer text-xs"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5 mr-2" />
+                Processos & Pipes
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="text-rose-600 cursor-pointer text-xs focus:text-rose-600 focus:bg-rose-50"
+              >
+                <LogOut className="h-3.5 w-3.5 mr-2" />
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </header>
+
+      {/* Main Content Area - Full width, clean & airy */}
+      <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl mx-auto w-full">
+        <Outlet />
+      </main>
+
+      {/* Clean subtle footer */}
+      <footer className="py-4 border-t border-slate-200 text-center text-xs text-slate-400 bg-white">
+        © {new Date().getFullYear()} Portal de Certificação ISO
+      </footer>
     </div>
   )
 }

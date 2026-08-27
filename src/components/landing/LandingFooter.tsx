@@ -7,59 +7,58 @@ export function LandingFooter() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <footer id="contato" className="bg-[#002A52] text-blue-100 scroll-mt-16">
-      {/* Pre-footer Call to Action */}
-      <div className="border-b border-white/10 py-12 bg-gradient-to-r from-[#003B73] to-[#002A52]">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Pronto para transformar a qualidade e sustentabilidade da sua empresa?
+    <footer id="contato" className="bg-slate-900 text-slate-300 scroll-mt-16">
+      {/* Clean Call to Action */}
+      <div className="border-b border-slate-800 py-12 bg-slate-950">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            Inicie sua jornada de certificação hoje
           </h3>
-          <p className="text-blue-200 text-sm md:text-base max-w-xl mx-auto mb-6">
-            Inicie agora em menos de 3 minutos ou teste nossa demonstração interativa completa sem
-            compromisso.
+          <p className="text-slate-400 text-xs sm:text-sm mb-6">
+            Acelere a adequação da sua empresa com processos claros e suporte especializado.
           </p>
           <div className="flex justify-center gap-3 flex-wrap">
             {!isAuthenticated && (
               <Link to="/signup">
                 <Button
-                  size="lg"
-                  className="bg-[#00A86B] hover:bg-emerald-600 font-bold text-white whitespace-nowrap min-h-[44px]"
+                  size="default"
+                  className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-5 h-10 rounded-lg text-xs sm:text-sm"
                 >
-                  Começar Gratuitamente <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
+                  Criar Conta Gratuita <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
                 </Button>
               </Link>
             )}
             <Link to={isAuthenticated ? '/dashboard' : '/login'}>
               <Button
-                size="lg"
+                size="default"
                 variant="outline"
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 whitespace-nowrap min-h-[44px]"
+                className="bg-transparent border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-white px-5 h-10 rounded-lg text-xs sm:text-sm"
               >
-                {isAuthenticated ? 'Acessar Painel' : 'Acessar Conta'}
+                {isAuthenticated ? 'Painel de Gestão' : 'Entrar na Conta'}
               </Button>
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-xs">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="p-1.5 rounded-lg bg-white/10 text-white font-black text-sm">ISO</div>
-              <span className="font-bold text-white">Portal de Certificação</span>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="p-1 rounded bg-[#0055A4] text-white font-bold text-xs">ISO</div>
+              <span className="font-bold text-white text-sm">Portal de Certificação</span>
             </div>
-            <p className="text-sm text-blue-300 leading-relaxed">
-              Plataforma de automação, diagnóstico e acompanhamento para certificações ISO 9001,
-              14001 e 45001.
+            <p className="text-slate-400 leading-relaxed">
+              Automação e conformidade para ISO 9001, ISO 14001 e ISO 45001.
             </p>
           </div>
+
           <div>
-            <h4 className="font-semibold text-white mb-3 text-sm">Navegação</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-white mb-2.5">Atalhos</h4>
+            <ul className="space-y-1.5 text-slate-400">
               <li>
                 <a href="#sobre" className="hover:text-white transition-colors">
-                  Sobre a Plataforma
+                  Início
                 </a>
               </li>
               <li>
@@ -68,65 +67,37 @@ export function LandingFooter() {
                 </a>
               </li>
               <li>
+                <a href="#como-funciona" className="hover:text-white transition-colors">
+                  Como Funciona
+                </a>
+              </li>
+              <li>
                 <a href="#demo-interativa" className="hover:text-white transition-colors">
-                  Demonstração Visual
-                </a>
-              </li>
-              <li>
-                <a href="#time" className="hover:text-white transition-colors">
-                  Consultores Especialistas
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-white transition-colors">
-                  Dúvidas Frequentes
+                  Demonstração
                 </a>
               </li>
             </ul>
           </div>
+
           <div>
-            <h4 className="font-semibold text-white mb-3 text-sm">Segurança & Legal</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <span className="text-blue-300/80">Conforme LGPD (Lei 13.709)</span>
-              </li>
-              <li>
-                <span className="text-blue-300/80">Criptografia SSL/TLS</span>
-              </li>
-              <li>
-                <span className="text-blue-300/80">Auditoria & Rastreabilidade</span>
-              </li>
-              <li>
-                <span className="text-blue-300/80">Termos de Uso e SLA 99.9%</span>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold text-white mb-3 text-sm">Contato & Suporte</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-semibold text-white mb-2.5">Contato & Suporte</h4>
+            <ul className="space-y-1.5 text-slate-400">
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-emerald-400 shrink-0" /> contato@alc.com.br
+                <Mail className="h-3.5 w-3.5 text-sky-400 shrink-0" /> contato@alc.com.br
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-emerald-400 shrink-0" /> (11) 4003-8920
+                <Phone className="h-3.5 w-3.5 text-sky-400 shrink-0" /> (11) 4003-8920
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-emerald-400 shrink-0" /> Av. Paulista, São Paulo -
-                SP
+                <MapPin className="h-3.5 w-3.5 text-sky-400 shrink-0" /> São Paulo - SP
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-blue-300/80 gap-3">
-          <p>
-            © {new Date().getFullYear()} ALC Certificadora & Consultoria ISO. Todos os direitos
-            reservados.
-          </p>
-          <div className="flex gap-4">
-            <span>ISO 9001</span>
-            <span>ISO 14001</span>
-            <span>ISO 45001</span>
-          </div>
+
+        <div className="mt-8 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
+          <p>© {new Date().getFullYear()} ALC Certificadora ISO. Todos os direitos reservados.</p>
+          <span>Conforme LGPD • ISO 9001, 14001, 45001</span>
         </div>
       </div>
     </footer>

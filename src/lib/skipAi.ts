@@ -1,5 +1,5 @@
 // Typed helpers for hooks proxying $ai.chat (OpenAI-shape) and
-// $ai.agent(slug).chat (Skip-shape). Don't hand-roll the SSE reader:
+// $ai.agent(slug).chat (Skip-shape). Don't hand-roll the SSE reader —
 // past attempts shipped "undefinedundefined…" and "[object Object]…".
 
 export interface OpenAIChatResult {
@@ -30,7 +30,7 @@ export interface AgentChatResult {
   iterations: number
 }
 
-// Raw `listMessages` row (full audit trail, pipe through displayableMessages for the streamed view).
+// Raw `listMessages` row (full audit trail — pipe through displayableMessages for the streamed view).
 export interface AgentMessage {
   id: string
   role: 'user' | 'assistant' | 'tool'
@@ -78,7 +78,7 @@ async function* readSseBlocks(response: Response, signal?: AbortSignal): AsyncGe
   // Wire abort directly into the reader. reader.cancel(reason) makes
   // the in-flight read() reject with `reason` AND tears down the
   // underlying connection, so a stalled stream interrupts immediately
-  // - not just on the next yielded event.
+  // — not just on the next yielded event.
   const onAbort = () => {
     reader.cancel(signal?.reason).catch(() => {})
   }
@@ -142,7 +142,7 @@ function narrowCitations(v: unknown): AgentCitation[] | undefined {
 }
 
 // Filter `listMessages` to match the streamed view (drops empty-content tool-call assistants and role:'tool' rows).
-// `includeToolTrail: true` keeps the raw audit trail, for debugging.
+// `includeToolTrail: true` keeps the raw audit trail — for debugging.
 export function displayableMessages(
   messages: AgentMessage[],
   opts: { includeToolTrail?: boolean } = {},
@@ -175,7 +175,7 @@ function isOpenAIChatStreamChunk(v: unknown): v is OpenAIChatStreamChunk {
 }
 
 // Iterate $ai.chat({stream:true}) chunks. Skips the [DONE] sentinel
-// AND any malformed payload: the contract says callers receive only
+// AND any malformed payload — the contract says callers receive only
 // well-formed OpenAIChatStreamChunk objects.
 // Pass an AbortSignal to cancel a stalled read mid-stream.
 export async function* parseChatStream(
@@ -273,7 +273,7 @@ export async function streamAgentChat(
   response: Response,
   handlers: StreamAgentChatHandlers = {},
 ): Promise<StreamAgentChatResult> {
-  // Non-200 responses come back as JSON, not SSE: falling through to
+  // Non-200 responses come back as JSON, not SSE — falling through to
   // the parser would surface them as the unhelpful "stream ended
   // before done event" instead of the real auth/validation message.
   if (!response.ok) {

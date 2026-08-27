@@ -10,90 +10,78 @@ export function LandingHero() {
   return (
     <section
       id="sobre"
-      className="relative overflow-hidden bg-gradient-to-br from-[#003B73] via-[#0055A4] to-[#007ACC] text-white pt-24 pb-20 md:pt-32 md:pb-28"
+      className="relative overflow-hidden bg-gradient-to-b from-[#003060] via-[#004080] to-[#0055A4] text-white pt-28 pb-20 md:pt-36 md:pb-28"
     >
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#00A86B] rounded-full blur-3xl" />
+      {/* Subtle background glow */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-sky-400 rounded-full blur-[120px]" />
       </div>
-      <div className="relative max-w-6xl mx-auto px-4 text-center">
-        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-6 animate-fade-in">
-          <Sparkles className="h-4 w-4 text-yellow-300" />
-          <span className="text-sm font-medium text-blue-100">
-            Plataforma oficial de certificação ISO
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        {/* Minimal clean pill */}
+        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-3.5 py-1 mb-6 border border-white/15 shadow-sm">
+          <Sparkles className="h-3.5 w-3.5 text-yellow-300" />
+          <span className="text-xs font-medium text-blue-100">
+            Plataforma Integrada de Gestão ISO
           </span>
         </div>
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight animate-fade-in-up">
-          Certificação ISO nunca foi tão fácil
-          <span className="block text-blue-200">e nem tão revolucionária</span>
+
+        {/* Hero Title */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white">
+          Sua certificação ISO simplificada, ágil e em conformidade total
         </h1>
-        <p className="mt-6 text-base md:text-lg text-blue-100 max-w-2xl mx-auto animate-fade-in-up">
-          Com décadas de experiência em certificações ambientais, simplificamos todo o processo para
-          você. Templates inteligentes, automação completa e suporte de consultores especializados.
+
+        {/* Subtitle */}
+        <p className="mt-5 text-sm sm:text-base md:text-lg text-blue-100/90 max-w-2xl mx-auto leading-relaxed">
+          Templates inteligentes, gestão em Pipes e suporte técnico para as normas ISO 9001, 14001 e
+          45001 em um único ambiente limpo e organizado.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center animate-fade-in-up">
+
+        {/* Action Buttons */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
           {!isAuthenticated && (
-            <Link to="/signup">
+            <Link to="/signup" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="bg-[#00A86B] hover:bg-emerald-600 font-bold px-8 shadow-lg shadow-emerald-950/20 w-full sm:w-auto whitespace-nowrap min-h-[44px]"
+                className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-7 h-11 w-full sm:w-auto shadow-md rounded-xl text-sm"
               >
-                Criar Conta Gratuita <ArrowRight className="h-5 w-5 ml-2 shrink-0" />
+                Começar Gratuitamente <ArrowRight className="h-4 w-4 ml-2 shrink-0" />
               </Button>
             </Link>
           )}
-          <Link to={isAuthenticated ? '/dashboard' : '/login'}>
+
+          <Link to={isAuthenticated ? '/dashboard' : '/login'} className="w-full sm:w-auto">
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto font-semibold whitespace-nowrap min-h-[44px]"
+              className="bg-white/10 hover:bg-white/20 text-white border-white/25 px-7 h-11 w-full sm:w-auto font-medium rounded-xl text-sm backdrop-blur-sm"
             >
-              {isAuthenticated ? 'Acessar Painel' : 'Fazer Login'}
+              {isAuthenticated ? 'Ir para o Painel' : 'Acessar Conta'}
             </Button>
           </Link>
         </div>
 
+        {/* Demo Fast Selector */}
         {!isAuthenticated && (
-          <div className="mt-5 flex flex-col items-center justify-center gap-2 animate-fade-in-up">
-            <span className="text-xs text-blue-200 font-medium">
-              Sem cadastro prévio? Acesse a demonstração:
-            </span>
+          <div className="mt-6 pt-4 flex items-center justify-center gap-2 flex-wrap text-xs text-blue-200">
+            <span>Ou explore direto com dados de teste:</span>
             <DemoSelector variant="hero" />
           </div>
         )}
 
-        {/* Badges and Metrics Strip */}
-        <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div className="p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-            <p className="text-2xl md:text-3xl font-extrabold text-white">100%</p>
-            <p className="text-xs text-blue-200 mt-1">Conformidade Normativa</p>
+        {/* Key Clean Highlights */}
+        <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div>
+            <p className="text-xl sm:text-2xl font-bold text-white">-60%</p>
+            <p className="text-xs text-blue-200/80 mt-0.5">Tempo de Adequação</p>
           </div>
-          <div className="p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-            <p className="text-2xl md:text-3xl font-extrabold text-emerald-300">-60%</p>
-            <p className="text-xs text-blue-200 mt-1">Tempo de Adequação</p>
+          <div>
+            <p className="text-xl sm:text-2xl font-bold text-emerald-300">100%</p>
+            <p className="text-xs text-blue-200/80 mt-0.5">Conformidade Normativa</p>
           </div>
-          <div className="p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-            <p className="text-2xl md:text-3xl font-extrabold text-yellow-300">3 Normas</p>
-            <p className="text-xs text-blue-200 mt-1">ISO 9001, 14001, 45001</p>
-          </div>
-          <div className="p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-            <p className="text-2xl md:text-3xl font-extrabold text-sky-300">Pipes & AI</p>
-            <p className="text-xs text-blue-200 mt-1">Gestão Ágil Integrada</p>
-          </div>
-        </div>
-
-        <div className="mt-8 flex items-center justify-center gap-6 md:gap-8 text-blue-200 flex-wrap">
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <ShieldCheck className="h-4 w-4 text-sky-300" />
-            <span className="text-xs font-semibold">ISO 9001 (Qualidade)</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <Leaf className="h-4 w-4 text-emerald-300" />
-            <span className="text-xs font-semibold">ISO 14001 (Ambiental)</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <HeartPulse className="h-4 w-4 text-rose-300" />
-            <span className="text-xs font-semibold">ISO 45001 (Saúde & Segurança)</span>
+          <div>
+            <p className="text-xl sm:text-2xl font-bold text-sky-300">3 Normas</p>
+            <p className="text-xs text-blue-200/80 mt-0.5">9001 • 14001 • 45001</p>
           </div>
         </div>
       </div>

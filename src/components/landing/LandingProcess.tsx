@@ -65,56 +65,45 @@ const benefits = [
 
 export function LandingProcess() {
   return (
-    <>
-      <section id="como-funciona" className="bg-[#F5F7FA] py-16 md:py-20 scroll-mt-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-2">
+    <section
+      id="como-funciona"
+      className="bg-slate-50/70 border-y border-slate-200/80 py-16 md:py-20 scroll-mt-16"
+    >
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
             Como Funciona
           </h2>
-          <p className="text-slate-500 text-center mb-10">
-            Do cadastro à certificação em 4 passos simples
+          <p className="text-slate-500 mt-2 text-sm sm:text-base">
+            Do cadastro inicial à certificação em 4 etapas diretas
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step, i) => (
-              <div
-                key={step.title}
-                className="bg-white rounded-xl p-5 border border-slate-200 relative"
-              >
-                <span className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-[#0055A4] text-white text-sm font-bold flex items-center justify-center">
-                  {i + 1}
-                </span>
-                <step.icon className="h-6 w-6 text-[#0055A4] mb-3" />
-                <h3 className="font-semibold text-slate-900 text-sm">{step.title}</h3>
-                <p className="text-xs text-slate-500 mt-1">{step.desc}</p>
-                <p className="text-xs font-medium text-[#00A86B] mt-2">{step.benefit}</p>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
 
-      <section id="beneficios" className="max-w-6xl mx-auto px-4 py-16 md:py-20 scroll-mt-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-2">
-          Por que somos diferentes?
-        </h2>
-        <p className="text-slate-500 text-center mb-10">
-          Uma plataforma revolucionária que transforma a certificação ISO
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {benefits.map((b) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {steps.map((step, i) => (
             <div
-              key={b.title}
-              className="rounded-2xl border border-slate-200 p-6 hover:shadow-md transition-shadow"
+              key={step.title}
+              className="bg-white rounded-xl p-5 border border-slate-200 shadow-none flex flex-col justify-between"
             >
-              <div className="inline-flex p-3 rounded-xl bg-[#0055A4]/5 mb-4">
-                <b.icon className="h-6 w-6 text-[#0055A4]" />
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-lg bg-blue-50 text-[#0055A4]">
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <span className="w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-slate-900 text-sm">{step.title}</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{step.desc}</p>
               </div>
-              <h3 className="font-bold text-slate-900">{b.title}</h3>
-              <p className="text-sm text-slate-500 mt-1">{b.desc}</p>
+              <p className="text-[11px] font-semibold text-emerald-600 mt-3 pt-2 border-t border-slate-100">
+                {step.benefit}
+              </p>
             </div>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }

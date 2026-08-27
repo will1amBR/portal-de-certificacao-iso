@@ -36,31 +36,28 @@ const faqs = [
 
 export function LandingFaq() {
   return (
-    <section className="py-16 md:py-24 bg-white border-t border-slate-200">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0055A4] text-xs font-semibold mb-3">
-            <HelpCircle className="h-3.5 w-3.5" /> Dúvidas Frequentes
-          </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-            Perguntas & Respostas
+    <section className="py-16 md:py-20 bg-slate-50/60 border-t border-slate-200/80">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            Perguntas Frequentes
           </h2>
-          <p className="text-sm md:text-base text-slate-500 mt-2">
-            Tudo o que você precisa saber sobre a plataforma e o processo de certificação
+          <p className="text-sm text-slate-500 mt-1.5">
+            Dúvidas mais comuns sobre certificação e funcionamento do portal
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-3">
+        <Accordion type="single" collapsible className="w-full space-y-2.5">
           {faqs.map((faq, idx) => (
             <AccordionItem
               key={idx}
               value={`item-${idx}`}
-              className="border border-slate-200 rounded-xl px-4 data-[state=open]:border-blue-300 data-[state=open]:bg-blue-50/20 transition-all"
+              className="border border-slate-200 bg-white rounded-lg px-4 data-[state=open]:border-blue-200 transition-all shadow-none"
             >
-              <AccordionTrigger className="text-left font-semibold text-slate-900 hover:text-[#0055A4] py-4 text-sm md:text-base">
+              <AccordionTrigger className="text-left font-medium text-slate-800 hover:text-[#0055A4] py-3.5 text-sm hover:no-underline">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-slate-600 text-sm leading-relaxed pb-4 pt-1">
+              <AccordionContent className="text-slate-600 text-xs sm:text-sm leading-relaxed pb-3.5 pt-0">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
