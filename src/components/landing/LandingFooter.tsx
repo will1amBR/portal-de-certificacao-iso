@@ -23,9 +23,9 @@ export function LandingFooter() {
               <Link to="/signup">
                 <Button
                   size="lg"
-                  className="bg-[#00A86B] hover:bg-emerald-600 font-bold text-white"
+                  className="bg-[#00A86B] hover:bg-emerald-600 font-bold text-white whitespace-nowrap min-h-[44px]"
                 >
-                  Começar Gratuitamente <ArrowRight className="h-4 w-4 ml-1.5" />
+                  Começar Gratuitamente <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
                 </Button>
               </Link>
             )}
@@ -33,7 +33,7 @@ export function LandingFooter() {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 whitespace-nowrap min-h-[44px]"
               >
                 {isAuthenticated ? 'Acessar Painel' : 'Acessar Conta'}
               </Button>

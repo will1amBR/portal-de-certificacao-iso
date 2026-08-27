@@ -68,10 +68,10 @@ export function CertificationCard({ cert }: CertificationCardProps) {
       <div className="mt-6 pt-4 border-t border-slate-100 flex justify-end">
         <Link
           to={`/certificacoes/${cert.id}`}
-          className="inline-flex items-center text-sm font-semibold text-[#0055A4] hover:text-[#1A73E8] gap-1 transition-colors"
+          className="inline-flex items-center text-sm font-semibold text-[#0055A4] hover:text-[#1A73E8] gap-1 transition-colors p-1.5 -mr-1.5 rounded-md hover:bg-blue-50"
         >
           Acessar Detalhes
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4 shrink-0" />
         </Link>
       </div>
     </div>

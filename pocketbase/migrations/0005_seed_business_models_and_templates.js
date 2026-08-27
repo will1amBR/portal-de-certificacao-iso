@@ -46,7 +46,7 @@ migrate(
       {
         model: 'Mercado',
         type: 'document',
-        title: 'Controle de estoque – planilha',
+        title: 'Controle de estoque - planilha',
         description: 'Planilha de controle de entrada e saída de produtos.',
         category: 'controle de estoque',
         required: true,
@@ -62,7 +62,7 @@ migrate(
       {
         model: 'Mercado',
         type: 'task',
-        title: 'Ficha de funcionários – benefícios',
+        title: 'Ficha de funcionários - benefícios',
         description: 'Cadastro de benefícios dos colaboradores.',
         due_days: 30,
       },
@@ -107,7 +107,7 @@ migrate(
       {
         model: 'Construtora',
         type: 'task',
-        title: 'Gestão de funcionários – EPI e treinamentos',
+        title: 'Gestão de funcionários - EPI e treinamentos',
         description: 'Controle de EPIs entregues e treinamentos realizados.',
         due_days: 20,
       },

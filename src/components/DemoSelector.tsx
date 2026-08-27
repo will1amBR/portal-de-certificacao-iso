@@ -27,7 +27,7 @@ const demoAccounts = [
     email: 'demo.cliente@alc.com.br',
     label: 'Cliente (Construtora)',
     description:
-      'Construtora Horizonte — Acompanhe certificações, envie documentos e veja o progresso.',
+      'Construtora Horizonte: acompanhe certificações, envie documentos e veja o progresso.',
     icon: Building2,
     redirect: '/app',
   },
@@ -35,14 +35,14 @@ const demoAccounts = [
     email: 'demo.auditor@alc.com.br',
     label: 'Auditor',
     description:
-      'Ana Costa — Analise documentos, agende auditorias e gerencie tarefas dos clientes.',
+      'Ana Costa: analise documentos, agende auditorias e gerencie tarefas dos clientes.',
     icon: ClipboardCheck,
     redirect: '/dashboard',
   },
   {
     email: 'demo.admin@alc.com.br',
     label: 'Empresa de Auditoria',
-    description: 'ALC Certificadora — Gerencie clientes, certificações, modelos e visualize KPIs.',
+    description: 'ALC Certificadora: gerencie clientes, certificações, modelos e visualize KPIs.',
     icon: Landmark,
     redirect: '/admin',
   },
@@ -79,7 +79,7 @@ export function DemoSelector({ variant = 'default' }: { variant?: 'default' | 'h
           variant={isHero ? 'secondary' : 'outline'}
           disabled={loadingEmail !== null}
           className={cn(
-            'gap-2 font-semibold transition-all',
+            'gap-2 font-semibold transition-all whitespace-nowrap min-h-[42px]',
             isHero
               ? 'bg-white/15 border-white/40 text-white hover:bg-white/25 backdrop-blur-md shadow-md text-sm px-5 py-2.5 h-auto'
               : 'w-full border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 shadow-sm',

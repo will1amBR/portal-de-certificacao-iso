@@ -127,8 +127,10 @@ export default function Layout() {
             <span className="font-bold text-base">Portal de Certificação</span>
           </div>
           <button
+            type="button"
             onClick={() => setMobileOpen(false)}
-            className="p-1 text-blue-200 hover:text-white"
+            aria-label="Fechar menu lateral"
+            className="p-2 text-blue-200 hover:text-white rounded-lg hover:bg-white/10 min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer"
           >
             <X className="h-6 w-6" />
           </button>
@@ -172,11 +174,13 @@ export default function Layout() {
         <header className="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
           <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => setMobileOpen(true)}
-              className="p-2 text-slate-600 hover:text-slate-900 md:hidden rounded-lg hover:bg-slate-100"
+              aria-label="Abrir menu lateral"
+              className="p-2 text-slate-600 hover:text-slate-900 md:hidden rounded-lg hover:bg-slate-100 min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer"
             >
               <Menu className="h-6 w-6" />
-            </button>
+            </button>{' '}
             <DemoBadge />
             <span className="text-xs md:text-sm text-slate-500 font-medium hidden sm:inline-block">
               Portal de Adequação ISO 9001, 14001 e 45001
@@ -188,7 +192,11 @@ export default function Layout() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-100 transition-colors">
+                <button
+                  type="button"
+                  aria-label="Menu do usuário"
+                  className="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-100 transition-colors min-h-[36px] cursor-pointer"
+                >
                   <Avatar className="h-8 w-8 border border-slate-200">
                     <AvatarImage src={user?.avatar} />
                     <AvatarFallback className="bg-[#0055A4] text-white text-xs font-bold">

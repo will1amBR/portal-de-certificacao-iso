@@ -115,7 +115,7 @@ migrate(
         {
           type: 'audit_scheduled',
           title: 'Auditoria Agendada',
-          message: 'Auditoria Externa Fase 1 agendada para ISO 9001 — Construtora Horizonte.',
+          message: 'Auditoria Externa Fase 1 agendada para ISO 9001 - Construtora Horizonte.',
           is_read: true,
         },
         {

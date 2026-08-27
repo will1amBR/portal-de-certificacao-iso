@@ -587,7 +587,7 @@ export function AdminOnboardingPipeline() {
                 className="hover:border-slate-300 transition-all shadow-sm"
               >
                 <CardContent className="p-5">
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
                     {/* Left: Info */}
                     <div className="flex items-start gap-3.5 flex-1 min-w-0">
                       <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center font-bold text-slate-700 shrink-0 border border-slate-200 text-sm">
@@ -654,7 +654,7 @@ export function AdminOnboardingPipeline() {
                     </div>
 
                     {/* Right: Quick Action Buttons */}
-                    <div className="flex items-center gap-2 shrink-0 border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2 shrink-0 border-t xl:border-t-0 pt-3 xl:pt-0 border-slate-100">
                       <Button
                         variant="outline"
                         size="sm"
@@ -664,9 +664,9 @@ export function AdminOnboardingPipeline() {
                             client.primaryConsultant?.id || consultants[0]?.id || '',
                           )
                         }}
-                        className="text-xs font-medium border-slate-200 hover:bg-slate-50"
+                        className="text-xs font-medium border-slate-200 hover:bg-slate-50 whitespace-nowrap min-h-[36px]"
                       >
-                        <UserCheck className="h-3.5 w-3.5 mr-1 text-[#0055A4]" />
+                        <UserCheck className="h-3.5 w-3.5 mr-1 text-[#0055A4] shrink-0" />
                         {client.primaryConsultant ? 'Alterar Consultor' : 'Atribuir Consultor'}
                       </Button>
 
@@ -674,18 +674,18 @@ export function AdminOnboardingPipeline() {
                         <Button
                           size="sm"
                           onClick={() => openFollowupModal(client)}
-                          className="text-xs font-medium bg-[#0055A4] hover:bg-[#1A73E8] text-white"
+                          className="text-xs font-medium bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[36px]"
                         >
-                          <Send className="h-3.5 w-3.5 mr-1" />
+                          <Send className="h-3.5 w-3.5 mr-1 shrink-0" />
                           Fazer Follow-up
                         </Button>
                       ) : (
                         <Button
                           size="sm"
                           onClick={() => openWelcomeModal(client)}
-                          className="text-xs font-medium bg-[#00A86B] hover:bg-emerald-600 text-white"
+                          className="text-xs font-medium bg-[#00A86B] hover:bg-emerald-600 text-white whitespace-nowrap min-h-[36px]"
                         >
-                          <Mail className="h-3.5 w-3.5 mr-1" />
+                          <Mail className="h-3.5 w-3.5 mr-1 shrink-0" />
                           Enviar Boas-vindas
                         </Button>
                       )}
@@ -695,7 +695,7 @@ export function AdminOnboardingPipeline() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 w-8 p-0"
+                            className="h-9 w-9 p-0 rounded-lg hover:bg-slate-100"
                             title="Ver certificação"
                           >
                             <ExternalLink className="h-4 w-4 text-slate-500 hover:text-slate-900" />
@@ -748,7 +748,7 @@ export function AdminOnboardingPipeline() {
                 <SelectContent>
                   {consultants.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
-                      {c.name} ({c.email}) {c.role === 'admin' ? '— Administrador' : '— Consultor'}
+                      {c.name} ({c.email}) {c.role === 'admin' ? '- Administrador' : '- Consultor'}
                     </SelectItem>
                   ))}
                 </SelectContent>

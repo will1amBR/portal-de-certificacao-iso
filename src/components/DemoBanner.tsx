@@ -28,8 +28,10 @@ export function DemoBanner() {
         </span>
       </div>
       <button
+        type="button"
         onClick={() => setDismissed(true)}
-        className="p-1 hover:bg-white/20 rounded-md transition-colors shrink-0 text-white/90 hover:text-white"
+        className="p-1.5 hover:bg-white/20 rounded-md transition-colors shrink-0 text-white/90 hover:text-white min-w-[28px] min-h-[28px] flex items-center justify-center cursor-pointer"
+        aria-label="Ocultar aviso de demonstração"
         title="Ocultar aviso"
       >
         <X className="h-4 w-4" />

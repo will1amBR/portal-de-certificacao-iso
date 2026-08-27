@@ -114,8 +114,12 @@ export default function AdminModels() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
                   <button
+                    type="button"
+                    aria-label={
+                      isExpanded ? 'Recolher detalhes do modelo' : 'Expandir detalhes do modelo'
+                    }
                     onClick={() => setExpanded(isExpanded ? null : m.id)}
-                    className="p-1 text-slate-500 hover:text-slate-900"
+                    className="p-1.5 text-slate-500 hover:text-slate-900 rounded-md min-w-[32px] min-h-[32px] flex items-center justify-center transition-colors"
                   >
                     {isExpanded ? (
                       <ChevronDown className="h-5 w-5" />
@@ -195,7 +199,9 @@ export default function AdminModels() {
                                 <td className="py-2 pr-3 text-slate-500">{t.due_days || '-'}</td>
                                 <td className="py-2">
                                   <button
-                                    className="text-slate-400 hover:text-[#0055A4] mr-2"
+                                    type="button"
+                                    aria-label="Editar template"
+                                    className="p-1.5 text-slate-400 hover:text-[#0055A4] mr-1 rounded-md min-w-[28px] min-h-[28px] inline-flex items-center justify-center transition-colors"
                                     onClick={() => {
                                       setTplModelId(m.id)
                                       setEditingTpl(t)
@@ -205,7 +211,9 @@ export default function AdminModels() {
                                     <Pencil className="h-4 w-4" />
                                   </button>
                                   <button
-                                    className="text-slate-400 hover:text-rose-600"
+                                    type="button"
+                                    aria-label="Excluir template"
+                                    className="p-1.5 text-slate-400 hover:text-rose-600 rounded-md min-w-[28px] min-h-[28px] inline-flex items-center justify-center transition-colors"
                                     onClick={() => setDeleteTarget({ id: t.id, type: 'template' })}
                                   >
                                     <Trash2 className="h-4 w-4" />

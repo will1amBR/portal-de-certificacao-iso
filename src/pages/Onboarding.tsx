@@ -209,14 +209,14 @@ export default function Onboarding() {
               </p>
             </div>
             <div className="bg-slate-50 rounded-lg p-4 space-y-3">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-2">
                 <span className="text-sm text-slate-500">CNPJ</span>
                 <span className="text-sm font-medium text-slate-900">{cnpj}</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-2">
                 <span className="text-sm text-slate-500">Modelo de Negócio</span>
                 <span className="text-sm font-medium text-slate-900">{selectedModelObj.name}</span>
-              </div>
+              </div>{' '}
               <div className="pt-2 border-t border-slate-200">
                 <p className="text-xs text-slate-400">
                   Serão criados templates de tarefas, documentos e agendamentos para suas

@@ -18,7 +18,7 @@ const isoData = [
     bg: 'bg-sky-50',
     border: 'hover:border-sky-300',
     desc: 'Padronize processos, garanta melhoria contínua e eleve a satisfação dos seus clientes.',
-    long: 'A ISO 9001 é a norma mais reconhecida mundialmente para sistemas de gestão da qualidade. Nosso portal simplifica a conformidade com templates automatizados de procedimentos, registros de não conformidades, auditorias internas e indicadores de desempenho — tudo em um só lugar.',
+    long: 'A ISO 9001 é a norma mais reconhecida mundialmente para sistemas de gestão da qualidade. Nosso portal simplifica a conformidade com templates automatizados de procedimentos, registros de não conformidades, auditorias internas e indicadores de desempenho, tudo em um só lugar.',
   },
   {
     icon: Leaf,
@@ -28,7 +28,7 @@ const isoData = [
     bg: 'bg-emerald-50',
     border: 'hover:border-emerald-300',
     desc: 'Reduza impactos ambientais, garanta conformidade legal e promova sustentabilidade.',
-    long: 'A ISO 14001 define requisitos para sistemas de gestão ambiental. O portal oferece checklists de aspectos e impactos ambientais, modelos de procedimentos de gestão de resíduos, monitoramento de consumo e conformidade legal — automatizado e adaptado ao seu segmento.',
+    long: 'A ISO 14001 define requisitos para sistemas de gestão ambiental. O portal oferece checklists de aspectos e impactos ambientais, modelos de procedimentos de gestão de resíduos, monitoramento de consumo e conformidade legal, automatizado e adaptado ao seu segmento.',
   },
   {
     icon: HeartPulse,
@@ -38,7 +38,7 @@ const isoData = [
     bg: 'bg-rose-50',
     border: 'hover:border-rose-300',
     desc: 'Proteja seus colaboradores com gestão de riscos ocupacionais e prevenção de acidentes.',
-    long: 'A ISO 45001 estabelece padrões para saúde e segurança ocupacional. O portal disponibiliza modelos de APR, procedimentos de emergência, registros de treinamentos, monitoramento de SSA e programas de prevenção — tudo gerenciado em tempo real.',
+    long: 'A ISO 45001 estabelece padrões para saúde e segurança ocupacional. O portal disponibiliza modelos de APR, procedimentos de emergência, registros de treinamentos, monitoramento de SSA e programas de prevenção, tudo gerenciado em tempo real.',
   },
 ]
 
@@ -74,7 +74,7 @@ export function LandingIsoCards() {
             <Button
               variant="ghost"
               size="sm"
-              className="mt-4 p-0 h-auto text-[#0055A4] hover:bg-transparent hover:text-[#1A73E8]"
+              className="mt-4 p-2 -ml-2 text-[#0055A4] hover:bg-blue-50 hover:text-[#1A73E8] font-semibold"
               onClick={() => setSelected(iso)}
             >
               Saiba Mais <ArrowRight className="h-4 w-4 ml-1" />
@@ -89,7 +89,7 @@ export function LandingIsoCards() {
               {selected && <selected.icon className={`h-7 w-7 ${selected.color}`} />}
             </div>
             <DialogTitle>
-              {selected?.code} — {selected?.title}
+              {selected?.code} - {selected?.title}
             </DialogTitle>
             <DialogDescription className="text-slate-600 leading-relaxed pt-2">
               {selected?.long}

@@ -25,7 +25,7 @@ export function LandingHero() {
         </div>
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight animate-fade-in-up">
           Certificação ISO nunca foi tão fácil
-          <span className="block text-blue-200">— e nem tão revolucionária</span>
+          <span className="block text-blue-200">e nem tão revolucionária</span>
         </h1>
         <p className="mt-6 text-base md:text-lg text-blue-100 max-w-2xl mx-auto animate-fade-in-up">
           Com décadas de experiência em certificações ambientais, simplificamos todo o processo para
@@ -36,9 +36,9 @@ export function LandingHero() {
             <Link to="/signup">
               <Button
                 size="lg"
-                className="bg-[#00A86B] hover:bg-emerald-600 font-bold px-8 shadow-lg shadow-emerald-950/20 w-full sm:w-auto"
+                className="bg-[#00A86B] hover:bg-emerald-600 font-bold px-8 shadow-lg shadow-emerald-950/20 w-full sm:w-auto whitespace-nowrap min-h-[44px]"
               >
-                Criar Conta Gratuita <ArrowRight className="h-5 w-5 ml-2" />
+                Criar Conta Gratuita <ArrowRight className="h-5 w-5 ml-2 shrink-0" />
               </Button>
             </Link>
           )}
@@ -46,7 +46,7 @@ export function LandingHero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto font-semibold"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto font-semibold whitespace-nowrap min-h-[44px]"
             >
               {isAuthenticated ? 'Acessar Painel' : 'Fazer Login'}
             </Button>

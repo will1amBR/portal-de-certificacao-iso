@@ -75,10 +75,11 @@ export function NotificationBell() {
           <span className="font-semibold text-sm">Notificações</span>
           {unread > 0 && (
             <button
+              type="button"
               onClick={handleMarkAll}
-              className="text-xs text-[#0055A4] hover:underline flex items-center gap-1"
+              className="text-xs text-[#0055A4] hover:underline flex items-center gap-1 cursor-pointer p-1 rounded hover:bg-blue-50 transition-colors"
             >
-              <CheckCheck className="h-3 w-3" /> Marcar todas como lidas
+              <CheckCheck className="h-3 w-3 shrink-0" /> Marcar todas como lidas
             </button>
           )}
         </div>
@@ -89,9 +90,10 @@ export function NotificationBell() {
             <div className="divide-y">
               {notifications.map((n) => (
                 <button
+                  type="button"
                   key={n.id}
                   onClick={() => handleClick(n)}
-                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors ${!n.is_read ? 'bg-blue-50/40' : ''}`}
+                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors cursor-pointer ${!n.is_read ? 'bg-blue-50/40' : ''}`}
                 >
                   <div className="flex items-start gap-2">
                     {!n.is_read && (

@@ -37,34 +37,37 @@ export function LandingInteractiveDemo() {
           {/* Tab Switcher */}
           <div className="flex justify-center gap-2 mt-6 flex-wrap">
             <button
+              type="button"
               onClick={() => setActiveTab('pipes')}
-              className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap min-h-[42px] cursor-pointer ${
                 activeTab === 'pipes'
                   ? 'bg-[#003B73] text-white shadow-md'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <Kanban className="h-4 w-4" /> Gestão em Pipes (Kanban)
+              <Kanban className="h-4 w-4 shrink-0" /> Gestão em Pipes (Kanban)
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('kpis')}
-              className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap min-h-[42px] cursor-pointer ${
                 activeTab === 'kpis'
                   ? 'bg-[#003B73] text-white shadow-md'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <BarChart3 className="h-4 w-4" /> Indicadores & KPIs
+              <BarChart3 className="h-4 w-4 shrink-0" /> Indicadores & KPIs
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('templates')}
-              className={`px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold transition-all flex items-center gap-2 whitespace-nowrap min-h-[42px] cursor-pointer ${
                 activeTab === 'templates'
                   ? 'bg-[#003B73] text-white shadow-md'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
               }`}
             >
-              <Zap className="h-4 w-4" /> Templates por Segmento
+              <Zap className="h-4 w-4 shrink-0" /> Templates por Segmento
             </button>
           </div>
         </div>
@@ -188,7 +191,7 @@ export function LandingInteractiveDemo() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="bg-white p-4 rounded-xl border border-slate-200">
                     <span className="text-xs font-semibold text-slate-500">
-                      ISO 9001 — Qualidade
+                      ISO 9001 - Qualidade
                     </span>
                     <p className="text-2xl font-black text-blue-600 mt-1">94.8%</p>
                     <p className="text-xs text-emerald-600 font-medium mt-1">
@@ -199,7 +202,7 @@ export function LandingInteractiveDemo() {
 
                   <div className="bg-white p-4 rounded-xl border border-slate-200">
                     <span className="text-xs font-semibold text-slate-500">
-                      ISO 14001 — Ambiental
+                      ISO 14001 - Ambiental
                     </span>
                     <p className="text-2xl font-black text-emerald-600 mt-1">98.1%</p>
                     <p className="text-xs text-emerald-600 font-medium mt-1">
@@ -209,7 +212,7 @@ export function LandingInteractiveDemo() {
                   </div>
 
                   <div className="bg-white p-4 rounded-xl border border-slate-200">
-                    <span className="text-xs font-semibold text-slate-500">ISO 45001 — SSO</span>
+                    <span className="text-xs font-semibold text-slate-500">ISO 45001 - SSO</span>
                     <p className="text-2xl font-black text-amber-600 mt-1">420 dias</p>
                     <p className="text-xs text-slate-600 font-medium mt-1">
                       Sem acidentes com afastamento

@@ -10,7 +10,7 @@ import { HelpCircle, Sparkles } from 'lucide-react'
 const faqs = [
   {
     q: 'Quanto tempo leva para obter uma certificação ISO pela plataforma?',
-    a: 'Com nossa metodologia automatizada, diagnósticos pré-configurados e suporte contínuo dos consultores, as empresas costumam concluir o processo em 2 a 4 meses — até 60% mais rápido do que consultorias tradicionais.',
+    a: 'Com nossa metodologia automatizada, diagnósticos pré-configurados e suporte contínuo dos consultores, as empresas costumam concluir o processo em 2 a 4 meses, até 60% mais rápido do que consultorias tradicionais.',
   },
   {
     q: 'Como funcionam os 3 perfis da Demonstração?',

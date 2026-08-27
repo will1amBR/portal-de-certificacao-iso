@@ -91,7 +91,7 @@ export function AdminCertifications() {
                   <p className="font-semibold text-slate-900">
                     {c.expand?.iso_type?.name || 'Certificação'}
                   </p>
-                  <p className="text-xs text-slate-500">{c.company_name || '—'}</p>
+                  <p className="text-xs text-slate-500">{c.company_name || 'Não informado'}</p>
                 </div>
                 <Badge variant="secondary" className="text-xs">
                   {c.status}

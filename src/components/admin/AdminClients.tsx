@@ -38,7 +38,7 @@ export function AdminClients() {
       </div>
     )
 
-  const getModelName = (id?: string) => models.find((m) => m.id === id)?.name || '—'
+  const getModelName = (id?: string) => models.find((m) => m.id === id)?.name || 'Não definido'
   const userCerts = (userId: string) => certs.filter((c) => c.user === userId)
 
   return (
@@ -63,7 +63,7 @@ export function AdminClients() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-4 text-xs text-slate-500">
-                <span>CNPJ: {u.cnpj || '—'}</span>
+                <span>CNPJ: {u.cnpj || 'Não informado'}</span>
                 <span>Modelo: {getModelName(u.business_model)}</span>
               </div>
               {uc.length > 0 && (
@@ -71,7 +71,7 @@ export function AdminClients() {
                   {uc.map((c) => (
                     <Link key={c.id} to={`/certificacoes/${c.id}`}>
                       <Badge variant="outline" className="text-xs cursor-pointer hover:bg-slate-50">
-                        {c.expand?.iso_type?.name || 'Cert'} — {c.status}
+                        {c.expand?.iso_type?.name || 'Cert'}: {c.status}
                       </Badge>
                     </Link>
                   ))}

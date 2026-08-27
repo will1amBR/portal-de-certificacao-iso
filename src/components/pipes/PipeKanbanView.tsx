@@ -282,7 +282,11 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
                           certId={certId}
                           onCreated={loadCards}
                           trigger={
-                            <button className="p-1 text-slate-400 hover:text-blue-600 hover:bg-slate-50 rounded">
+                            <button
+                              type="button"
+                              aria-label="Adicionar card na etapa"
+                              className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-slate-50 rounded-md min-h-[28px] min-w-[28px] flex items-center justify-center transition-colors"
+                            >
                               <Plus className="h-4 w-4" />
                             </button>
                           }
@@ -366,8 +370,11 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
                         certId={certId}
                         onCreated={loadCards}
                         trigger={
-                          <button className="w-full py-2 text-xs font-medium text-slate-500 hover:text-blue-700 hover:bg-white/80 rounded-md border border-dashed border-slate-300 flex items-center justify-center gap-1 transition-colors">
-                            <Plus className="h-3.5 w-3.5" /> Adicionar card
+                          <button
+                            type="button"
+                            className="w-full py-2.5 text-xs font-medium text-slate-500 hover:text-blue-700 hover:bg-white/80 rounded-md border border-dashed border-slate-300 flex items-center justify-center gap-1.5 transition-colors cursor-pointer min-h-[36px]"
+                          >
+                            <Plus className="h-3.5 w-3.5 shrink-0" /> Adicionar card
                           </button>
                         }
                       />

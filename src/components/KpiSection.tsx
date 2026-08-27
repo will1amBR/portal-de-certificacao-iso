@@ -18,19 +18,19 @@ import type { Certification } from '@/services/certifications'
 const ISO_GROUPS = [
   {
     code: '9001',
-    label: 'Gestão da Qualidade — ISO 9001',
+    label: 'Gestão da Qualidade - ISO 9001',
     icon: Shield,
     accent: 'border-blue-200 bg-blue-50/30',
   },
   {
     code: '14001',
-    label: 'Gestão Ambiental — ISO 14001',
+    label: 'Gestão Ambiental - ISO 14001',
     icon: Leaf,
     accent: 'border-emerald-200 bg-emerald-50/30',
   },
   {
     code: '45001',
-    label: 'Saúde e Segurança — ISO 45001',
+    label: 'Saúde e Segurança - ISO 45001',
     icon: HardHat,
     accent: 'border-rose-200 bg-rose-50/30',
   },

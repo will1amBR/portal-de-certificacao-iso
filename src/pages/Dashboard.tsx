@@ -98,9 +98,12 @@ export default function Dashboard() {
             operacionais
           </p>
         </div>
-        <Button asChild className="bg-[#0055A4] hover:bg-[#1A73E8] text-white">
+        <Button
+          asChild
+          className="bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[40px]"
+        >
           <Link to="/certificacoes">
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2 shrink-0" />
             Nova Certificação / Pipe
           </Link>
         </Button>

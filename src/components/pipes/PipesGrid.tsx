@@ -164,7 +164,10 @@ export function PipesGrid({ certId, defaultOpenPipeId }: PipesGridProps) {
           <NewPipeDialog
             onCreated={loadData}
             trigger={
-              <button className="h-44 rounded-2xl border-2 border-dashed border-slate-200 hover:border-blue-400 bg-white/70 hover:bg-blue-50/30 flex flex-col items-center justify-center gap-3 transition-all group shadow-sm">
+              <button
+                type="button"
+                className="w-full h-44 rounded-2xl border-2 border-dashed border-slate-200 hover:border-blue-400 bg-white/70 hover:bg-blue-50/30 flex flex-col items-center justify-center gap-3 transition-all group shadow-sm cursor-pointer"
+              >
                 <div className="h-10 w-10 rounded-xl bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white flex items-center justify-center transition-colors">
                   <Plus className="h-5 w-5" />
                 </div>

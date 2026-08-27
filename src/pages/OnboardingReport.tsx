@@ -55,8 +55,9 @@ export default function OnboardingReport() {
     <div className="space-y-6">
       <div className="flex items-center justify-between print:hidden">
         <button
+          type="button"
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700"
+          className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 p-2 -ml-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
         >
           <ChevronLeft className="h-4 w-4" /> Voltar
         </button>
@@ -160,7 +161,7 @@ function ReportSection({
           {items.map((t) => (
             <li key={t.id} className="text-sm text-slate-700">
               <span className="font-medium">{t.title}</span>
-              {t.description && <span className="text-slate-400"> — {t.description}</span>}
+              {t.description && <span className="text-slate-400"> - {t.description}</span>}
               {t.due_days ? (
                 <span className="text-slate-400"> (prazo: {t.due_days} dias)</span>
               ) : (

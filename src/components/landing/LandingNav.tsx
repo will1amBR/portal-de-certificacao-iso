@@ -62,8 +62,11 @@ export function LandingNav() {
         <div className="hidden md:flex items-center gap-2">
           {isAuthenticated ? (
             <Link to="/dashboard">
-              <Button size="sm" className="bg-[#0055A4] hover:bg-[#1A73E8]">
-                Ir para o Painel <ArrowRight className="h-4 w-4" />
+              <Button
+                size="sm"
+                className="bg-[#0055A4] hover:bg-[#1A73E8] whitespace-nowrap min-h-[38px] text-white"
+              >
+                Ir para o Painel <ArrowRight className="h-4 w-4 shrink-0" />
               </Button>
             </Link>
           ) : (
@@ -72,20 +75,33 @@ export function LandingNav() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={cn(scrolled ? 'text-slate-700' : 'text-white hover:bg-white/10')}
+                  className={cn(
+                    'whitespace-nowrap min-h-[38px]',
+                    scrolled
+                      ? 'text-slate-700 hover:text-[#0055A4] hover:bg-slate-100'
+                      : 'text-white hover:bg-white/10 hover:text-white',
+                  )}
                 >
                   Entrar
                 </Button>
               </Link>
               <Link to="/signup">
-                <Button size="sm" className="bg-[#00A86B] hover:bg-emerald-600">
+                <Button
+                  size="sm"
+                  className="bg-[#00A86B] hover:bg-emerald-600 whitespace-nowrap min-h-[38px] text-white font-medium"
+                >
                   Criar Conta
                 </Button>
               </Link>
             </>
           )}
         </div>
-        <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
+        <button
+          type="button"
+          aria-label={mobileOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+          className="md:hidden p-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
           {mobileOpen ? (
             <X className="h-6 w-6 text-slate-900" />
           ) : (
@@ -106,17 +122,20 @@ export function LandingNav() {
             </a>
           ))}
           <div className="flex gap-2 pt-3 border-t border-slate-200">
-            <Link to="/login" className="flex-1">
-              <Button variant="outline" size="sm" className="w-full">
+            <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
+              <Button variant="outline" size="sm" className="w-full whitespace-nowrap min-h-[40px]">
                 Entrar
               </Button>
             </Link>
-            <Link to="/signup" className="flex-1">
-              <Button size="sm" className="w-full bg-[#00A86B] hover:bg-emerald-600">
+            <Link to="/signup" className="flex-1" onClick={() => setMobileOpen(false)}>
+              <Button
+                size="sm"
+                className="w-full bg-[#00A86B] hover:bg-emerald-600 whitespace-nowrap min-h-[40px]"
+              >
                 Criar Conta
               </Button>
             </Link>
-          </div>
+          </div>{' '}
         </div>
       )}
     </nav>
