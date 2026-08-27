@@ -13,9 +13,12 @@ import {
   Settings,
   Building2,
   ChevronRight,
+  Sparkles,
+  HelpCircle,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,6 +37,7 @@ export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [tourOpen, setTourOpen] = useState(false)
 
   if (!isAuthenticated) {
     return <Outlet />
@@ -75,7 +79,19 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
-      <DemoBanner />
+      <DemoBanner onOpenTour={() => setTourOpen(true)} />
+
+      {/* Onboarding Tour Modal accessible anywhere in layout */}
+      <OnboardingTour
+        open={tourOpen}
+        onClose={() => setTourOpen(false)}
+        onComplete={() => {
+          setTourOpen(false)
+          if (!user?.cnpj || !user?.business_model) {
+            navigate('/onboarding')
+          }
+        }}
+      />
 
       {/* Clean Global Header with Hamburger Menu */}
       <header className="h-16 bg-white border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
@@ -140,6 +156,25 @@ export default function Layout() {
                       </Link>
                     )
                   })}
+
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false)
+                        setTourOpen(true)
+                      }}
+                      className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-[#0055A4] transition-colors cursor-pointer border border-dashed border-slate-200 mt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Sparkles className="h-4 w-4 text-[#0055A4]" />
+                        <span>Tour de Onboarding</span>
+                      </div>
+                      <span className="text-[10px] bg-blue-100 text-[#0055A4] font-bold px-1.5 py-0.5 rounded">
+                        Guia
+                      </span>
+                    </button>
+                  </div>
                 </nav>
               </div>
 
@@ -191,6 +226,16 @@ export default function Layout() {
 
         {/* Right Actions: Notifications & User Avatar Dropdown */}
         <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setTourOpen(true)}
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-[#0055A4] hover:bg-blue-50 h-9 px-3 border border-slate-200 rounded-lg cursor-pointer min-h-[36px]"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-[#0055A4]" />
+            <span>Tour Guiado</span>
+          </Button>
+
           <NotificationBell />
 
           <DropdownMenu>
@@ -235,6 +280,13 @@ export default function Layout() {
               >
                 <CheckCircle2 className="h-3.5 w-3.5 mr-2" />
                 Processos & Pipes
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setTourOpen(true)}
+                className="cursor-pointer text-xs text-[#0055A4] focus:text-[#0055A4]"
+              >
+                <Sparkles className="h-3.5 w-3.5 mr-2" />
+                Tour de Onboarding
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem

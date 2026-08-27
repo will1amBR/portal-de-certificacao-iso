@@ -61,11 +61,19 @@ export function LandingHero() {
           </Link>
         </div>
 
-        {/* Demo Fast Selector */}
+        {/* Demo Fast Selector & Tour link */}
         {!isAuthenticated && (
-          <div className="mt-6 pt-4 flex items-center justify-center gap-2 flex-wrap text-xs text-blue-200">
-            <span>Ou explore direto com dados de teste:</span>
-            <DemoSelector variant="hero" />
+          <div className="mt-6 pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-blue-200">
+            <div className="flex items-center gap-2 flex-wrap justify-center">
+              <span>Ou explore direto com dados de teste:</span>
+              <DemoSelector variant="hero" />
+            </div>
+            <a
+              href="#onboarding-explicativo"
+              className="inline-flex items-center gap-1 text-white hover:text-yellow-300 font-semibold underline underline-offset-4 transition-colors"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-yellow-300" /> Entenda como funciona em 3 passos
+            </a>
           </div>
         )}
 

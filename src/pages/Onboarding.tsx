@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   ShoppingCart,
   Building2,
@@ -8,6 +8,8 @@ import {
   ChevronRight,
   ChevronLeft,
   Loader2,
+  Sparkles,
+  HelpCircle,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import pb from '@/lib/pocketbase/client'
@@ -18,6 +20,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour'
 import { toast } from 'sonner'
 
 function maskCnpj(value: string): string {
@@ -43,21 +46,52 @@ const iconMap: Record<string, React.ReactNode> = {
 export default function Onboarding() {
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [step, setStep] = useState(1)
   const [cnpj, setCnpj] = useState('')
   const [models, setModels] = useState<BusinessModel[]>([])
   const [selectedModel, setSelectedModel] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  // Check if tour was already shown or if user came directly with ?tour=false or forced with ?tour=true
+  const tourParam = searchParams.get('tour')
+  const [showTour, setShowTour] = useState(() => {
+    if (tourParam === 'true') return true
+    if (tourParam === 'false') return false
+    const seen = localStorage.getItem('iso_onboarding_tour_seen')
+    return !seen
+  })
+
   useEffect(() => {
-    if (user?.cnpj && user?.business_model) navigate('/dashboard')
-  }, [user, navigate])
+    if (user?.cnpj && user?.business_model && tourParam !== 'true') {
+      navigate('/dashboard')
+    }
+  }, [user, navigate, tourParam])
 
   useEffect(() => {
     getBusinessModels()
       .then(setModels)
       .catch(() => {})
   }, [])
+
+  const handleTourClose = () => {
+    setShowTour(false)
+    localStorage.setItem('iso_onboarding_tour_seen', 'true')
+    if (tourParam) {
+      searchParams.delete('tour')
+      setSearchParams(searchParams)
+    }
+  }
+
+  const handleTourComplete = () => {
+    setShowTour(false)
+    localStorage.setItem('iso_onboarding_tour_seen', 'true')
+    if (tourParam) {
+      searchParams.delete('tour')
+      setSearchParams(searchParams)
+    }
+    toast.info('Vamos lá! Preencha o CNPJ para gerar seus templates personalizados.')
+  }
 
   const cnpjValid = cnpj.replace(/\D/g, '').length === 14
 
@@ -91,11 +125,25 @@ export default function Onboarding() {
 
   return (
     <div className="max-w-2xl mx-auto py-6">
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-slate-900">Configuração Inicial</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Precisamos de algumas informações para personalizar seu processo de certificação
-        </p>
+      {/* Onboarding tour full-screen modal */}
+      <OnboardingTour open={showTour} onClose={handleTourClose} onComplete={handleTourComplete} />
+
+      <div className="mb-6 flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Configuração Inicial</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Precisamos de algumas informações para personalizar seu processo de certificação
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowTour(true)}
+          className="text-xs text-[#0055A4] border-blue-200 hover:bg-blue-50 whitespace-nowrap min-h-[40px] cursor-pointer"
+        >
+          <Sparkles className="h-3.5 w-3.5 mr-1.5" />
+          Ver Tour Guiado
+        </Button>
       </div>
 
       <div className="flex items-center justify-center gap-2 mb-8">

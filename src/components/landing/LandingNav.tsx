@@ -21,7 +21,8 @@ import { cn } from '@/lib/utils'
 const navLinks = [
   { label: 'Visão Geral', href: '#sobre', icon: Sparkles },
   { label: 'Normas ISO', href: '#certificacoes', icon: ShieldCheck },
-  { label: 'Como Funciona', href: '#como-funciona', icon: CheckCircle2 },
+  { label: 'Como Funciona (Onboarding)', href: '#onboarding-explicativo', icon: CheckCircle2 },
+  { label: 'Etapas de Certificação', href: '#como-funciona', icon: ShieldCheck },
   { label: 'Demonstração Interativa', href: '#demo-interativa', icon: Sparkles },
   { label: 'Dúvidas Frequentes', href: '#faq', icon: HelpCircle },
   { label: 'Contato', href: '#contato', icon: Phone },

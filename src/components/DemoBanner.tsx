@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { X, Sparkles } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 
-export function DemoBanner() {
+export function DemoBanner({ onOpenTour }: { onOpenTour?: () => void }) {
   const { isDemoMode, user, userRole } = useAuth()
   const [dismissed, setDismissed] = useState(false)
 
@@ -26,6 +26,15 @@ export function DemoBanner() {
           Conectado como <strong>{user?.name || roleLabel}</strong> ({roleLabel}). Explore
           livremente as ferramentas.
         </span>
+        {onOpenTour && (
+          <button
+            type="button"
+            onClick={onOpenTour}
+            className="text-yellow-200 hover:text-white underline font-semibold text-xs ml-1 cursor-pointer"
+          >
+            Ver Tour de Onboarding
+          </button>
+        )}
       </div>
       <button
         type="button"

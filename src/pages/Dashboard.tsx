@@ -10,12 +10,23 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { useRealtime } from '@/hooks/use-realtime'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { FileCheck, Clock, TrendingUp, Award, Plus, LayoutGrid, ShieldCheck } from 'lucide-react'
+import {
+  FileCheck,
+  Clock,
+  TrendingUp,
+  Award,
+  Plus,
+  LayoutGrid,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour'
 
 export default function Dashboard() {
   const { user } = useAuth()
   const [certifications, setCertifications] = useState<Certification[]>([])
   const [loading, setLoading] = useState(true)
+  const [tourOpen, setTourOpen] = useState(false)
 
   const loadData = useCallback(async () => {
     try {
@@ -88,6 +99,8 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      <OnboardingTour open={tourOpen} onClose={() => setTourOpen(false)} />
+
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
@@ -98,15 +111,25 @@ export default function Dashboard() {
             operacionais
           </p>
         </div>
-        <Button
-          asChild
-          className="bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[40px]"
-        >
-          <Link to="/certificacoes">
-            <Plus className="h-4 w-4 mr-2 shrink-0" />
-            Nova Certificação / Pipe
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            variant="outline"
+            onClick={() => setTourOpen(true)}
+            className="border-slate-300 text-slate-700 hover:bg-slate-50 whitespace-nowrap min-h-[40px] cursor-pointer"
+          >
+            <Sparkles className="h-4 w-4 mr-1.5 text-[#0055A4]" />
+            Guia do Portal
+          </Button>
+          <Button
+            asChild
+            className="bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[40px]"
+          >
+            <Link to="/certificacoes">
+              <Plus className="h-4 w-4 mr-2 shrink-0" />
+              Nova Certificação / Pipe
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
