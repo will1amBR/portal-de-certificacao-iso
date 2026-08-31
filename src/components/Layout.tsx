@@ -93,8 +93,10 @@ export default function Layout() {
   )
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
-      <DemoBanner onOpenTour={() => setTourOpen(true)} />
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col print:bg-white print:min-h-0">
+      <div className="print:hidden">
+        <DemoBanner onOpenTour={() => setTourOpen(true)} />
+      </div>
 
       {/* Onboarding Tour Modal accessible anywhere in layout */}
       <OnboardingTour
@@ -109,7 +111,7 @@ export default function Layout() {
       />
 
       {/* Clean Global Header with Hamburger Menu */}
-      <header className="h-16 bg-white border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+      <header className="h-16 bg-white border-b border-slate-200/90 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs print:hidden">
         {/* Left: Hamburger Button & App Logo */}
         <div className="flex items-center gap-3">
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -326,12 +328,12 @@ export default function Layout() {
       </header>
 
       {/* Main Content Area - Full width, clean & airy */}
-      <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl mx-auto w-full">
+      <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl mx-auto w-full print:p-0 print:m-0 print:max-w-none">
         <Outlet />
       </main>
 
       {/* Clean subtle footer */}
-      <footer className="py-4 border-t border-slate-200 text-center text-xs text-slate-400 bg-white">
+      <footer className="py-4 border-t border-slate-200 text-center text-xs text-slate-400 bg-white print:hidden">
         © {new Date().getFullYear()} Portal de Certificação ISO
       </footer>
     </div>

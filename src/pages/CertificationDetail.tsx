@@ -98,8 +98,8 @@ export default function CertificationDetail() {
                   Início: cert.start_date
                     ? new Date(cert.start_date).toLocaleDateString('pt-BR')
                     : 'N/A',
-                  'Auditoria Prevista': cert.target_audit_date
-                    ? new Date(cert.target_audit_date).toLocaleDateString('pt-BR')
+                  'Data de Cadastro': cert.created
+                    ? new Date(cert.created).toLocaleDateString('pt-BR')
                     : 'N/A',
                   'Órgão Regulador': 'ALC / INMETRO',
                 },

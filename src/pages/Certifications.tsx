@@ -59,24 +59,31 @@ export default function Certifications() {
 
   const handleExportCsv = () => {
     if (filtered.length === 0) {
-      toast.error('Nenhuma certificação para exportar')
+      toast.error('Nenhuma certificação visível para exportar')
       return
     }
     const today = new Date().toISOString().slice(0, 10)
     const rows = filtered.map((c) => ({
-      'Código ISO': c.expand?.iso_type?.code || 'N/A',
-      'Norma / Certificação': c.expand?.iso_type?.name || 'ISO',
-      'Empresa / Razão Social': c.company_name || c.expand?.user?.name || 'N/A',
-      CNPJ: c.expand?.user?.cnpj || 'N/A',
+      'Código / Referência': c.expand?.iso_type?.code || c.id || 'N/A',
+      'Norma ISO':
+        c.expand?.iso_type?.name ||
+        (c.expand?.iso_type?.code ? `ISO ${c.expand.iso_type.code}` : 'ISO'),
+      'Empresa / Razão Social': c.company_name || c.expand?.user?.name || 'Não informada',
       Status: c.status,
       'Progresso (%)': `${c.progress || 0}%`,
       'Consultor / Auditor': c.expand?.consultant?.name || 'Não atribuído',
-      'Data de Início': c.start_date ? new Date(c.start_date).toLocaleDateString('pt-BR') : 'N/A',
-      'Data de Cadastro': new Date(c.created).toLocaleDateString('pt-BR'),
-      'Órgão / Auditoria': 'ALC / INMETRO',
+      'Órgão Regulador': 'ALC Certificadora / INMETRO',
     }))
 
-    exportToCsv(`relatorio-certificacoes-iso-${today}.csv`, rows)
+    exportToCsv(`relatorio-certificacoes-iso-${today}.csv`, rows, [
+      'Código / Referência',
+      'Norma ISO',
+      'Empresa / Razão Social',
+      'Status',
+      'Progresso (%)',
+      'Consultor / Auditor',
+      'Órgão Regulador',
+    ])
     toast.success('Lista de certificações exportada em CSV com sucesso!')
   }
 
@@ -129,26 +136,34 @@ export default function Certifications() {
       <div className="hidden print:block border-b-2 border-[#003B73] pb-4 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-[#003B73] text-white font-black text-xl">ISO</div>
+            <div className="p-2.5 rounded-lg bg-[#003B73] text-white font-black text-2xl tracking-wider">
+              ISO
+            </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-900">
+              <h1 className="text-xl font-bold text-slate-900 leading-tight">
                 Relatório de Auditoria e Certificações ISO
               </h1>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-600 mt-0.5">
                 Homologação e Conformidade Técnica • Órgãos Reguladores: ALC Certificadora / INMETRO
               </p>
             </div>
           </div>
-          <div className="text-right text-xs text-slate-500">
+          <div className="text-right text-xs text-slate-600 space-y-0.5 bg-slate-50 p-2.5 rounded border border-slate-200">
             <p>
-              <strong>Emissão:</strong> {new Date().toLocaleDateString('pt-BR')}
+              <strong>Data/Hora de Emissão:</strong> {new Date().toLocaleString('pt-BR')}
             </p>
             <p>
-              <strong>Usuário:</strong> {user?.name || 'Consultor / Auditor'}
+              <strong>Responsável pela Emissão:</strong>{' '}
+              {user?.name || user?.email || 'Consultor / Auditor Líder'}
             </p>
-            {user?.role === 'cliente' && (
-              <p className="font-semibold text-slate-800">Visualização Restrita da Empresa</p>
-            )}
+            <p>
+              <strong>Perfil de Acesso:</strong>{' '}
+              {user?.role === 'cliente'
+                ? 'Cliente (Visualização Restrita da Empresa)'
+                : user?.role === 'admin'
+                  ? 'Administrador Geral / ALC Certificadora'
+                  : 'Auditor Técnico / Consultor'}
+            </p>
           </div>
         </div>
       </div>
@@ -221,61 +236,86 @@ export default function Certifications() {
       </Tabs>
 
       {/* Layout Estruturado e Estilizado para Impressão / Auditoria / ALC / INMETRO */}
-      <div className="hidden print:block space-y-4">
-        <div className="text-sm font-semibold text-slate-700 mb-2">
-          Total de Normas Auditadas / Acompanhadas: {filtered.length}
+      <div className="hidden print:block space-y-6">
+        <div className="flex items-center justify-between text-xs text-slate-700 bg-slate-100 p-2.5 rounded border border-slate-200">
+          <span className="font-semibold">
+            Total de Certificações / Auditorias Listadas: {filtered.length}
+          </span>
+          <span>
+            Status do Filtro:{' '}
+            <strong>{statusFilter === 'all' ? 'Todos os status' : statusFilter}</strong>
+          </span>
         </div>
-        <table className="w-full text-left text-xs border border-slate-300 border-collapse">
-          <thead>
-            <tr className="bg-slate-100 text-slate-800 border-b border-slate-300 font-bold">
-              <th className="p-2.5 border-r border-slate-300">Norma ISO</th>
-              <th className="p-2.5 border-r border-slate-300">Empresa / Razão Social</th>
-              <th className="p-2.5 border-r border-slate-300">Status da Auditoria</th>
-              <th className="p-2.5 border-r border-slate-300 text-center">Progresso</th>
-              <th className="p-2.5 border-r border-slate-300">Consultor / Auditor</th>
-              <th className="p-2.5">Início</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {filtered.map((c) => (
-              <tr key={c.id} className="text-slate-800">
-                <td className="p-2.5 font-bold border-r border-slate-200">
-                  {c.expand?.iso_type?.name || `ISO ${c.expand?.iso_type?.code || ''}`}
-                </td>
-                <td className="p-2.5 border-r border-slate-200 font-medium">
-                  {c.company_name || c.expand?.user?.name || 'Sua Empresa'}
-                </td>
-                <td className="p-2.5 border-r border-slate-200 capitalize">{c.status}</td>
-                <td className="p-2.5 border-r border-slate-200 text-center font-bold">
-                  {c.progress || 0}%
-                </td>
-                <td className="p-2.5 border-r border-slate-200">
-                  {c.expand?.consultant?.name || 'Auditoria Geral'}
-                </td>
-                <td className="p-2.5">
-                  {c.start_date ? new Date(c.start_date).toLocaleDateString('pt-BR') : '-'}
-                </td>
+
+        {filtered.length === 0 ? (
+          <div className="p-8 text-center border border-slate-300 rounded text-slate-600 text-sm">
+            Nenhuma certificação encontrada para os parâmetros de auditoria selecionados.
+          </div>
+        ) : (
+          <table className="w-full text-left text-xs border border-slate-300 border-collapse">
+            <thead>
+              <tr className="bg-slate-100 text-slate-900 border-b-2 border-slate-300 font-bold">
+                <th className="p-2.5 border-r border-slate-300">Código / Ref.</th>
+                <th className="p-2.5 border-r border-slate-300">Norma ISO</th>
+                <th className="p-2.5 border-r border-slate-300">Empresa / Razão Social</th>
+                <th className="p-2.5 border-r border-slate-300">Status da Auditoria</th>
+                <th className="p-2.5 border-r border-slate-300 text-center">Progresso</th>
+                <th className="p-2.5 border-r border-slate-300">Consultor / Auditor</th>
+                <th className="p-2.5">Órgão Regulador</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {filtered.map((c) => (
+                <tr key={c.id} className="text-slate-800">
+                  <td className="p-2.5 font-mono text-[11px] font-semibold border-r border-slate-200">
+                    {c.expand?.iso_type?.code || c.id.slice(0, 8)}
+                  </td>
+                  <td className="p-2.5 font-bold border-r border-slate-200">
+                    {c.expand?.iso_type?.name || `ISO ${c.expand?.iso_type?.code || ''}`}
+                  </td>
+                  <td className="p-2.5 border-r border-slate-200 font-medium">
+                    {c.company_name || c.expand?.user?.name || 'Sua Empresa'}
+                    {c.expand?.user?.cnpj && (
+                      <span className="block text-[10px] text-slate-500 font-normal">
+                        CNPJ: {c.expand.user.cnpj}
+                      </span>
+                    )}
+                  </td>
+                  <td className="p-2.5 border-r border-slate-200 capitalize">
+                    <span className="font-semibold">{c.status}</span>
+                  </td>
+                  <td className="p-2.5 border-r border-slate-200 text-center font-bold">
+                    {c.progress || 0}%
+                  </td>
+                  <td className="p-2.5 border-r border-slate-200">
+                    {c.expand?.consultant?.name || 'Não atribuído'}
+                  </td>
+                  <td className="p-2.5 font-medium text-slate-700">ALC / INMETRO</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
-        <div className="pt-6 mt-8 border-t border-slate-300 grid grid-cols-2 gap-8 text-center text-xs">
+        {/* Bloco de Assinaturas Formais para Auditoria */}
+        <div className="pt-8 mt-10 border-t border-slate-300 grid grid-cols-2 gap-12 text-center text-xs">
           <div>
-            <div className="border-t border-slate-400 w-48 mx-auto mb-1"></div>
-            <p className="font-semibold text-slate-800">Responsável pela Empresa</p>
-            <p className="text-slate-500 text-[10px]">Representante da Direção (RD)</p>
+            <div className="border-t border-slate-700 w-64 mx-auto mb-2"></div>
+            <p className="font-bold text-slate-900 text-sm">Responsável pela Empresa</p>
+            <p className="text-slate-600 text-xs">Representante da Direção (RD)</p>
+            <p className="text-slate-400 text-[10px] mt-1">Carimbo e Assinatura</p>
           </div>
           <div>
-            <div className="border-t border-slate-400 w-48 mx-auto mb-1"></div>
-            <p className="font-semibold text-slate-800">Auditor Líder / ALC Certificadora</p>
-            <p className="text-slate-500 text-[10px]">Acreditação INMETRO</p>
+            <div className="border-t border-slate-700 w-64 mx-auto mb-2"></div>
+            <p className="font-bold text-slate-900 text-sm">Auditor Líder / ALC Certificadora</p>
+            <p className="text-slate-600 text-xs">Acreditação Técnica INMETRO</p>
+            <p className="text-slate-400 text-[10px] mt-1">Reg. Auditor / Assinatura Digital</p>
           </div>
         </div>
 
-        <div className="text-[10px] text-slate-400 text-center pt-4">
-          Documento gerado eletronicamente através do Portal de Certificação ISO • Válido para
-          verificação de conformidade
+        <div className="text-[10px] text-slate-500 text-center pt-6 border-t border-slate-100 flex items-center justify-between">
+          <span>Portal de Certificação ISO • Sistema de Gestão e Conformidade</span>
+          <span>Documento homologado eletronicamente para fins de auditoria externa</span>
         </div>
       </div>
     </div>
