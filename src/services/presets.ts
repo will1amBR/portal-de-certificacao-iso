@@ -1,5 +1,4 @@
 import pb from '@/lib/pocketbase/client'
-import { Pipe } from '@/services/pipes'
 import { CompanyDepartment } from '@/services/users'
 
 export interface StandardPresetItem {
@@ -39,6 +38,7 @@ export interface StandardPreset {
 }
 
 export const STANDARD_PRESETS: StandardPreset[] = [
+  // 1. ISO 9001:2015 - Sistema de Gestão da Qualidade (SGQ)
   {
     id: 'preset-iso-9001',
     standardCode: '9001',
@@ -48,30 +48,31 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-blue-600 to-indigo-700',
     icon: 'ShieldCheck',
     summary:
-      'Fluxos completos por cláusula: controle de documentos, RNCs, auditorias internas, análise crítica da direção, calibração, competências e satisfação do cliente.',
+      'Fluxos completos por cláusula: não-conformidades e RNCs, informação documentada, auditorias internas, análise crítica da direção, calibração de instrumentos, treinamentos e satisfação do cliente.',
     pipesCount: 7,
     pipes: [
       {
         code: '10.2',
         title: '10.2 Tratamento de Não-Conformidades e Ações Corretivas',
         description:
-          'Registro de desvios, contenção imediata (5 Porquês), plano de ação corretiva e verificação de eficácia.',
+          'Registro de desvios operacionais, contenção imediata, análise de causa raiz (5 Porquês / Ishikawa), plano de ação 5W2H e verificação de eficácia.',
         icon: 'SquarePen',
         color: 'bg-blue-600 text-white',
         order: 1,
         stages: [
           'Ação Imediata',
           'Análise de Causa (5P / Ishikawa)',
-          'Plano de Ação Corretiva',
+          'Plano de Ação Corretiva (5W2H)',
           'Validação de Eficácia',
-          'Concluído',
+          'Concluído / Padronizado',
         ],
         suggestedDepartmentKeywords: ['qualidade', 'sgq', 'garantia', 'engenharia', 'operações'],
         sampleCards: [
           {
             title: 'RNC-9001-01',
             origin: 'Auditoria de Processo',
-            description: 'Divergência nos apontamentos de inspeção de entrada de insumos e laudos.',
+            description:
+              'Divergência nos apontamentos de inspeção de entrada de insumos e rastreabilidade de laudos.',
             stage: 'Ação Imediata',
             priority: 'alta',
             departmentKeyword: 'qualidade',
@@ -79,7 +80,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           {
             title: 'RNC-9001-02',
             origin: 'Reclamação de Cliente',
-            description: 'Atraso na liberação técnica da remessa #4521 e divergência dimensional.',
+            description:
+              'Atraso na liberação técnica da remessa #4521 e divergência dimensional de componentes.',
             stage: 'Análise de Causa (5P / Ishikawa)',
             priority: 'média',
             departmentKeyword: 'operações',
@@ -90,7 +92,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '7.5',
         title: '7.5 Controle de Informação Documentada',
         description:
-          'Elaboração, revisão técnica, aprovação pela diretoria, distribuição controlada e histórico de revisões.',
+          'Elaboração, revisão técnica, aprovação pela diretoria, distribuição controlada de POPs/ITs e histórico de revisões com controle de obsolescência.',
         icon: 'Receipt',
         color: 'bg-indigo-600 text-white',
         order: 2,
@@ -106,7 +108,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           {
             title: 'POP-QUAL-001 Rev.03',
             origin: 'Comitê da Qualidade',
-            description: 'Procedimento Geral de Controle de Registros, Revisões e Auditorias.',
+            description:
+              'Procedimento Geral de Controle de Registros, Revisões Normativas e Arquivos.',
             stage: 'Publicado / Vigente',
             priority: 'alta',
             departmentKeyword: 'qualidade',
@@ -117,24 +120,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '9.2',
         title: '9.2 Auditorias Internas da Qualidade',
         description:
-          'Planejamento do ciclo anual de auditorias, reuniões de abertura, apontamento de evidências e relatório final.',
+          'Planejamento do ciclo anual de auditorias internas, listas de verificação, reuniões de abertura/fechamento, relatório e follow-up.',
         icon: 'FileCheck2',
         color: 'bg-sky-600 text-white',
         order: 3,
         stages: [
-          'Planejada / Escopo',
-          'Lista de Verificação',
-          'Auditoria em Campo',
-          'Elaboração de Relatório',
-          'Follow-up Concluído',
+          'Planejada / Escopo Definido',
+          'Lista de Verificação (Checklist)',
+          'Auditoria em Campo / Entrevistas',
+          'Elaboração do Relatório Final',
+          'Follow-up & Eficácia Concluída',
         ],
         suggestedDepartmentKeywords: ['qualidade', 'diretoria', 'auditoria'],
         sampleCards: [
           {
-            title: 'AUD-INT-Q3',
+            title: 'AUD-INT-Q3-SGQ',
             origin: 'Auditoria Líder',
-            description: 'Ciclo semestral de auditoria interna nas cláusulas 4 a 10.',
-            stage: 'Planejada / Escopo',
+            description:
+              'Ciclo semestral de auditoria interna nos processos das cláusulas 4 a 10 da ISO 9001.',
+            stage: 'Planejada / Escopo Definido',
             priority: 'alta',
             departmentKeyword: 'qualidade',
           },
@@ -144,25 +148,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '9.3',
         title: '9.3 Análise Crítica pela Direção',
         description:
-          'Compilação de resultados de auditorias, feedbacks, metas de qualidade e decisões de recursos.',
+          'Compilação de resultados de auditorias, feedbacks de clientes, indicadores de processos, metas da qualidade e decisões estratégicas de recursos.',
         icon: 'BarChart3',
         color: 'bg-purple-600 text-white',
         order: 4,
         stages: [
-          'Coleta de Entradas',
-          'Ata em Redação',
-          'Reunião com Diretoria',
-          'Plano de Metas / Recursos',
-          'Aprovado',
+          'Coleta de Entradas & Indicadores',
+          'Ata em Redação Técnica',
+          'Reunião Executiva da Direção',
+          'Plano de Metas & Recursos',
+          'Ata Homologada / Publicada',
         ],
         suggestedDepartmentKeywords: ['diretoria', 'operações', 'executiva', 'gestão'],
         sampleCards: [
           {
-            title: 'ATA-DIR-2026',
+            title: 'ATA-DIR-ANUAL-2026',
             origin: 'Diretoria Executiva',
             description:
-              'Análise anual do desempenho do SGQ e alocação orçamentária para certificação.',
-            stage: 'Coleta de Entradas',
+              'Análise anual do desempenho do SGQ, alocação de investimentos e preparação para auditoria externa.',
+            stage: 'Coleta de Entradas & Indicadores',
             priority: 'crítica',
             departmentKeyword: 'diretoria',
           },
@@ -170,18 +174,18 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '7.1.5',
-        title: '7.1.5 Monitoramento e Medição de Recursos (Calibração)',
+        title: '7.1.5 Recursos de Monitoramento e Medição (Calibração RBC)',
         description:
-          'Controle periódico de instrumentos, certificados RBC, rastreabilidade e calibrações vigentes.',
+          'Inventário de instrumentos de medição, rastreabilidade RBC, controle de periodicidade e validação de certificados.',
         icon: 'Hammer',
         color: 'bg-emerald-600 text-white',
         order: 5,
         stages: [
           'A Vencer (30 dias)',
           'Em Calibração Laboratorial',
-          'Laudo em Avaliação',
-          'Calibrado / Liberado',
-          'Fora de Uso',
+          'Certificado / Laudo em Avaliação',
+          'Calibrado & Liberado para Uso',
+          'Fora de Uso / Descartado',
         ],
         suggestedDepartmentKeywords: [
           'suprimentos',
@@ -192,10 +196,11 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         ],
         sampleCards: [
           {
-            title: 'CAL-INSTR-09',
-            origin: 'Laboratório RBC',
-            description: 'Calibração periódica do micrômetro e trena laser de precisão.',
-            stage: 'Calibrado / Liberado',
+            title: 'CAL-INSTR-09 (Micrômetro)',
+            origin: 'Laboratório RBC Credenciado',
+            description:
+              'Calibração periódica do micrômetro digital e trena laser de precisão com certificado rastreável.',
+            stage: 'Calibrado & Liberado para Uso',
             priority: 'média',
             departmentKeyword: 'suprimentos',
           },
@@ -205,25 +210,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '7.2',
         title: '7.2 Competência, Treinamento e Conscientização',
         description:
-          'Levantamento de necessidades de treinamento (LNT), execução de capacitações e avaliação de eficácia.',
+          'Levantamento de necessidades de treinamento (LNT), matriz de polivalência, execução de capacitações e avaliação de eficácia pós-90 dias.',
         icon: 'UserCheck',
         color: 'bg-amber-600 text-white',
         order: 6,
         stages: [
-          'Demanda / LNT',
-          'Agendado / Turma',
-          'Lista Coletada',
-          'Avaliação de Eficácia (90d)',
-          'Certificado Homologado',
+          'Demanda Levantada (LNT)',
+          'Turma Convocada & Agendada',
+          'Lista de Presença Coletada',
+          'Avaliação de Eficácia (90 dias)',
+          'Certificado Homologado no Prontuário',
         ],
         suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'dho', 'gestão de pessoas'],
         sampleCards: [
           {
-            title: 'TREIN-SGQ-2026',
+            title: 'TREIN-SGQ-2026-INTEG',
             origin: 'RH / DHO',
             description:
-              'Treinamento de conscientização da Política da Qualidade e procedimentos operacionais.',
-            stage: 'Certificado Homologado',
+              'Treinamento de conscientização da Política da Qualidade, foco no cliente e procedimentos operacionais.',
+            stage: 'Certificado Homologado no Prontuário',
             priority: 'média',
             departmentKeyword: 'recursos humanos',
           },
@@ -231,26 +236,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '9.1.2',
-        title: '9.1.2 Satisfação do Cliente e Gestão de Feedbacks',
+        title: '9.1.2 Satisfação do Cliente e Gestão de Feedbacks (NPS/CSAT)',
         description:
-          'Aplicação de pesquisas NPS/CSAT, apuração de notas, tratamento de detratores e planos de fidelização.',
+          'Disparo de pesquisas de satisfação (NPS/CSAT), apuração de indicadores, tratamento de detratores e melhorias de atendimento.',
         icon: 'BarChart2',
         color: 'bg-teal-600 text-white',
         order: 7,
         stages: [
           'Pesquisa Disparada',
           'Respostas Recebidas',
-          'Análise de NPS / Métricas',
-          'Tratamento de Detratores',
-          'Concluído',
+          'Análise de NPS & Métricas',
+          'Tratamento de Detratores / Ações',
+          'Ciclo Concluído',
         ],
         suggestedDepartmentKeywords: ['comercial', 'atendimento', 'operações', 'diretoria'],
         sampleCards: [
           {
-            title: 'NPS-2026-Q2',
-            origin: 'Atendimento ao Cliente',
-            description: 'Pesquisa trimestral de satisfação dos principais clientes corporativos.',
-            stage: 'Análise de NPS / Métricas',
+            title: 'NPS-CLIENTES-2026-Q2',
+            origin: 'Comercial & Atendimento',
+            description:
+              'Pesquisa trimestral de satisfação aplicada aos principais clientes de obras e serviços corporativos.',
+            stage: 'Análise de NPS & Métricas',
             priority: 'alta',
             departmentKeyword: 'comercial',
           },
@@ -258,6 +264,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
     ],
   },
+
+  // 2. ISO 14001:2015 - Sistema de Gestão Ambiental (SGA)
   {
     id: 'preset-iso-14001',
     standardCode: '14001',
@@ -267,14 +275,14 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-emerald-600 to-teal-800',
     icon: 'Leaf',
     summary:
-      'Pipes ambientais estruturados: Levantamento de Aspectos e Impactos (LAIA), Requisitos Legais e Licenças, Gestão de Resíduos (MTR/PGRS), Resposta a Emergências Ambientais e Monitoramento de Emissões.',
+      'Pipes ambientais estruturados: Levantamento de Aspectos e Impactos (LAIA), Requisitos Legais e Licenças (LP/LI/LO), Gestão de Resíduos (MTR/PGRS), Resposta a Emergências Ambientais e Monitoramento de Emissões/Efluentes.',
     pipesCount: 5,
     pipes: [
       {
         code: '6.1.2',
-        title: '6.1.2 Aspectos e Impactos Ambientais (LAIA)',
+        title: '6.1.2 Levantamento de Aspectos e Impactos Ambientais (LAIA)',
         description:
-          'Identificação de aspectos, matriz de significância, medidas de controle e planos de redução.',
+          'Mapeamento de aspectos ambientais, matriz de significância, classificação de severidade/probabilidade e planos de mitigação.',
         icon: 'Compass',
         color: 'bg-emerald-600 text-white',
         order: 1,
@@ -283,15 +291,15 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Matriz de Significância',
           'Medida de Controle Proposta',
           'Monitoramento Operacional',
-          'Aspecto Mitigado',
+          'Aspecto Mitigado / Controlado',
         ],
         suggestedDepartmentKeywords: ['meio ambiente', 'sesmt', 'segurança', 'obras', 'operações'],
         sampleCards: [
           {
-            title: 'LAIA-AMB-01',
+            title: 'LAIA-AMB-01 (Efluentes Oleosos)',
             origin: 'Engenharia Ambiental',
             description:
-              'Avaliação de geração de efluentes oleosos na área de manutenção e canteiro.',
+              'Avaliação da geração de efluentes oleosos na área de manutenção de máquinas e caixas separadoras de água e óleo.',
             stage: 'Medida de Controle Proposta',
             priority: 'alta',
             departmentKeyword: 'segurança',
@@ -302,7 +310,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '6.1.3',
         title: '6.1.3 Requisitos Legais, Licenças e Condicionantes Ambientais',
         description:
-          'Gestão de licenças de operação (LP, LI, LO), outorgas de água, alvarás e cumprimento de condicionantes.',
+          'Controle de prazos de Licenças Ambientais (LP, LI, LO), outorgas de captação de água, IBAMA/CTF e cumprimento rigoroso de condicionantes.',
         icon: 'Receipt',
         color: 'bg-teal-600 text-white',
         order: 2,
@@ -310,16 +318,17 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'A Vencer (90 dias)',
           'Protocolo em Órgão Ambiental',
           'Atendimento de Condicionante',
-          'Licença Vigente',
+          'Licença Vigente & Homologada',
           'Renovação Concluída',
         ],
         suggestedDepartmentKeywords: ['diretoria', 'jurídico', 'meio ambiente', 'obras'],
         sampleCards: [
           {
-            title: 'LIC-LO-2026',
-            origin: 'Jurídico / Ambiental',
-            description: 'Renovação da Licença de Operação junto ao órgão ambiental estadual.',
-            stage: 'Licença Vigente',
+            title: 'LIC-LO-ESTADUAL-2026',
+            origin: 'Jurídico & Meio Ambiente',
+            description:
+              'Renovação da Licença de Operação (LO) junto à agência ambiental estadual e envio de relatório de condicionantes.',
+            stage: 'Licença Vigente & Homologada',
             priority: 'crítica',
             departmentKeyword: 'diretoria',
           },
@@ -327,27 +336,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '8.1-RES',
-        title: '8.1 Controle de Resíduos Sólidos (MTR & PGRS)',
+        title: '8.1 Gestão de Resíduos Sólidos (MTR, PGRS & CDF)',
         description:
-          'Rastreabilidade de caçambas, manifesto de transporte de resíduos (MTR), destinação e CDF final.',
+          'Classificação de resíduos (Classe I Perigosos / Classe II), emissão do Manifesto de Transporte de Resíduos (MTR) e obtenção do Certificado de Destinação Final (CDF).',
         icon: 'Layers',
         color: 'bg-emerald-700 text-white',
         order: 3,
         stages: [
-          'Geração / Acondicionamento',
-          'MTR Emitido',
-          'Transporte Homologado',
-          'Destinação / Reciclagem',
-          'CDF Anexado',
+          'Geração / Acondicionamento Seguro',
+          'MTR Emitido no SINIR/Estadual',
+          'Transportador Homologado',
+          'Destinação / Co-processamento',
+          'CDF Anexado & Arquivado',
         ],
         suggestedDepartmentKeywords: ['almoxarifado', 'suprimentos', 'obras', 'operações'],
         sampleCards: [
           {
-            title: 'MTR-LOTE-441',
-            origin: 'Almoxarifado / Pátio',
+            title: 'MTR-LOTE-441 (Embalagens Contaminadas)',
+            origin: 'Almoxarifado / Pátio Operacional',
             description:
-              'Destinação de sucata metálica e embalagens plásticas contaminadas com CDF.',
-            stage: 'Destinação / Reciclagem',
+              'Destinação de filtros usados, estopas oleosas e recipientes químicos para incineração licenciada com CDF.',
+            stage: 'Destinação / Co-processamento',
             priority: 'média',
             departmentKeyword: 'suprimentos',
           },
@@ -357,24 +366,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '8.2-AMB',
         title: '8.2 Preparação e Resposta a Emergências Ambientais',
         description:
-          'Simulados de vazamento de produtos químicos, combate a incêndio florestal, kits de mitigação e relatórios.',
+          'Simulados periódicos de derramamento de químicos, kits de mitigação ambiental, combate a princípio de incêndio e relatórios de tempo de resposta.',
         icon: 'AlertCircle',
         color: 'bg-amber-600 text-white',
         order: 4,
         stages: [
           'Simulado Planejado',
-          'Execução do Simulado',
-          'Relatório de Desempenho',
-          'Adequações / Kits',
-          'Homologado',
+          'Execução do Simulado em Campo',
+          'Relatório de Desempenho & Tempos',
+          'Adequação de Kits / Barreiras',
+          'Homologado & Aprovado',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'brigada', 'obras'],
         sampleCards: [
           {
-            title: 'SIMULADO-VAZAM-26',
-            origin: 'Brigada de Emergência',
-            description: 'Simulação de contenção de óleo com barreiras e mantas absorventes.',
-            stage: 'Homologado',
+            title: 'SIMULADO-VAZAM-2026-01',
+            origin: 'Brigada de Emergência Ambiental',
+            description:
+              'Simulação prática de contenção de vazamento de óleo diesel com barreiras absorventes e recolhimento.',
+            stage: 'Homologado & Aprovado',
             priority: 'alta',
             departmentKeyword: 'segurança',
           },
@@ -382,26 +392,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '9.1.1-AMB',
-        title: '9.1.1 Monitoramento de Emissões, Efluentes e Ruído',
+        title: '9.1.1 Monitoramento de Emissões, Efluentes e Ruído Perimetral',
         description:
-          'Laudos de amostragem de água, emissões atmosféricas, ensaios de ruído perimetral e indicadores.',
+          'Laudos de amostragem de água de descarte, emissões de fontes fixas/móveis (opacidade), ensaios de ruído perimetral e indicadores de pegada ecológica.',
         icon: 'BarChart3',
         color: 'bg-teal-700 text-white',
         order: 5,
         stages: [
-          'Coleta Agendada',
-          'Laudo Laboratorial',
-          'Análise de Conformidade',
-          'Ação Preventiva',
-          'Em Conformidade',
+          'Amostragem Agendada',
+          'Laudo Laboratorial Emitido',
+          'Análise de Conformidade Legal',
+          'Plano de Ação Preventiva',
+          'Em Conformidade Paramétrica',
         ],
         suggestedDepartmentKeywords: ['obras', 'engenharia', 'qualidade', 'sesmt'],
         sampleCards: [
           {
-            title: 'LAUDO-RUIDO-Q3',
-            origin: 'Consultoria Acústica',
-            description: 'Medição perimetral de ruído diurno e noturno conforme NBR 10151.',
-            stage: 'Em Conformidade',
+            title: 'LAUDO-RUIDO-2026-SEMESTRAL',
+            origin: 'Laboratório Acreditado Inmetro',
+            description:
+              'Medição de pressão sonora perimetral diurna e noturna conforme NBR 10151 na divisa dos vizinhos.',
+            stage: 'Em Conformidade Paramétrica',
             priority: 'média',
             departmentKeyword: 'obras',
           },
@@ -409,6 +420,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
     ],
   },
+
+  // 3. ISO 27001:2022 - Segurança da Informação e Privacidade (SGSI)
   {
     id: 'preset-iso-27001',
     standardCode: '27001',
@@ -418,31 +431,32 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-slate-800 to-indigo-950',
     icon: 'Lock',
     summary:
-      'Pipes essenciais de segurança cibernética: Gestão de Incidentes de Segurança, Avaliação de Riscos de TI, Gestão de Acessos e Privilégios, Gestão de Vulnerabilidades e LGPD/Privacidade de Dados.',
+      'Pipes essenciais de segurança cibernética e controles do Anexo A: Gestão de Incidentes de Segurança, Avaliação de Riscos de TI & SoA, Gestão de Acessos e Privilégios (MFA), Gestão de Vulnerabilidades Técnicas e LGPD/DSAR.',
     pipesCount: 5,
     pipes: [
       {
         code: 'A.5.24',
         title: 'A.5.24 Gestão de Incidentes de Segurança da Informação',
         description:
-          'Notificação de incidentes, contenção imediata, análise forense, comunicação a titulares e lições aprendidas.',
+          'Notificação de alertas e ameaças, contenção imediata, análise forense, comunicação ao DPO/ANPD se necessário e registro de lições aprendidas.',
         icon: 'ShieldAlert',
         color: 'bg-indigo-900 text-white',
         order: 1,
         stages: [
-          'Incidente Reportado',
-          'Triagem & Contenção',
-          'Análise de Impacto / Forense',
+          'Incidente Reportado / Alerta',
+          'Triagem & Contenção Imediata',
+          'Análise de Impacto & Forense',
           'Comunicação DPO / Diretoria',
-          'Incidente Mitigado',
+          'Incidente Mitigado & Lições Aprendidas',
         ],
         suggestedDepartmentKeywords: ['ti', 'tecnologia', 'cibersegurança', 'diretoria'],
         sampleCards: [
           {
-            title: 'INC-SEC-2026-04',
-            origin: 'SOC / Monitoramento',
-            description: 'Tentativa de ataque de força bruta bloqueada no firewall corporativo.',
-            stage: 'Incidente Mitigado',
+            title: 'INC-SEC-2026-04 (Brute Force Bloqueado)',
+            origin: 'SOC / Firewall Corporativo',
+            description:
+              'Tentativa automatizada de ataque de força bruta contra portas VPN bloqueada com sucesso pelo fail2ban.',
+            stage: 'Incidente Mitigado & Lições Aprendidas',
             priority: 'alta',
             departmentKeyword: 'ti',
           },
@@ -450,26 +464,26 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '6.1.2-TI',
-        title: '6.1.2 Avaliação e Tratamento de Riscos de TI & Ativos',
+        title: '6.1.2 Avaliação e Tratamento de Riscos de TI & Declaração de Aplicabilidade (SoA)',
         description:
-          'Inventário de ativos de informação, matriz de ameaças/vulnerabilidades e Declaração de Aplicabilidade (SoA).',
+          'Inventário de ativos de informação (hardware, cloud, bases de dados), matriz de ameaças/vulnerabilidades (CIA) e seleção dos controles do Anexo A.',
         icon: 'Compass',
         color: 'bg-slate-700 text-white',
         order: 2,
         stages: [
-          'Ativo Identificado',
-          'Matriz de Risco (CIA)',
-          'Controles Anexo A Definidos',
+          'Ativo Crítico Identificado',
+          'Matriz de Riscos (C-I-A)',
+          'Seleção de Controles Anexo A',
           'Implementação SoA',
-          'Risco Residual Aceito',
+          'Risco Residual Aceito & Monitorado',
         ],
         suggestedDepartmentKeywords: ['ti', 'tecnologia', 'diretoria', 'qualidade'],
         sampleCards: [
           {
-            title: 'RSK-TI-CLOUD-01',
-            origin: 'Segurança da Informação',
+            title: 'RSK-TI-CLOUD-01 (Criptografia de Dados)',
+            origin: 'Comitê de Segurança da Informação',
             description:
-              'Migração de banco de dados com exigência de criptografia em trânsito e repouso.',
+              'Auditoria nos repositórios cloud para validação de criptografia ponta a ponta (AES-256) em repouso e trânsito.',
             stage: 'Implementação SoA',
             priority: 'crítica',
             departmentKeyword: 'ti',
@@ -478,26 +492,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'A.5.15',
-        title: 'A.5.15 Gestão de Acessos, Credenciais e Privilégios',
+        title: 'A.5.15 Gestão de Acessos, Credenciais e Privilégios (RBAC)',
         description:
-          'Solicitação de acesso a sistemas, concessão por menor privilégio, revisão trimestral de acessos e revogação no offboarding.',
+          'Solicitações de acessos com aprovação formal, princípio do menor privilégio, obrigatoriedade de MFA, revisão trimestral e revogação imediata no offboarding.',
         icon: 'UserCheck',
         color: 'bg-indigo-700 text-white',
         order: 3,
         stages: [
           'Solicitação de Acesso',
-          'Aprovação do Gestor',
-          'Concessão TI / MFA Ativo',
-          'Revisão Periódica',
-          'Revogado / Offboarding',
+          'Aprovação do Gestor da Área',
+          'Concessão TI / MFA Configurado',
+          'Revisão Trimestral de Contas',
+          'Acesso Revogado / Offboarding',
         ],
         suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'ti', 'dho'],
         sampleCards: [
           {
-            title: 'REQ-ACC-2026-88',
+            title: 'REQ-ACC-2026-88 (Novo Analista Financeiro)',
             origin: 'Recursos Humanos',
-            description: 'Liberação de permissões VPN e ERP com autenticação em duas etapas.',
-            stage: 'Concessão TI / MFA Ativo',
+            description:
+              'Liberação de credenciais de acesso ao ERP, e-mail institucional e VPN corporativa com dupla autenticação.',
+            stage: 'Concessão TI / MFA Configurado',
             priority: 'média',
             departmentKeyword: 'rh',
           },
@@ -507,24 +522,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: 'A.8.8',
         title: 'A.8.8 Gestão de Vulnerabilidades Técnicas & Pentest',
         description:
-          'Varreduras periódicas de vulnerabilidade, testes de intrusão, priorização CVSS e aplicação de patches de segurança.',
+          'Varreduras periódicas de vulnerabilidade, testes de intrusão externos/internos, classificação por severidade CVSS e deploy de patches de segurança.',
         icon: 'Target',
         color: 'bg-purple-800 text-white',
         order: 4,
         stages: [
-          'Scan / Vulnerabilidade Detectada',
-          'Análise CVSS / Severidade',
-          'Patch em Homologação',
-          'Deploy de Atualização',
-          'Re-Scan Homologado',
+          'Scan Realizado / Vulnerabilidade Aberta',
+          'Classificação CVSS & Prioridade',
+          'Patch em Ambiente de Homologação',
+          'Deploy de Atualização / Fix',
+          'Re-Scan Homologado & Fechado',
         ],
         suggestedDepartmentKeywords: ['ti', 'tecnologia', 'infraestrutura'],
         sampleCards: [
           {
-            title: 'VULN-PATCH-AGOSTO',
-            origin: 'Relatório Qualys/Nessus',
-            description: 'Atualização de segurança crítica nos servidores Linux de produção.',
-            stage: 'Deploy de Atualização',
+            title: 'VULN-PATCH-AGOSTO-2026',
+            origin: 'Relatório Qualys / Nessus',
+            description:
+              'Aplicação de patches de segurança de kernel e bibliotecas SSL nos servidores Linux de produção.',
+            stage: 'Deploy de Atualização / Fix',
             priority: 'alta',
             departmentKeyword: 'ti',
           },
@@ -532,26 +548,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'A.5.34',
-        title: 'A.5.34 Privacidade e Proteção de Dados Pessoais (LGPD)',
+        title: 'A.5.34 Privacidade e Proteção de Dados Pessoais (LGPD / DSAR)',
         description:
-          'Mapeamento de dados (ROPA), atendimento a direitos de titulares (DSAR), RIPD e gestão de operadores.',
+          'Mapeamento de dados pessoais (ROPA), atendimento a solicitações de titulares (DSAR), elaboração de RIPD/DPIA e auditoria de operadores parceiros.',
         icon: 'Receipt',
         color: 'bg-blue-900 text-white',
         order: 5,
         stages: [
-          'Demanda / DSAR',
-          'Localização de Dados',
-          'Parecer do DPO',
-          'Resposta ao Titular',
-          'Registro Arquivado',
+          'Solicitação de Titular (DSAR)',
+          'Localização de Registros nos Sistemas',
+          'Parecer Jurídico / DPO',
+          'Resposta Oficial ao Titular',
+          'Registro de Atendimento Arquivado',
         ],
         suggestedDepartmentKeywords: ['jurídico', 'compliance', 'dpo', 'diretoria'],
         sampleCards: [
           {
-            title: 'DSAR-LGPD-012',
-            origin: 'Portal de Privacidade',
-            description: 'Solicitação de confirmação de tratamento de dados por ex-colaborador.',
-            stage: 'Resposta ao Titular',
+            title: 'DSAR-LGPD-2026-012',
+            origin: 'Portal de Privacidade da Empresa',
+            description:
+              'Solicitação de confirmação de tratamento e portabilidade de dados por colaborador desligado.',
+            stage: 'Resposta Oficial ao Titular',
             priority: 'média',
             departmentKeyword: 'diretoria',
           },
@@ -559,6 +576,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
     ],
   },
+
+  // 4. ISO 45001:2018 - Saúde e Segurança Ocupacional (SSO)
   {
     id: 'preset-iso-45001',
     standardCode: '45001',
@@ -568,31 +587,32 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-amber-600 to-rose-700',
     icon: 'HeartPulse',
     summary:
-      'Pipes focados na prevenção de acidentes e bem-estar: Investigação de Acidentes/Quase-Acidentes, Identificação de Perigos e Riscos (APR), Inspeções de Segurança e EPIs, Consulta e CIPA e Gestão de Saúde Ocupacional (PCMSO).',
+      'Pipes focados na integridade física e prevenção de acidentes: Investigação de Acidentes/Quase-Acidentes, Análise Preliminar de Risco (APR/PT), Gestão de EPIs/EPCs, Consulta e CIPA e Gestão de Saúde Ocupacional (PCMSO/ASO).',
     pipesCount: 5,
     pipes: [
       {
         code: '10.2-SST',
-        title: '10.2 Investigação de Incidentes, Quase-Acidentes e Doenças',
+        title: '10.2 Investigação de Incidentes, Quase-Acidentes e Doenças Ocupacionais',
         description:
-          'Comunicação de CAT, investigação imediata de causas, árvore de causas e plano de prevenção de reincidência.',
+          'Comunicação inicial, emissão de CAT se aplicável, investigação técnica de causas imediatas/básicas (Árvore de Causas) e medidas preventivas de bloqueio.',
         icon: 'AlertCircle',
         color: 'bg-rose-600 text-white',
         order: 1,
         stages: [
           'Relato / Quase-Acidente',
-          'Atendimento & CAT',
-          'Investigação de Causa Raiz',
-          'Plano de Prevenção',
-          'Eficácia Comprovada',
+          'Primeiros Socorros & CAT (se houver)',
+          'Investigação de Causa Raiz (Árvore de Causas)',
+          'Plano de Prevenção / Bloqueio',
+          'Eficácia Comprovada & Lição Divulgada',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'saúde', 'obras'],
         sampleCards: [
           {
-            title: 'INC-SST-032',
+            title: 'INC-SST-2026-032 (Quase-Acidente Carga)',
             origin: 'SESMT / CIPA',
-            description: 'Quase-acidente com rompimento de cinta de içamento de carga no pátio.',
-            stage: 'Plano de Prevenção',
+            description:
+              'Quase-acidente com rompimento de cinta auxiliar durante descarregamento de perfis de aço no pátio.',
+            stage: 'Plano de Prevenção / Bloqueio',
             priority: 'crítica',
             departmentKeyword: 'segurança',
           },
@@ -600,26 +620,28 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '6.1.2-SST',
-        title: '6.1.2 Identificação de Perigos e Avaliação de Riscos (APR)',
+        title:
+          '6.1.2 Identificação de Perigos, Avaliação de Riscos (APR) e Permissão de Trabalho (PT)',
         description:
-          'Elaboração de Análise Preliminar de Risco (APR), Permissões de Trabalho (PT) para atividades críticas e hierarquia de controle.',
+          'Emissão de APR para atividades operacionais, liberação formal de Permissão de Trabalho (PT) para trabalho em altura, espaço confinado e eletricidade.',
         icon: 'Compass',
         color: 'bg-amber-600 text-white',
         order: 2,
         stages: [
           'Solicitação de APR / PT',
-          'Inspeção Pré-Tarefa',
-          'Aprovação Engenheiro SST',
-          'Trabalho em Execução',
-          'PT Encerrada',
+          'Inspeção Pré-Tarefa no Local',
+          'Aprovação Engenharia / Técnico SST',
+          'Trabalho em Execução Monitorada',
+          'PT Encerrada & Área Desmobilizada',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'obras', 'engenharia'],
         sampleCards: [
           {
-            title: 'APR-ALTURA-084',
-            origin: 'Frente de Montagem',
-            description: 'Trabalho em altura com andaime fachadeiro e linha de vida.',
-            stage: 'Trabalho em Execução',
+            title: 'APR-ALTURA-2026-084',
+            origin: 'Frente de Montagem Fachada',
+            description:
+              'Trabalho em altura com andaime multidirecional e ancoragem em cabo de aço certificado (NR-35).',
+            stage: 'Trabalho em Execução Monitorada',
             priority: 'alta',
             departmentKeyword: 'segurança',
           },
@@ -629,24 +651,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: '8.1.2-EPI',
         title: '8.1.2 Gestão de EPIs, EPCs e Inspeções de Segurança',
         description:
-          'Ficha de entrega de EPI com CA válido, inspeção de extintores, guarda-corpos e checagem de condições inseguras.',
+          'Fichas individuais de entrega de EPI com Certificado de Aprovação (CA) vigente, inspeção periódica de extintores, guarda-corpos e proteção coletiva.',
         icon: 'Hammer',
         color: 'bg-orange-600 text-white',
         order: 3,
         stages: [
           'Inspeção Realizada',
-          'Desvio Apontado',
-          'Correção Imediata',
-          'Substituição de EPI',
-          'Conforme',
+          'Desvio Apontado / CA Vencido',
+          'Correção Imediata / Troca',
+          'Substituição Registrada em Ficha',
+          'Conforme & Atestado',
         ],
         suggestedDepartmentKeywords: ['suprimentos', 'almoxarifado', 'segurança', 'sesmt'],
         sampleCards: [
           {
-            title: 'INSP-EPI-019',
-            origin: 'Técnico de Segurança',
-            description: 'Substituição de capacetes com jugular e talabartes com absorvedor.',
-            stage: 'Conforme',
+            title: 'INSP-EPI-2026-019',
+            origin: 'Técnico de Segurança do Trabalho',
+            description:
+              'Substituição preventiva de capacetes de segurança com jugular e talabartes de absorção de impacto.',
+            stage: 'Conforme & Atestado',
             priority: 'média',
             departmentKeyword: 'suprimentos',
           },
@@ -654,27 +677,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '5.4-CIPA',
-        title: '5.4 Consulta, Participação dos Trabalhadores & CIPA',
+        title: '5.4 Consulta, Participação dos Trabalhadores & Gestão da CIPA',
         description:
-          'Reuniões mensais da CIPA, SIPAT, DDS diários, sugestões de ergonomia e canais de recusa ao trabalho inseguro.',
+          'Cronograma e atas de reuniões ordinárias da CIPA, organização da SIPAT, execução dos Diálogos Diários de Segurança (DDS) e direito de recusa.',
         icon: 'Handshake',
         color: 'bg-yellow-600 text-white',
         order: 4,
         stages: [
-          'Pauta Levantada',
-          'Reunião Ordinária CIPA',
-          'Plano de Melhoria',
-          'Execução do DDS / SIPAT',
-          'Ata Aprovada',
+          'Pauta Levantada pelos Trabalhadores',
+          'Reunião Ordinária CIPA Realizada',
+          'Plano de Melhoria Aprovado',
+          'Execução de Ações & DDS',
+          'Ata Homologada & Divulgada',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'rh', 'recursos humanos', 'cipa'],
         sampleCards: [
           {
-            title: 'CIPA-ATA-08',
-            origin: 'Comitê CIPA',
+            title: 'CIPA-ATA-2026-08',
+            origin: 'Comissão Interna de Prevenção de Acidentes',
             description:
-              'Adequação ergonômica dos postos de trabalho e iluminação do almoxarifado.',
-            stage: 'Plano de Melhoria',
+              'Adequação ergonômica das bancadas da oficina e reforço na iluminação das escadas de acesso.',
+            stage: 'Plano de Melhoria Aprovado',
             priority: 'média',
             departmentKeyword: 'segurança',
           },
@@ -682,25 +705,26 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: '8.1-PCMSO',
-        title: '8.1 Gestão de Saúde Ocupacional & Exames (ASO/PCMSO)',
+        title: '8.1 Gestão de Saúde Ocupacional & Exames Clínicos (ASO / PCMSO)',
         description:
-          'Controle de ASOs admissionais, periódicos e demissionais, exames complementares e ergonomia.',
+          'Planejamento de exames ocupacionais (admissionais, periódicos, retorno ao trabalho e demissionais), exames complementares e envio ao eSocial.',
         icon: 'UserCheck',
         color: 'bg-emerald-600 text-white',
         order: 5,
         stages: [
-          'Exame a Vencer (30d)',
-          'Guia Emitida',
-          'Atendimento Clínico',
+          'Exame a Vencer (30 dias)',
+          'Guia de Encaminhamento Emitida',
+          'Atendimento Clínico / Laboratorial',
           'ASO Homologado (Apto)',
-          'Registrado no eSocial',
+          'Evento eSocial (S-2220) Transmitido',
         ],
         suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'sesmt', 'saúde'],
         sampleCards: [
           {
-            title: 'ASO-PER-2026',
-            origin: 'Medicina do Trabalho',
-            description: 'Lote de 18 exames periódicos para equipe operacional.',
+            title: 'ASO-PER-2026-LOTE2',
+            origin: 'Medicina do Trabalho Credenciada',
+            description:
+              'Lote de 22 exames periódicos para equipe de campo com audiometria e acuidade visual.',
             stage: 'ASO Homologado (Apto)',
             priority: 'alta',
             departmentKeyword: 'rh',
@@ -709,6 +733,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
     ],
   },
+
+  // 5. NR-1 - Gerenciamento de Riscos Ocupacionais (GRO / PGR)
   {
     id: 'preset-nr-1',
     standardCode: 'NR1',
@@ -718,32 +744,32 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-red-600 to-amber-700',
     icon: 'ShieldAlert',
     summary:
-      'Fluxos obrigatórios do Ministério do Trabalho: Inventário de Riscos Ocupacionais (Físicos, Químicos, Biológicos, Ergonômicos e Acidentes), Plano de Ação do PGR, Treinamentos Obrigatórios e Acompanhamento de Medidas Preventivas.',
+      'Fluxos obrigatórios do Ministério do Trabalho e Emprego: Inventário de Riscos Ocupacionais (Físicos, Químicos, Biológicos, Ergonômicos e Acidentes), Plano de Ação do PGR, Matriz de Treinamentos Obrigatórios e Análise Contínua de Desempenho.',
     pipesCount: 4,
     pipes: [
       {
         code: 'NR1-GRO',
         title: 'NR-1 Inventário de Riscos Ocupacionais (GRO)',
         description:
-          'Mapeamento por GHE (Grupo Homogêneo de Exposição), classificação de severidade e probabilidade.',
+          'Identificação dos perigos e avaliação de riscos ocupacionais por GHE (Grupo Homogêneo de Exposição), classificação de probabilidade x severidade e gradação de risco.',
         icon: 'Compass',
         color: 'bg-red-600 text-white',
         order: 1,
         stages: [
-          'GHE Levantado',
-          'Avaliação Quali/Quantitativa',
-          'Matriz de Risco NR-1',
-          'Controle Proposto',
-          'Inventário Consolidado',
+          'GHE Identificado & Mapeado',
+          'Avaliação Qualitativa / Quantitativa',
+          'Matriz de Riscos NR-1',
+          'Medida de Controle Selecionada',
+          'Inventário Consolidado & Vigente',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'engenharia', 'obras'],
         sampleCards: [
           {
-            title: 'GRO-GHE-03',
+            title: 'GRO-GHE-03 (Corte e Solda)',
             origin: 'Engenharia de Segurança',
             description:
-              'Avaliação de ruído contínuo e vibração de mãos e braços no corte de estruturas.',
-            stage: 'Controle Proposto',
+              'Avaliação dosimetria de ruído e fumos metálicos de solda com determinação do nível de ação.',
+            stage: 'Medida de Controle Selecionada',
             priority: 'alta',
             departmentKeyword: 'segurança',
           },
@@ -751,26 +777,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'NR1-PGR',
-        title: 'NR-1 Plano de Ação do PGR (Implementação)',
+        title: 'NR-1 Plano de Ação do PGR (Implementação & Cronograma)',
         description:
-          'Cronograma de implantação de medidas de prevenção, responsáveis, prazos e avaliação periódica do PGR.',
+          'Cronograma de implantação de medidas preventivas, alocação de recursos financeiros, responsáveis definidos e verificação in loco da eficácia.',
         icon: 'Target',
         color: 'bg-amber-600 text-white',
         order: 2,
         stages: [
-          'Ação Cadastrada',
-          'Alocação de Recursos',
-          'Em Execução',
-          'Eficácia In Loco',
-          'Ação Concluída',
+          'Medida Cadastrada no Plano',
+          'Orçamento & Recursos Alocados',
+          'Em Execução Técnica',
+          'Verificação de Eficácia In Loco',
+          'Ação Concluída & Homologada',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'diretoria', 'obras'],
         sampleCards: [
           {
-            title: 'PGR-ACAO-2026-05',
+            title: 'PGR-ACAO-2026-05 (Exaustão Mecânica)',
             origin: 'Coordenador SST',
-            description: 'Instalação de exaustão localizada na bancada de solda.',
-            stage: 'Em Execução',
+            description:
+              'Instalação de coifa de exaustão localizada na bancada central de solda e montagem de tubulações.',
+            stage: 'Em Execução Técnica',
             priority: 'alta',
             departmentKeyword: 'segurança',
           },
@@ -780,25 +807,25 @@ export const STANDARD_PRESETS: StandardPreset[] = [
         code: 'NR1-CAPAC',
         title: 'NR-1 Matriz de Capacitação e Treinamentos Obrigatórios',
         description:
-          'Gestão dos treinamentos iniciais, periódicos e eventuais previstos nas NRs, com controle de carga horária e emissão de certificados.',
+          'Controle de treinamentos obrigatórios (integração geral, periódico, eventual e específico das NRs), conteúdo programático, instrutores habilitados e emissão de certificados.',
         icon: 'UserCheck',
         color: 'bg-blue-600 text-white',
         order: 3,
         stages: [
-          'Treinamento Previsto',
-          'Turma Convocada',
+          'Treinamento Previsto na Matriz',
+          'Turma Convocada & Agendada',
           'Treinamento Concluído',
-          'Avaliação de Aprendizado',
-          'Certificado eSocial',
+          'Avaliação de Aprendizado Aprovada',
+          'Certificado Homologado no eSocial',
         ],
         suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'sesmt', 'dho'],
         sampleCards: [
           {
-            title: 'CAP-NR01-INTEG',
-            origin: 'SESMT',
+            title: 'CAP-NR01-INTEG-2026',
+            origin: 'SESMT / RH',
             description:
-              'Treinamento de integração geral sobre riscos dos setores e medidas de segurança.',
-            stage: 'Certificado eSocial',
+              'Treinamento de integração geral sobre riscos dos setores, direitos de recusa e procedimentos de segurança.',
+            stage: 'Certificado Homologado no eSocial',
             priority: 'média',
             departmentKeyword: 'rh',
           },
@@ -806,26 +833,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'NR1-ANALISE',
-        title: 'NR-1 Acompanhamento de Saúde e Auditoria do PGR',
+        title: 'NR-1 Acompanhamento de Saúde e Auditoria Bienal do PGR',
         description:
-          'Revisão bienal do PGR (ou trienal para certificados ISO 45001) e correlação com dados de afastamento.',
+          'Análise do desempenho das medidas preventivas, cruzamento com dados epidemiológicos do PCMSO e revisão bienal (ou trienal para certificados ISO 45001).',
         icon: 'BarChart3',
         color: 'bg-indigo-600 text-white',
         order: 4,
         stages: [
-          'Coleta de Dados de Saúde',
-          'Análise de Desvios',
-          'Revisão do PGR',
+          'Coleta de Indicadores de SST & Atestados',
+          'Análise Crítica de Desvios',
+          'Revisão Documental do PGR',
           'Homologação Responsável Técnico',
-          'PGR Vigente',
+          'PGR Revalidado & Vigente',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'saúde', 'diretoria'],
         sampleCards: [
           {
-            title: 'REV-PGR-ANUAL',
+            title: 'REV-PGR-BIENAL-2026',
             origin: 'Responsável Técnico SST',
-            description: 'Revisão das medidas de prevenção após alterações de layout fabril.',
-            stage: 'PGR Vigente',
+            description:
+              'Reavaliação anual das medidas de prevenção após implantação da nova linha de pintura e montagem.',
+            stage: 'PGR Revalidado & Vigente',
             priority: 'alta',
             departmentKeyword: 'segurança',
           },
@@ -833,6 +861,8 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
     ],
   },
+
+  // 6. NR-27 - Registro Profissional e Segurança Operacional
   {
     id: 'preset-nr-27',
     standardCode: 'NR27',
@@ -842,32 +872,32 @@ export const STANDARD_PRESETS: StandardPreset[] = [
     color: 'from-cyan-700 to-blue-900',
     icon: 'FileCheck2',
     summary:
-      'Pipes de conformidade operacional e técnica: Homologação de Registros Profissionais (CREA, CFT, CRM, OAB), Gestão de Responsabilidade Técnica (ART/RRT/TRT), Habilitação para Operações de Risco e Auditoria de Terceirizados.',
+      'Pipes de conformidade técnica e operacional: Homologação de Registros Profissionais (CREA, CFT, CRM, OAB), Gestão de Responsabilidade Técnica (ART/RRT/TRT), Habilitação para Operações de Risco e Auditoria de Terceirizados.',
     pipesCount: 4,
     pipes: [
       {
         code: 'NR27-REG',
         title: 'NR-27 Homologação de Registros e Habilitações Profissionais',
         description:
-          'Validação de diplomas, conselhos de classe (CREA/CFT/CRM), carteiras profissionais e capacitações formais.',
+          'Validação de certidões nos conselhos de classe (CREA/CFT/CRM/CRQ), conferência de diplomas, carteiras profissionais e regularidade cadastral.',
         icon: 'UserCheck',
         color: 'bg-cyan-700 text-white',
         order: 1,
         stages: [
-          'Documento Enviado',
+          'Documento Enviado pelo Profissional',
           'Checagem no Conselho de Classe',
-          'Validação Técnica',
-          'Profissional Habilitado',
-          'Renovação Periódica',
+          'Validação Técnica & Acervo',
+          'Profissional Habilitado / Aprovado',
+          'Renovação Periódica de Anuidade',
         ],
         suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'dho', 'engenharia'],
         sampleCards: [
           {
-            title: 'HAB-ENG-MEC-01',
+            title: 'HAB-ENG-MEC-2026-01',
             origin: 'RH / DHO',
             description:
-              'Validação da certidão de registro e quitação no CREA do engenheiro responsável.',
-            stage: 'Profissional Habilitado',
+              'Validação da certidão de registro e quitação no CREA do engenheiro mecânico responsável pelas manutenções.',
+            stage: 'Profissional Habilitado / Aprovado',
             priority: 'alta',
             departmentKeyword: 'rh',
           },
@@ -875,26 +905,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'NR27-ART',
-        title: 'NR-27 Emissão e Baixa de ART / RRT / TRT',
+        title: 'NR-27 Emissão, Vínculo e Baixa de ART / RRT / TRT',
         description:
-          'Controle de Anotações de Responsabilidade Técnica para projetos, obras, laudos e manutenções de máquinas.',
+          'Controle de Anotações de Responsabilidade Técnica para projetos, execução de obras, laudos periciais e manutenções críticas.',
         icon: 'Receipt',
         color: 'bg-blue-700 text-white',
         order: 2,
         stages: [
-          'Demanda de ART',
-          'Elaboração / Registro no Conselho',
-          'Taxa Paga & ART Emitida',
-          'Vinculada ao Projeto/Obra',
-          'Baixa por Conclusão',
+          'Demanda Técnica de ART',
+          'Elaboração no Portal do Conselho',
+          'Taxa Paga & ART Emitida com Assinatura',
+          'Vinculada ao Contrato / Projeto',
+          'Baixa por Conclusão da Atividade',
         ],
         suggestedDepartmentKeywords: ['obras', 'engenharia', 'operações', 'diretoria'],
         sampleCards: [
           {
-            title: 'ART-LAUDO-NR12',
+            title: 'ART-LAUDO-NR12-2026',
             origin: 'Engenharia Mecânica',
-            description: 'ART de apreciação de risco de prensas e máquinas operatrizes.',
-            stage: 'Vinculada ao Projeto/Obra',
+            description:
+              'ART de apreciação de risco e laudo de conformidade mecânica de dobradeiras e prensas industriais.',
+            stage: 'Vinculada ao Contrato / Projeto',
             priority: 'crítica',
             departmentKeyword: 'obras',
           },
@@ -902,26 +933,27 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'NR27-OP-RISCO',
-        title: 'NR-27 Autorização para Operadores de Equipamentos Especiais',
+        title: 'NR-27 Habilitação e Autorização para Operadores de Equipamentos Especiais',
         description:
-          'Controle de habilitação para operadores de empilhadeiras, pontes rolantes, caldeiras e eletricistas qualificados.',
+          'Controle de habilitação formal, atestado de saúde mental/física, reciclagem anual e crachás de autorização para operadores de empilhadeiras, pontes rolantes, caldeiras e eletricistas.',
         icon: 'Hammer',
         color: 'bg-sky-700 text-white',
         order: 3,
         stages: [
-          'Curso Concluído',
-          'Atestado de Aptidão Física/Mental',
+          'Curso de Formação Concluído',
+          'Atestado de Aptidão Física/Mental (ASO)',
           'Crachá de Autorização Emitido',
-          'Em Operação Liberada',
-          'Reciclagem Anual',
+          'Em Operação Liberada & Monitorada',
+          'Reciclagem Anual Agendada',
         ],
         suggestedDepartmentKeywords: ['segurança', 'sesmt', 'suprimentos', 'operações'],
         sampleCards: [
           {
-            title: 'AUT-EMPILH-04',
+            title: 'AUT-EMPILH-2026-04',
             origin: 'SESMT / Logística',
-            description: 'Reciclagem e emissão de crachá para operador de empilhadeira a gás.',
-            stage: 'Em Operação Liberada',
+            description:
+              'Reciclagem de 16h e emissão de crachá de autorização para operador de empilhadeira a combustão (NR-11).',
+            stage: 'Em Operação Liberada & Monitorada',
             priority: 'média',
             departmentKeyword: 'segurança',
           },
@@ -929,29 +961,185 @@ export const STANDARD_PRESETS: StandardPreset[] = [
       },
       {
         code: 'NR27-TERC',
-        title: 'NR-27 Auditoria de Qualificação Técnica de Fornecedores e Terceiros',
+        title: 'NR-27 Qualificação Técnica e Homologação de Fornecedores e Terceiros',
         description:
-          'Verificação de documentação trabalhista, previdenciária e técnica de empresas prestadoras de serviço.',
+          'Auditoria documental de prestadores de serviço (CNDs, ASOs, PGR/PCMSO da terceirizada, registros em conselhos e seguros de responsabilidade civil).',
         icon: 'Handshake',
         color: 'bg-teal-700 text-white',
         order: 4,
         stages: [
-          'Documentos Solicitados',
-          'Análise de Conformidade',
-          'Homologação de Terceiro',
-          'Prestação de Serviço Liberada',
-          'Auditoria Mensal',
+          'Dossiê Documental Solicitado',
+          'Análise de Conformidade Trabalhista/SST',
+          'Homologação de Terceiro Liberada',
+          'Prestação de Serviço com Acesso Liberado',
+          'Auditoria Mensal de Folha & CNDs',
         ],
         suggestedDepartmentKeywords: ['suprimentos', 'jurídico', 'almoxarifado', 'diretoria'],
         sampleCards: [
           {
-            title: 'TERC-ELETRICA-SP',
+            title: 'TERC-MANUT-ELETRICA-2026',
             origin: 'Suprimentos / Jurídico',
             description:
-              'Auditoria documental mensal da terceirizada de manutenção elétrica predial.',
-            stage: 'Prestação de Serviço Liberada',
+              'Auditoria documental mensal da terceirizada de manutenção elétrica predial com apresentação de NR-10 e ASOs.',
+            stage: 'Prestação de Serviço com Acesso Liberado',
             priority: 'alta',
             departmentKeyword: 'suprimentos',
+          },
+        ],
+      },
+    ],
+  },
+
+  // 7. ISO 22000:2018 - Sistema de Gestão de Segurança de Alimentos (SGSA)
+  {
+    id: 'preset-iso-22000',
+    standardCode: '22000',
+    name: 'ISO 22000:2018',
+    subtitle: 'Segurança de Alimentos e Boas Práticas (APPCC / HACCP)',
+    badge: 'Segurança de Alimentos & Agro',
+    color: 'from-orange-600 to-amber-800',
+    icon: 'Compass',
+    summary:
+      'Pipes essenciais da cadeia de alimentos: Programas de Pré-Requisitos (PPR / BPF), Plano APPCC / HACCP (PCC & PPRO), Rastreabilidade e Recolhimento (Recall), Controle de Alergênicos e Higienização/CIP.',
+    pipesCount: 5,
+    pipes: [
+      {
+        code: '8.2-PPR',
+        title: '8.2 Programas de Pré-Requisitos (PPR / BPF)',
+        description:
+          'Monitoramento de Boas Práticas de Fabricação (BPF), controle de pragas, potabilidade da água, higiene pessoal e manutenção predial das instalações.',
+        icon: 'FileCheck2',
+        color: 'bg-amber-600 text-white',
+        order: 1,
+        stages: [
+          'Inspeção BPF Agendada',
+          'Desvio de Higiene / Instalação Apontado',
+          'Ação Corretiva Imediata',
+          'Reinspeção de Área',
+          'Conforme & Aprovado',
+        ],
+        suggestedDepartmentKeywords: ['qualidade', 'operações', 'manutenção', 'produção'],
+        sampleCards: [
+          {
+            title: 'BPF-INSP-2026-08',
+            origin: 'Garantia da Qualidade Alimentar',
+            description:
+              'Inspeção semanal de barreiras sanitárias, telas milimétricas e armadilhas luminosas para controle de pragas.',
+            stage: 'Conforme & Aprovado',
+            priority: 'alta',
+            departmentKeyword: 'qualidade',
+          },
+        ],
+      },
+      {
+        code: '8.5-APPCC',
+        title: '8.5 Plano de Controle de Perigos (APPCC / HACCP - PCC e PPRO)',
+        description:
+          'Identificação de perigos biológicos, químicos e físicos, árvore decisória, definição de limites críticos, monitoramento contínuo e ações para desvios de PCC.',
+        icon: 'Target',
+        color: 'bg-orange-600 text-white',
+        order: 2,
+        stages: [
+          'Monitoramento Contínuo PCC',
+          'Desvio de Limite Crítico Detectado',
+          'Segregação de Lote & Contenção',
+          'Ação Corretiva no Processo',
+          'Lote Liberado / Destinado com Segurança',
+        ],
+        suggestedDepartmentKeywords: ['qualidade', 'produção', 'operações', 'engenharia'],
+        sampleCards: [
+          {
+            title: 'PCC-PASTEURIZ-2026-01',
+            origin: 'Painel de Automação Térmica',
+            description:
+              'Monitoramento contínuo de tempo e temperatura de pasteurização com validação de termômetro RBC.',
+            stage: 'Monitoramento Contínuo PCC',
+            priority: 'crítica',
+            departmentKeyword: 'produção',
+          },
+        ],
+      },
+      {
+        code: '8.9.5-RECALL',
+        title: '8.9.5 Rastreabilidade de Lotes e Simulado de Recolhimento (Recall)',
+        description:
+          'Rastreabilidade total da matéria-prima até a expedição, balanço de massa, protocolo de comunicação a clientes/ANVISA e simulação anual de recall.',
+        icon: 'Layers',
+        color: 'bg-red-700 text-white',
+        order: 3,
+        stages: [
+          'Demanda de Rastreabilidade / Simulado',
+          'Balanço de Massa & Identificação de Destinos',
+          'Comunicação aos Pontos de Distribuição',
+          'Recolhimento / Bloqueio Físico',
+          'Relatório Final de Eficácia do Recall',
+        ],
+        suggestedDepartmentKeywords: ['logística', 'suprimentos', 'qualidade', 'diretoria'],
+        sampleCards: [
+          {
+            title: 'SIMULADO-RECALL-2026',
+            origin: 'Comitê de Crise & Qualidade',
+            description:
+              'Simulado de rastreabilidade reversa de 100% de lote de insumo crítico em menos de 2 horas.',
+            stage: 'Relatório Final de Eficácia do Recall',
+            priority: 'alta',
+            departmentKeyword: 'qualidade',
+          },
+        ],
+      },
+      {
+        code: '8.4-ALERG',
+        title: '8.4 Programa de Controle de Alergênicos (PCAL) e Rotulagem',
+        description:
+          'Mapeamento de alergênicos na planta, sequenciamento de produção, validação de limpeza entre trocas de produto e conformidade da rotulagem (RDC 727/2022).',
+        icon: 'AlertCircle',
+        color: 'bg-rose-700 text-white',
+        order: 4,
+        stages: [
+          'Avaliação de Rótulo / Troca de Formulação',
+          'Sequenciamento de Produção',
+          'Swab de Alergênicos Pós-Higienização',
+          'Validação Técnica de Liberação',
+          'Lote Rotulado em Conformidade',
+        ],
+        suggestedDepartmentKeywords: ['qualidade', 'produção', 'pesquisa e desenvolvimento'],
+        sampleCards: [
+          {
+            title: 'SWAB-ALERG-LOTE-88',
+            origin: 'Laboratório de Microbiologia',
+            description:
+              'Teste rápido de detecção de proteína de leite e soja em linha compartilhada antes de troca de lote.',
+            stage: 'Validação Técnica de Liberação',
+            priority: 'alta',
+            departmentKeyword: 'qualidade',
+          },
+        ],
+      },
+      {
+        code: '8.2.4-CIP',
+        title: '8.2.4 Higienização de Linhas, Validação de Limpeza (CIP) e Sanificação',
+        description:
+          'Procedimentos operacionais de limpeza e sanificação (PPHO/SSOP), controle de concentração de detergentes/sanitizantes, temperatura de CIP e swabs de ATP.',
+        icon: 'Hammer',
+        color: 'bg-emerald-700 text-white',
+        order: 5,
+        stages: [
+          'Ciclo CIP em Andamento',
+          'Checagem de Parâmetros (Concentração/Temp)',
+          'Coleta de Swab ATP / Microbiológico',
+          'Linha Aprovada para Produção',
+          'Registro de Higienização Arquivado',
+        ],
+        suggestedDepartmentKeywords: ['produção', 'manutenção', 'qualidade'],
+        sampleCards: [
+          {
+            title: 'CIP-LINHA-02-MANHA',
+            origin: 'Operador de Higienização',
+            description:
+              'Ciclo completo de lavagem cáustica e ácida com sanitização por ácido peracético e teste de ATP zerado.',
+            stage: 'Linha Aprovada para Produção',
+            priority: 'média',
+            departmentKeyword: 'produção',
           },
         ],
       },
@@ -1222,7 +1410,7 @@ export async function applyStandardPresetToClient(params: {
     }
   }
 
-  // 5. Send a congratulatory notification to the client
+  // 5. Send a notification to the client
   try {
     await pb.collection('notifications').create({
       user: clientId,

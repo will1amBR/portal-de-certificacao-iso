@@ -5,9 +5,6 @@ import {
   Building2,
   ShieldCheck,
   CheckCircle2,
-  Sparkles,
-  Phone,
-  Mail,
   Zap,
   Layers,
   Building,
@@ -26,13 +23,12 @@ import {
   Copy,
   Trash2,
   Save,
-  Check,
-  Tag,
-  ArrowRight,
-  HelpCircle,
+  Search,
+  Phone,
+  Mail,
   ListOrdered,
+  Filter,
 } from 'lucide-react'
-import { useAuth } from '@/hooks/use-auth'
 import { getAllUsers, IsoUser, CompanyDepartment } from '@/services/users'
 import { getCertifications, Certification } from '@/services/certifications'
 import { getPipes, Pipe } from '@/services/pipes'
@@ -84,16 +80,18 @@ const PRESET_ICON_MAP: Record<string, any> = {
 }
 
 export default function AuditorPipesHub() {
-  const { user } = useAuth()
   const [clients, setClients] = useState<IsoUser[]>([])
   const [certifications, setCertifications] = useState<Certification[]>([])
-  const [existingPipes, setExistingPipes] = useState<Pipe[]>([])
+  const [, setExistingPipes] = useState<Pipe[]>([])
   const [customPresets, setCustomPresets] = useState<StandardPreset[]>([])
   const [loading, setLoading] = useState(true)
 
   // Selected client to configure
   const [selectedClientId, setSelectedClientId] = useState<string>('')
-  const [searchClientQuery, setSearchClientQuery] = useState('')
+
+  // Filters & Search
+  const [presetSearch, setPresetSearch] = useState('')
+  const [filterStandardCode, setFilterStandardCode] = useState<string>('all')
 
   // Modal for Applying Preset in 1-Click
   const [activePresetToApply, setActivePresetToApply] = useState<StandardPreset | null>(null)
@@ -168,10 +166,45 @@ export default function AuditorPipesHub() {
     return []
   }, [selectedClient])
 
-  // Combined presets count
-  const allPresets = useMemo(() => {
-    return [...STANDARD_PRESETS, ...customPresets]
-  }, [customPresets])
+  // Filtered standard presets
+  const filteredStandardPresets = useMemo(() => {
+    return STANDARD_PRESETS.filter((p) => {
+      const matchesSearch =
+        presetSearch === '' ||
+        p.name.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.subtitle.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.summary.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.pipes.some(
+          (pipe) =>
+            pipe.title.toLowerCase().includes(presetSearch.toLowerCase()) ||
+            pipe.code.toLowerCase().includes(presetSearch.toLowerCase()),
+        )
+
+      const matchesNorm = filterStandardCode === 'all' || p.standardCode === filterStandardCode
+
+      return matchesSearch && matchesNorm
+    })
+  }, [presetSearch, filterStandardCode])
+
+  // Filtered custom presets
+  const filteredCustomPresets = useMemo(() => {
+    return customPresets.filter((p) => {
+      const matchesSearch =
+        presetSearch === '' ||
+        p.name.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.subtitle.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.summary.toLowerCase().includes(presetSearch.toLowerCase()) ||
+        p.pipes.some(
+          (pipe) =>
+            pipe.title.toLowerCase().includes(presetSearch.toLowerCase()) ||
+            pipe.code.toLowerCase().includes(presetSearch.toLowerCase()),
+        )
+
+      const matchesNorm = filterStandardCode === 'all' || p.standardCode === filterStandardCode
+
+      return matchesSearch && matchesNorm
+    })
+  }, [customPresets, presetSearch, filterStandardCode])
 
   // Handle 1-Click Preset Application
   const handleConfirmApplyPreset = async () => {
@@ -193,7 +226,7 @@ export default function AuditorPipesHub() {
       })
 
       toast.success(
-        `Pre-set ${activePresetToApply.name} aplicado com sucesso! ${result.createdPipesCount} fluxos criados com setores e responsáveis vinculados para ${selectedClient?.name || 'o cliente'}.`,
+        `Pre-set "${activePresetToApply.name}" aplicado com sucesso! ${result.createdPipesCount} fluxos e ${result.createdCardsCount} cards vinculados aos setores de ${selectedClient?.name || 'o cliente'}.`,
       )
 
       setActivePresetToApply(null)
@@ -209,7 +242,7 @@ export default function AuditorPipesHub() {
   const handleClonePreset = (preset: StandardPreset) => {
     const cloned: StandardPreset = {
       id: '', // Will create a new record
-      name: `${preset.name} (Cópia Personalizada)`,
+      name: `${preset.name} (Cópia Adaptada)`,
       subtitle: preset.subtitle || 'Versão adaptada pelo auditor',
       standardCode: preset.standardCode || '9001',
       badge: 'Personalizado',
@@ -230,7 +263,7 @@ export default function AuditorPipesHub() {
     const fresh: StandardPreset = {
       id: '',
       name: 'Novo Pre-set de Pipes Personalizado',
-      subtitle: 'Conjunto customizado de fluxos ISO',
+      subtitle: 'Conjunto customizado de fluxos ISO / NR',
       standardCode: '9001',
       badge: 'Personalizado',
       color: 'from-blue-600 to-indigo-800',
@@ -386,13 +419,15 @@ export default function AuditorPipesHub() {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 mb-2 text-xs font-semibold text-blue-100">
-              <Zap className="h-3.5 w-3.5 text-amber-300" /> Área Técnica do Auditor & Consultor
+              <Zap className="h-3.5 w-3.5 text-amber-300" /> Hub do Auditor & Empresa de Auditoria
+              (ALC)
             </div>
-            <h1 className="text-2xl font-bold">Catálogo & Editor de Pre-sets de Pipes por Norma</h1>
+            <h1 className="text-2xl font-bold">Catálogo de Pre-sets de Pipes por Norma</h1>
             <p className="text-sm text-blue-100 mt-1 max-w-3xl leading-relaxed">
-              Aplique em 1 clique o conjunto completo de Pipes no cliente, crie cópias
-              personalizadas dos fluxos e aproveite a atribuição automática aos setores cadastrados
-              no onboarding.
+              Todos os pre-sets das normas prontos para aplicação em 1 clique: ISO 9001 (Qualidade),
+              ISO 14001 (Meio Ambiente), ISO 27001 (Segurança da Informação), ISO 45001 (Saúde &
+              Segurança), NR-1 (GRO/PGR), NR-27 (Qualificação Técnica) e ISO 22000 (Segurança de
+              Alimentos).
             </p>
           </div>
 
@@ -400,7 +435,7 @@ export default function AuditorPipesHub() {
           <div className="flex gap-3 self-start lg:self-auto bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 shrink-0">
             <div className="text-center px-2">
               <span className="text-2xl font-black text-amber-300">{STANDARD_PRESETS.length}</span>
-              <p className="text-[11px] text-blue-100">Padrão</p>
+              <p className="text-[11px] text-blue-100">Normas Oficiais</p>
             </div>
             <div className="h-8 w-px bg-white/20 self-center" />
             <div className="text-center px-2">
@@ -634,6 +669,37 @@ export default function AuditorPipesHub() {
             </div>
           </div>
 
+          {/* Search & Filter Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+            <div className="sm:col-span-7 relative">
+              <Search className="h-4 w-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Input
+                placeholder="Buscar pre-set por nome, cláusula ou palavra-chave..."
+                value={presetSearch}
+                onChange={(e) => setPresetSearch(e.target.value)}
+                className="pl-9 h-9 text-xs"
+              />
+            </div>
+            <div className="sm:col-span-5 flex items-center gap-2">
+              <Filter className="h-4 w-4 text-slate-400 shrink-0" />
+              <Select value={filterStandardCode} onValueChange={setFilterStandardCode}>
+                <SelectTrigger className="h-9 text-xs bg-white">
+                  <SelectValue placeholder="Filtrar por Norma" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas as Normas ({STANDARD_PRESETS.length})</SelectItem>
+                  <SelectItem value="9001">ISO 9001 (Qualidade)</SelectItem>
+                  <SelectItem value="14001">ISO 14001 (Meio Ambiente)</SelectItem>
+                  <SelectItem value="27001">ISO 27001 (Segurança TI)</SelectItem>
+                  <SelectItem value="45001">ISO 45001 (Saúde & SSO)</SelectItem>
+                  <SelectItem value="NR1">NR-1 (GRO / PGR)</SelectItem>
+                  <SelectItem value="NR27">NR-27 (Qualificação Técnica)</SelectItem>
+                  <SelectItem value="22000">ISO 22000 (Alimentos)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <Tabs
             value={activeTabPresets}
             onValueChange={(v: any) => setActiveTabPresets(v)}
@@ -642,133 +708,146 @@ export default function AuditorPipesHub() {
             <TabsList className="bg-slate-100 p-1 border border-slate-200">
               <TabsTrigger value="standard" className="text-xs font-semibold gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-[#0055A4]" />
-                Normas Padrão ({STANDARD_PRESETS.length})
+                Normas Oficiais ({filteredStandardPresets.length})
               </TabsTrigger>
               <TabsTrigger value="custom" className="text-xs font-semibold gap-1.5">
                 <Edit3 className="h-3.5 w-3.5 text-purple-600" />
-                Meus Pre-sets Personalizados ({customPresets.length})
+                Pre-sets Personalizados ({filteredCustomPresets.length})
               </TabsTrigger>
             </TabsList>
 
             {/* TAB 1: STANDARD PRESETS */}
             <TabsContent value="standard" className="space-y-4 mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {STANDARD_PRESETS.map((preset) => {
-                  const Icon = PRESET_ICON_MAP[preset.icon] || ShieldCheck
+              {filteredStandardPresets.length === 0 ? (
+                <div className="bg-white rounded-xl border border-slate-200 p-8 text-center text-slate-500 text-xs">
+                  Nenhum pre-set encontrado para os filtros selecionados.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filteredStandardPresets.map((preset) => {
+                    const Icon = PRESET_ICON_MAP[preset.icon] || ShieldCheck
 
-                  return (
-                    <Card
-                      key={preset.id}
-                      className="hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border-slate-200"
-                    >
-                      <div>
-                        {/* Card Top Strip with Gradient */}
-                        <div className={cn('p-4 text-white bg-gradient-to-r', preset.color)}>
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm shrink-0">
-                              <Icon className="h-5 w-5 text-white" />
+                    return (
+                      <Card
+                        key={preset.id}
+                        className="hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden border-slate-200"
+                      >
+                        <div>
+                          {/* Card Top Strip with Gradient */}
+                          <div className={cn('p-4 text-white bg-gradient-to-r', preset.color)}>
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm shrink-0">
+                                <Icon className="h-5 w-5 text-white" />
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-white/20 text-white hover:bg-white/30 border-0 text-[10px] font-bold uppercase tracking-wider"
+                                >
+                                  {preset.pipesCount} Pipes Prontos
+                                </Badge>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Badge
-                                variant="secondary"
-                                className="bg-white/20 text-white hover:bg-white/30 border-0 text-[10px] font-bold uppercase tracking-wider"
-                              >
-                                {preset.pipesCount} Pipes Prontos
-                              </Badge>
-                            </div>
+
+                            <h3 className="text-lg font-bold mt-2.5 leading-tight">
+                              {preset.name}
+                            </h3>
+                            <p className="text-xs text-white/85 mt-0.5">{preset.subtitle}</p>
                           </div>
 
-                          <h3 className="text-lg font-bold mt-2.5 leading-tight">{preset.name}</h3>
-                          <p className="text-xs text-white/85 mt-0.5">{preset.subtitle}</p>
-                        </div>
+                          {/* Card Body */}
+                          <div className="p-4 space-y-3">
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                              {preset.summary}
+                            </p>
 
-                        {/* Card Body */}
-                        <div className="p-4 space-y-3">
-                          <p className="text-xs text-slate-600 leading-relaxed">{preset.summary}</p>
-
-                          {/* Mini list of pipes included */}
-                          <div className="space-y-1.5 pt-1">
-                            <span className="text-[11px] font-bold text-slate-700 block uppercase tracking-wider">
-                              Fluxos inclusos no pre-set:
-                            </span>
-                            <div className="grid grid-cols-1 gap-1">
-                              {preset.pipes.slice(0, 4).map((p) => {
-                                const matchedDept = findBestMatchingDepartment(
-                                  p.suggestedDepartmentKeywords,
-                                  clientDepartments,
-                                )
-                                return (
-                                  <div
-                                    key={p.code}
-                                    className="text-xs text-slate-700 bg-slate-50 px-2 py-1.5 rounded border border-slate-100 flex items-center justify-between gap-1"
-                                  >
-                                    <span className="font-semibold truncate pr-1">
-                                      {p.code}: {p.title.replace(p.code, '').replace(/^[- ]+/, '')}
-                                    </span>
-                                    {matchedDept && (
-                                      <span className="text-[10px] font-medium bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded shrink-0 border border-emerald-200">
-                                        {matchedDept.name.split(' ')[0]}
+                            {/* Mini list of pipes included */}
+                            <div className="space-y-1.5 pt-1">
+                              <span className="text-[11px] font-bold text-slate-700 block uppercase tracking-wider">
+                                Fluxos inclusos no pre-set:
+                              </span>
+                              <div className="grid grid-cols-1 gap-1">
+                                {preset.pipes.slice(0, 4).map((p) => {
+                                  const matchedDept = findBestMatchingDepartment(
+                                    p.suggestedDepartmentKeywords,
+                                    clientDepartments,
+                                  )
+                                  return (
+                                    <div
+                                      key={p.code}
+                                      className="text-xs text-slate-700 bg-slate-50 px-2 py-1.5 rounded border border-slate-100 flex items-center justify-between gap-1"
+                                    >
+                                      <span className="font-semibold truncate pr-1">
+                                        {p.code}:{' '}
+                                        {p.title.replace(p.code, '').replace(/^[- ]+/, '')}
                                       </span>
-                                    )}
-                                  </div>
-                                )
-                              })}
-                              {preset.pipes.length > 4 && (
-                                <span className="text-[11px] text-[#0055A4] font-semibold pl-1">
-                                  + {preset.pipes.length - 4} outros fluxos complementares
-                                </span>
-                              )}
+                                      {matchedDept && (
+                                        <span className="text-[10px] font-medium bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded shrink-0 border border-emerald-200">
+                                          {matchedDept.name.split(' ')[0]}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                                {preset.pipes.length > 4 && (
+                                  <span className="text-[11px] text-[#0055A4] font-semibold pl-1">
+                                    + {preset.pipes.length - 4} outros fluxos complementares
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Card Actions Footer */}
-                      <div className="p-4 pt-0 flex items-center gap-2 border-t border-slate-100 mt-2 flex-wrap">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setPresetToPreview(preset)}
-                          className="text-xs flex-1 border-slate-200 hover:bg-slate-50 min-h-[36px] whitespace-nowrap cursor-pointer"
-                        >
-                          Ver Detalhes
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleClonePreset(preset)}
-                          className="text-xs border-purple-200 text-purple-700 hover:bg-purple-50 min-h-[36px] whitespace-nowrap cursor-pointer"
-                          title="Duplicar para editar e criar pre-set próprio"
-                        >
-                          <Copy className="h-3 w-3 mr-1 shrink-0" />
-                          Copiar & Editar
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={() => setActivePresetToApply(preset)}
-                          disabled={!selectedClientId}
-                          className="text-xs flex-1 bg-[#0055A4] hover:bg-[#1A73E8] text-white min-h-[36px] font-semibold shadow-xs whitespace-nowrap cursor-pointer"
-                        >
-                          <Zap className="h-3.5 w-3.5 mr-1 shrink-0 text-yellow-300" />
-                          Aplicar
-                        </Button>
-                      </div>
-                    </Card>
-                  )
-                })}
-              </div>
+                        {/* Card Actions Footer */}
+                        <div className="p-4 pt-0 flex items-center gap-2 border-t border-slate-100 mt-2 flex-wrap">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setPresetToPreview(preset)}
+                            className="text-xs flex-1 border-slate-200 hover:bg-slate-50 min-h-[36px] whitespace-nowrap cursor-pointer"
+                          >
+                            Ver Detalhes
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleClonePreset(preset)}
+                            className="text-xs border-purple-200 text-purple-700 hover:bg-purple-50 min-h-[36px] whitespace-nowrap cursor-pointer"
+                            title="Duplicar para editar e criar pre-set próprio"
+                          >
+                            <Copy className="h-3 w-3 mr-1 shrink-0" />
+                            Copiar & Editar
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => setActivePresetToApply(preset)}
+                            disabled={!selectedClientId}
+                            className="text-xs flex-1 bg-[#0055A4] hover:bg-[#1A73E8] text-white min-h-[36px] font-semibold shadow-xs whitespace-nowrap cursor-pointer"
+                          >
+                            <Zap className="h-3.5 w-3.5 mr-1 shrink-0 text-yellow-300" />
+                            Aplicar
+                          </Button>
+                        </div>
+                      </Card>
+                    )
+                  })}
+                </div>
+              )}
             </TabsContent>
 
             {/* TAB 2: CUSTOM PRESETS CREATED BY AUDITOR */}
             <TabsContent value="custom" className="space-y-4 mt-0">
-              {customPresets.length === 0 ? (
+              {filteredCustomPresets.length === 0 ? (
                 <div className="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-8 text-center space-y-4">
                   <div className="h-12 w-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mx-auto">
                     <Edit3 className="h-6 w-6" />
                   </div>
                   <div className="space-y-1 max-w-md mx-auto">
                     <h3 className="text-base font-bold text-slate-900">
-                      Nenhum pre-set personalizado criado ainda
+                      {customPresets.length === 0
+                        ? 'Nenhum pre-set personalizado criado ainda'
+                        : 'Nenhum pre-set personalizado com esses filtros'}
                     </h3>
                     <p className="text-xs text-slate-500">
                       Você pode clonar qualquer pre-set oficial para adaptar as cláusulas e etapas,
@@ -786,7 +865,11 @@ export default function AuditorPipesHub() {
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => setActiveTabPresets('standard')}
+                      onClick={() => {
+                        setPresetSearch('')
+                        setFilterStandardCode('all')
+                        setActiveTabPresets('standard')
+                      }}
                       className="text-xs h-9"
                     >
                       Explorar Pre-sets Oficiais
@@ -795,7 +878,7 @@ export default function AuditorPipesHub() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {customPresets.map((preset) => {
+                  {filteredCustomPresets.map((preset) => {
                     const Icon = PRESET_ICON_MAP[preset.icon] || Layers
 
                     return (
@@ -820,13 +903,13 @@ export default function AuditorPipesHub() {
                                   variant="secondary"
                                   className="bg-purple-900/50 text-white border-0 text-[10px] font-bold uppercase tracking-wider"
                                 >
-                                  Personalizado
+                                  {preset.badge || 'Personalizado'}
                                 </Badge>
                                 <Badge
                                   variant="secondary"
                                   className="bg-white/20 text-white border-0 text-[10px] font-bold"
                                 >
-                                  {preset.pipesCount} Pipes
+                                  {preset.pipesCount || preset.pipes.length} Pipes
                                 </Badge>
                               </div>
                             </div>
@@ -1154,7 +1237,7 @@ export default function AuditorPipesHub() {
         </DialogContent>
       </Dialog>
 
-      {/* DIALOG 3: CUSTOM PRESET FULL EDITOR (SOLICITAÇÃO 2) */}
+      {/* DIALOG 3: CUSTOM PRESET FULL EDITOR */}
       <Dialog open={isEditorOpen} onOpenChange={(open) => !open && setIsEditorOpen(false)}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
