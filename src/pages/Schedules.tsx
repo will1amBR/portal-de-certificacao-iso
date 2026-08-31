@@ -36,9 +36,12 @@ export default function SchedulesPage() {
 
   const loadData = async () => {
     try {
-      const [allScheds, allCerts] = await Promise.all([getSchedules(), getCertifications()])
+      const [allScheds, allCerts] = await Promise.all([
+        getSchedules().catch(() => [] as IsoSchedule[]),
+        getCertifications().catch(() => [] as Certification[]),
+      ])
 
-      if (user?.role === 'cliente') {
+      if (user?.role === 'cliente' && user?.id) {
         const userCertIds = new Set(allCerts.filter((c) => c.user === user.id).map((c) => c.id))
         setSchedules(allScheds.filter((s) => userCertIds.has(s.certification)))
         setCerts(allCerts.filter((c) => c.user === user.id))

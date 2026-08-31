@@ -37,7 +37,10 @@ export function PipesGrid({ certId, defaultOpenPipeId }: PipesGridProps) {
 
   const loadData = async () => {
     try {
-      const [pipesData, cardsData] = await Promise.all([getPipes(), getAllCards()])
+      const [pipesData, cardsData] = await Promise.all([
+        getPipes(),
+        getAllCards().catch(() => [] as PipeCard[]),
+      ])
       setPipes(pipesData)
       setCards(cardsData)
 

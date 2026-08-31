@@ -58,9 +58,12 @@ export default function DocumentsPage() {
 
   const loadData = async () => {
     try {
-      const [allDocs, allCerts] = await Promise.all([getAllDocuments(), getCertifications()])
+      const [allDocs, allCerts] = await Promise.all([
+        getAllDocuments().catch(() => [] as IsoDocument[]),
+        getCertifications().catch(() => [] as Certification[]),
+      ])
 
-      if (user?.role === 'cliente') {
+      if (user?.role === 'cliente' && user?.id) {
         const userCertIds = new Set(allCerts.filter((c) => c.user === user.id).map((c) => c.id))
         setDocs(allDocs.filter((d) => userCertIds.has(d.certification) || d.user === user.id))
         setCerts(allCerts.filter((c) => c.user === user.id))

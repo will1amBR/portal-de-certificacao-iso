@@ -18,11 +18,18 @@ export interface IsoSchedule {
   }
 }
 
-export const getSchedules = () =>
-  pb.collection('schedules').getFullList<IsoSchedule>({
+export const getSchedules = () => {
+  const isClient = pb.authStore.record?.['role'] === 'cliente'
+  const filter =
+    isClient && pb.authStore.record?.id
+      ? `certification.user = "${pb.authStore.record.id}"`
+      : undefined
+  return pb.collection('schedules').getFullList<IsoSchedule>({
+    filter,
     sort: 'date',
     expand: 'certification.iso_type',
   })
+}
 
 export const getSchedulesByCertification = (certificationId: string) =>
   pb.collection('schedules').getFullList<IsoSchedule>({

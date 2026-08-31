@@ -58,7 +58,8 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
       const data = await getCardsByPipe(pipe.id, certId)
       setCards(data)
     } catch {
-      toast.error('Erro ao carregar cards do pipe')
+      // Falha ou isolamento de dados
+      setCards([])
     } finally {
       setLoading(false)
     }

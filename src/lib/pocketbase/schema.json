@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-31T16:08:47.629Z",
+  "generatedAt": "2026-08-31T17:15:17.065Z",
   "collections": [
     {
       "name": "users",
       "type": "auth",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (@request.auth.id = id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (@request.auth.id = id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "",
         "update": "id = @request.auth.id",
         "delete": "id = @request.auth.id"
@@ -133,11 +133,11 @@
       "name": "certifications",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (user = @request.auth.id || consultant = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (user = @request.auth.id || consultant = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (user = @request.auth.id || consultant = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "delete": "@request.auth.id != '' && (user = @request.auth.id || @request.auth.role = 'admin')"
       },
       "fields": [
         {
@@ -222,11 +222,11 @@
       "name": "documents",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "delete": "@request.auth.id != '' && (user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')"
       },
       "fields": [
         {
@@ -305,11 +305,11 @@
       "name": "tasks",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "delete": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')"
       },
       "fields": [
         {
@@ -364,11 +364,11 @@
       "name": "schedules",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "delete": "@request.auth.id != '' && (certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')"
       },
       "fields": [
         {
@@ -425,11 +425,11 @@
       "name": "messages",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (sender = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (sender = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (sender = @request.auth.id || @request.auth.role = 'admin')",
+        "delete": "@request.auth.id != '' && (sender = @request.auth.id || @request.auth.role = 'admin')"
       },
       "fields": [
         {
@@ -782,11 +782,11 @@
       "name": "pipe_cards",
       "type": "base",
       "apiRules": {
-        "list": "@request.auth.id != ''",
-        "view": "@request.auth.id != ''",
+        "list": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "view": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
         "create": "@request.auth.id != ''",
-        "update": "@request.auth.id != ''",
-        "delete": "@request.auth.id != ''"
+        "update": "@request.auth.id != '' && (user = @request.auth.id || certification.user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')",
+        "delete": "@request.auth.id != '' && (user = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'consultor')"
       },
       "fields": [
         {

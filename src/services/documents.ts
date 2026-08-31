@@ -34,11 +34,18 @@ export const getDocumentsByCertification = (certificationId: string) =>
     sort: '-created',
   })
 
-export const getAllDocuments = () =>
-  pb.collection('documents').getFullList<IsoDocument>({
+export const getAllDocuments = () => {
+  const isClient = pb.authStore.record?.['role'] === 'cliente'
+  const filter =
+    isClient && pb.authStore.record?.id
+      ? `user = "${pb.authStore.record.id}" || certification.user = "${pb.authStore.record.id}"`
+      : undefined
+  return pb.collection('documents').getFullList<IsoDocument>({
+    filter,
     sort: '-created',
     expand: 'certification.iso_type',
   })
+}
 
 export const createDocument = (formData: FormData) =>
   pb.collection('documents').create<IsoDocument>(formData)

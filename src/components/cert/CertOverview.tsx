@@ -61,7 +61,7 @@ export function CertOverview({ cert }: { cert: Certification }) {
               </Badge>
             </div>
           </div>
-          <Button variant="outline" size="sm" onClick={() => navigate(`/relatorio/${cert.id}`)}>
+          <Button variant="outline" size="sm" onClick={() => navigate('/relatorio-onboarding')}>
             <Printer className="h-4 w-4 mr-1.5" /> Relatório
           </Button>
         </div>

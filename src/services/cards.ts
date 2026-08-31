@@ -37,6 +37,8 @@ export const getCardsByPipe = async (pipeId: string, certId?: string) => {
   let filter = `pipe = "${pipeId}"`
   if (certId) {
     filter += ` && (certification = "${certId}" || certification = "" || certification = null)`
+  } else if (pb.authStore.record?.['role'] === 'cliente') {
+    filter += ` && (user = "${pb.authStore.record?.id}" || certification.user = "${pb.authStore.record?.id}")`
   }
   return pb.collection('pipe_cards').getFullList<PipeCard>({
     filter,
@@ -46,9 +48,14 @@ export const getCardsByPipe = async (pipeId: string, certId?: string) => {
 }
 
 export const getAllCards = async () => {
+  const isClient = pb.authStore.record?.['role'] === 'cliente'
+  const filter = isClient
+    ? `user = "${pb.authStore.record?.id}" || certification.user = "${pb.authStore.record?.id}"`
+    : undefined
   return pb.collection('pipe_cards').getFullList<PipeCard>({
+    filter,
     sort: '-created',
-    expand: 'pipe,assignee',
+    expand: 'pipe,assignee,certification',
   })
 }
 

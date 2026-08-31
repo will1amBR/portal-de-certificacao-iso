@@ -39,8 +39,12 @@ export const markAllAsRead = async () => {
   )
 }
 
-export const getAllNotifications = () =>
-  pb.collection('notifications').getList<Notification>(1, 50, {
+export const getAllNotifications = () => {
+  const isClient = pb.authStore.record?.['role'] === 'cliente'
+  const filter = isClient ? `user = "${pb.authStore.record?.id}"` : undefined
+  return pb.collection('notifications').getList<Notification>(1, 50, {
+    filter,
     sort: '-created',
     expand: 'certification',
   })
+}

@@ -30,12 +30,15 @@ export default function Dashboard() {
 
   const loadData = useCallback(async () => {
     try {
-      setCertifications(await getCertifications())
+      const all = await getCertifications()
+      setCertifications(
+        user?.role === 'cliente' && user?.id ? all.filter((c) => c.user === user.id) : all,
+      )
     } catch {
       setCertifications([])
     }
     setLoading(false)
-  }, [])
+  }, [user?.id, user?.role])
 
   useEffect(() => {
     loadData()

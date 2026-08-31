@@ -1,9 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ShieldCheck, Leaf, HeartPulse, FileDown } from 'lucide-react'
+import {
+  ChevronLeft,
+  ShieldCheck,
+  Leaf,
+  HeartPulse,
+  FileDown,
+  LayoutGrid,
+  FileSpreadsheet,
+  Printer,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { getCertification, Certification } from '@/services/certifications'
+import { exportToCsv } from '@/lib/export'
 import { useRealtime } from '@/hooks/use-realtime'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -13,7 +23,7 @@ import { CertTasks } from '@/components/cert/CertTasks'
 import { CertSchedules } from '@/components/cert/CertSchedules'
 import { CertMessages } from '@/components/cert/CertMessages'
 import { PipesGrid } from '@/components/pipes/PipesGrid'
-import { LayoutGrid } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function CertificationDetail() {
   const { id } = useParams()
@@ -70,11 +80,41 @@ export default function CertificationDetail() {
           </h1>
           <p className="text-sm text-slate-500">{cert.company_name || 'Empresa'}</p>
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2 flex-wrap">
           <Badge className="bg-[#0055A4]">{cert.status}</Badge>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const today = new Date().toISOString().slice(0, 10)
+              exportToCsv(`certificacao-${cert.expand?.iso_type?.code || 'iso'}-${today}.csv`, [
+                {
+                  'Código ISO': cert.expand?.iso_type?.code || 'N/A',
+                  Norma: cert.expand?.iso_type?.name || 'Certificação ISO',
+                  Empresa: cert.company_name || cert.expand?.user?.name || 'N/A',
+                  Status: cert.status,
+                  'Progresso (%)': `${cert.progress || 0}%`,
+                  'Consultor / Auditor': cert.expand?.consultant?.name || 'Não atribuído',
+                  Início: cert.start_date
+                    ? new Date(cert.start_date).toLocaleDateString('pt-BR')
+                    : 'N/A',
+                  'Auditoria Prevista': cert.target_audit_date
+                    ? new Date(cert.target_audit_date).toLocaleDateString('pt-BR')
+                    : 'N/A',
+                  'Órgão Regulador': 'ALC / INMETRO',
+                },
+              ])
+              toast.success('Dados exportados para CSV com sucesso!')
+            }}
+          >
+            <FileSpreadsheet className="h-4 w-4 mr-1 text-emerald-600" /> CSV
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Printer className="h-4 w-4 mr-1 text-[#0055A4]" /> Imprimir
+          </Button>
           <Link to="/relatorio-onboarding">
             <Button variant="outline" size="sm">
-              <FileDown className="h-4 w-4" /> Relatório
+              <FileDown className="h-4 w-4 mr-1" /> Relatório Onboarding
             </Button>
           </Link>
         </div>

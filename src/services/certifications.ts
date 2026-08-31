@@ -32,11 +32,16 @@ export interface Certification {
   }
 }
 
-export const getCertifications = () =>
-  pb.collection('certifications').getFullList<Certification>({
+export const getCertifications = () => {
+  const isClient = pb.authStore.record?.['role'] === 'cliente'
+  const filter =
+    isClient && pb.authStore.record?.id ? `user = "${pb.authStore.record.id}"` : undefined
+  return pb.collection('certifications').getFullList<Certification>({
+    filter,
     sort: '-created',
     expand: 'iso_type,consultant,user',
   })
+}
 
 export const getCertification = (id: string) =>
   pb.collection('certifications').getOne<Certification>(id, {
