@@ -8,19 +8,12 @@ import {
   Bot,
   Zap,
   Share2,
-  Settings,
   HelpCircle,
-  Clock,
   Calendar,
-  AlertCircle,
-  MoveRight,
-  ChevronDown,
-  LayoutGrid,
-  List,
-  FileSpreadsheet,
+  Building,
+  UserCheck,
   Mail,
-  PieChart,
-  GraduationCap,
+  Phone,
   Info,
 } from 'lucide-react'
 import { Pipe } from '@/services/pipes'
@@ -82,10 +75,14 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
   const filteredCards = cards.filter((c) => {
     if (!searchQuery) return true
     const q = searchQuery.toLowerCase()
+    const deptName = c.data?.department_name || c.data?.assigned_sector || ''
+    const deptMgr = c.data?.department_manager || ''
     return (
       c.title.toLowerCase().includes(q) ||
       (c.origin && c.origin.toLowerCase().includes(q)) ||
-      (c.description && c.description.toLowerCase().includes(q))
+      (c.description && c.description.toLowerCase().includes(q)) ||
+      deptName.toLowerCase().includes(q) ||
+      deptMgr.toLowerCase().includes(q)
     )
   })
 
@@ -228,7 +225,7 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
             <div className="relative w-64">
               <Search className="h-3.5 w-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <Input
-                placeholder="Procurar cards..."
+                placeholder="Procurar cards, setores..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-8 text-xs pl-8 bg-white border-slate-200"
@@ -305,61 +302,82 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
                           </p>
                         </div>
                       ) : (
-                        stageCards.map((card) => (
-                          <div
-                            key={card.id}
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, card.id)}
-                            onClick={() => handleCardClick(card)}
-                            className={cn(
-                              'bg-white rounded-lg border border-slate-200/90 p-3 shadow-sm hover:shadow-md cursor-pointer transition-all hover:border-blue-300 group',
-                              draggingCardId === card.id && 'opacity-50 scale-95',
-                            )}
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              <span className="text-xs font-bold text-slate-900 group-hover:text-blue-700 font-mono">
-                                {card.title}
-                              </span>
-                              {card.priority === 'crítica' && (
-                                <span className="h-2 w-2 rounded-full bg-red-500 ring-2 ring-red-100" />
+                        stageCards.map((card) => {
+                          const assignedSector =
+                            card.data?.department_name || card.data?.assigned_sector
+                          const assignedManager = card.data?.department_manager
+
+                          return (
+                            <div
+                              key={card.id}
+                              draggable
+                              onDragStart={(e) => handleDragStart(e, card.id)}
+                              onClick={() => handleCardClick(card)}
+                              className={cn(
+                                'bg-white rounded-lg border border-slate-200/90 p-3 shadow-sm hover:shadow-md cursor-pointer transition-all hover:border-blue-300 group',
+                                draggingCardId === card.id && 'opacity-50 scale-95',
                               )}
-                              {card.priority === 'alta' && (
-                                <span className="h-2 w-2 rounded-full bg-orange-500 ring-2 ring-orange-100" />
-                              )}
-                            </div>
-
-                            {card.origin && (
-                              <div className="mt-2">
-                                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
-                                  ORIGEM DA NÃO-CONFORMIDADE
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <span className="text-xs font-bold text-slate-900 group-hover:text-blue-700 font-mono">
+                                  {card.title}
                                 </span>
-                                <span className="inline-block mt-0.5 text-xs font-medium px-2 py-0.5 bg-slate-100 text-slate-700 rounded">
-                                  {card.origin}
-                                </span>
-                              </div>
-                            )}
-
-                            {card.description && (
-                              <p className="text-xs text-slate-600 mt-2 line-clamp-2">
-                                {card.description}
-                              </p>
-                            )}
-
-                            {card.due_date && (
-                              <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                                <span className="flex items-center gap-1">
-                                  <Calendar className="h-3 w-3 text-slate-400" />
-                                  {new Date(card.due_date).toLocaleDateString('pt-BR')}
-                                </span>
-                                {card.stage === 'Concluído' ? (
-                                  <span className="text-emerald-600 font-medium">Finalizado</span>
-                                ) : (
-                                  <span className="text-amber-600 font-medium">Em aberto</span>
+                                {card.priority === 'crítica' && (
+                                  <span className="h-2 w-2 rounded-full bg-red-500 ring-2 ring-red-100" />
+                                )}
+                                {card.priority === 'alta' && (
+                                  <span className="h-2 w-2 rounded-full bg-orange-500 ring-2 ring-orange-100" />
                                 )}
                               </div>
-                            )}
-                          </div>
-                        ))
+
+                              {/* SOLICITAÇÃO 3: Exibição destacada do setor e responsável no card */}
+                              {assignedSector && (
+                                <div className="mt-2 p-1.5 rounded-md bg-blue-50/70 border border-blue-100 flex items-center justify-between text-[11px]">
+                                  <span className="font-semibold text-blue-900 truncate flex items-center gap-1">
+                                    <Building className="h-3 w-3 text-[#0055A4] shrink-0" />
+                                    {assignedSector}
+                                  </span>
+                                  {assignedManager && (
+                                    <span className="text-[10px] text-blue-700 font-medium truncate shrink-0">
+                                      {assignedManager}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              {card.origin && (
+                                <div className="mt-2">
+                                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
+                                    ORIGEM DA NÃO-CONFORMIDADE
+                                  </span>
+                                  <span className="inline-block mt-0.5 text-xs font-medium px-2 py-0.5 bg-slate-100 text-slate-700 rounded">
+                                    {card.origin}
+                                  </span>
+                                </div>
+                              )}
+
+                              {card.description && (
+                                <p className="text-xs text-slate-600 mt-2 line-clamp-2">
+                                  {card.description}
+                                </p>
+                              )}
+
+                              {card.due_date && (
+                                <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                                  <span className="flex items-center gap-1">
+                                    <Calendar className="h-3 w-3 text-slate-400" />
+                                    {new Date(card.due_date).toLocaleDateString('pt-BR')}
+                                  </span>
+                                  {card.stage === 'Concluído' ? (
+                                    <span className="text-emerald-600 font-medium">Finalizado</span>
+                                  ) : (
+                                    <span className="text-amber-600 font-medium">Em aberto</span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })
                       )}
 
                       {/* Add button inside column */}
@@ -393,7 +411,8 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
               {activeTab} - {pipe.title}
             </h2>
             <p className="text-sm text-slate-500">
-              Visualização detalhada dos registros e análises associadas a esta cláusula ISO.
+              Visualização detalhada dos registros, setores responsáveis e análises associadas a
+              esta cláusula ISO.
             </p>
 
             <div className="border rounded-lg overflow-hidden">
@@ -401,6 +420,7 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
                 <thead className="bg-slate-50 text-slate-600 font-semibold border-b">
                   <tr>
                     <th className="p-3">Código / ID</th>
+                    <th className="p-3">Setor Responsável</th>
                     <th className="p-3">Origem</th>
                     <th className="p-3">Fase Atual</th>
                     <th className="p-3">Prioridade</th>
@@ -415,6 +435,9 @@ export function PipeKanbanView({ pipe, certId, onBack }: PipeKanbanViewProps) {
                       className="hover:bg-slate-50 cursor-pointer"
                     >
                       <td className="p-3 font-mono font-medium text-blue-700">{c.title}</td>
+                      <td className="p-3 font-medium text-slate-800">
+                        {c.data?.department_name || c.data?.assigned_sector || 'Geral'}
+                      </td>
                       <td className="p-3 text-slate-600">{c.origin || 'Geral'}</td>
                       <td className="p-3">
                         <Badge variant="outline" className="text-[10px]">

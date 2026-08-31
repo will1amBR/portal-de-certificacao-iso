@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:08:01.103Z",
+  "generatedAt": "2026-08-31T15:22:12.471Z",
   "collections": [
     {
       "name": "users",
@@ -885,6 +885,104 @@
         "CREATE INDEX idx_pipe_cards_pipe ON pipe_cards (pipe)",
         "CREATE INDEX idx_pipe_cards_stage ON pipe_cards (stage)",
         "CREATE INDEX idx_pipe_cards_cert ON pipe_cards (certification)"
+      ]
+    },
+    {
+      "name": "custom_presets",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.id != ''",
+        "update": "@request.auth.id != ''",
+        "delete": "@request.auth.id != ''"
+      },
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "subtitle",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "standardCode",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "badge",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "color",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "icon",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "pipes",
+          "type": "json",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "pipesCount",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "author",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "is_public",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_custom_presets_author ON custom_presets (author)",
+        "CREATE INDEX idx_custom_presets_code ON custom_presets (standardCode)"
       ]
     }
   ]

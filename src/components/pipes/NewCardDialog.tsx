@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Plus, Tag } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Tag, Building, UserCheck, Phone, Mail } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { createCard, PipeCard } from '@/services/cards'
+import { getAllUsers, CompanyDepartment } from '@/services/users'
 import { toast } from 'sonner'
 
 interface NewCardDialogProps {
@@ -46,16 +47,51 @@ export function NewCardDialog({
   const [stage, setStage] = useState(defaultStage || stages[0] || 'Ação Imediata')
   const [priority, setPriority] = useState<'baixa' | 'média' | 'alta' | 'crítica'>('média')
   const [dueDate, setDueDate] = useState('')
+
+  // Sector & Responsible linking from onboarding
+  const [departments, setDepartments] = useState<CompanyDepartment[]>([])
+  const [selectedDeptId, setSelectedDeptId] = useState<string>('')
+  const [deptName, setDeptName] = useState('')
+  const [deptManager, setDeptManager] = useState('')
+  const [deptPhone, setDeptPhone] = useState('')
+  const [deptEmail, setDeptEmail] = useState('')
+
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      getAllUsers()
+        .then((users) => {
+          // Find client with departments
+          const clientWithDepts = users.find(
+            (u) => u.departments && Array.isArray(u.departments) && u.departments.length > 0,
+          )
+          if (clientWithDepts?.departments) {
+            setDepartments(clientWithDepts.departments)
+          }
+        })
+        .catch(() => {})
+    }
+  }, [open])
 
   const handleOpenChange = (val: boolean) => {
     setOpen(val)
     if (val) {
-      // auto generate an ID-like code if empty
       if (!title) {
         setTitle(Math.floor(100000000 + Math.random() * 900000000).toString())
       }
       setStage(defaultStage || stages[0] || '')
+    }
+  }
+
+  const handleDepartmentSelect = (deptId: string) => {
+    setSelectedDeptId(deptId)
+    const found = departments.find((d) => d.id === deptId)
+    if (found) {
+      setDeptName(found.name)
+      setDeptManager(found.manager || '')
+      setDeptPhone(found.phone || '')
+      setDeptEmail(found.email || '')
     }
   }
 
@@ -68,6 +104,15 @@ export function NewCardDialog({
 
     setLoading(true)
     try {
+      const cardData: Record<string, any> = {}
+      if (deptName) {
+        cardData.department_name = deptName
+        cardData.department_manager = deptManager
+        cardData.department_phone = deptPhone
+        cardData.department_email = deptEmail
+        cardData.assigned_sector = deptName
+      }
+
       await createCard({
         pipe: pipeId,
         certification: certId || undefined,
@@ -77,12 +122,15 @@ export function NewCardDialog({
         stage: stage || defaultStage || stages[0],
         priority,
         due_date: dueDate || undefined,
+        data: cardData,
       })
       toast.success('Card criado com sucesso!')
       setOpen(false)
       setTitle('')
       setDescription('')
       setDueDate('')
+      setDeptName('')
+      setDeptManager('')
       if (onCreated) onCreated()
     } catch {
       toast.error('Erro ao criar card')
@@ -100,14 +148,14 @@ export function NewCardDialog({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Tag className="h-5 w-5 text-blue-600" />
             Criar Novo Card
           </DialogTitle>
           <DialogDescription>
-            Insira os dados do item para movimentar no fluxo do pipe.
+            Insira os dados do item e atribua ao setor responsável do cliente.
           </DialogDescription>
         </DialogHeader>
 
@@ -122,6 +170,37 @@ export function NewCardDialog({
               required
             />
           </div>
+
+          {/* SOLICITAÇÃO 3: Seleção de setor do Onboarding */}
+          {departments.length > 0 && (
+            <div className="p-3 bg-blue-50/60 rounded-xl border border-blue-200/80 space-y-2">
+              <Label className="text-xs font-semibold text-blue-900 flex items-center gap-1">
+                <Building className="h-3.5 w-3.5 text-[#0055A4]" />
+                Atribuir a Setor da Empresa (Onboarding)
+              </Label>
+              <Select value={selectedDeptId} onValueChange={handleDepartmentSelect}>
+                <SelectTrigger className="bg-white text-xs h-8">
+                  <SelectValue placeholder="Selecione o setor responsável..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((d) => (
+                    <SelectItem key={d.id} value={d.id} className="text-xs">
+                      {d.name} {d.manager ? `(${d.manager})` : ''}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {deptManager && (
+                <div className="text-[11px] text-slate-600 flex items-center gap-1 pt-1">
+                  <UserCheck className="h-3 w-3 text-emerald-600 shrink-0" />
+                  <span>
+                    Responsável: <strong>{deptManager}</strong> {deptEmail ? `(${deptEmail})` : ''}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">

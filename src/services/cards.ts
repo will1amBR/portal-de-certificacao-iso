@@ -1,5 +1,14 @@
 import pb from '@/lib/pocketbase/client'
 
+export interface PipeCardData {
+  department_name?: string
+  department_manager?: string
+  department_phone?: string
+  department_email?: string
+  assigned_sector?: string
+  [key: string]: any
+}
+
 export interface PipeCard {
   id: string
   pipe: string
@@ -12,7 +21,7 @@ export interface PipeCard {
   priority?: 'baixa' | 'média' | 'alta' | 'crítica'
   due_date?: string
   assignee?: string
-  data?: Record<string, any>
+  data?: PipeCardData
   order?: number
   created: string
   updated: string

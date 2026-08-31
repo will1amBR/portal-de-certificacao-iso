@@ -1,5 +1,6 @@
 import pb from '@/lib/pocketbase/client'
 import { Pipe } from '@/services/pipes'
+import { CompanyDepartment } from '@/services/users'
 
 export interface StandardPresetItem {
   code: string
@@ -9,18 +10,20 @@ export interface StandardPresetItem {
   color: string
   order: number
   stages: string[]
+  suggestedDepartmentKeywords?: string[]
   sampleCards?: Array<{
     title: string
     origin: string
     description: string
     stage: string
     priority: 'baixa' | 'média' | 'alta' | 'crítica'
+    departmentKeyword?: string
   }>
 }
 
 export interface StandardPreset {
   id: string
-  standardCode: '9001' | '14001' | '27001' | '45001' | 'NR1' | 'NR27'
+  standardCode: string
   name: string
   subtitle: string
   badge: string
@@ -29,6 +32,10 @@ export interface StandardPreset {
   summary: string
   pipesCount: number
   pipes: StandardPresetItem[]
+  isCustom?: boolean
+  author?: string
+  created?: string
+  updated?: string
 }
 
 export const STANDARD_PRESETS: StandardPreset[] = [
@@ -59,20 +66,23 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Validação de Eficácia',
           'Concluído',
         ],
+        suggestedDepartmentKeywords: ['qualidade', 'sgq', 'garantia', 'engenharia', 'operações'],
         sampleCards: [
           {
             title: 'RNC-9001-01',
             origin: 'Auditoria de Processo',
-            description: 'Divergência nos apontamentos de inspeção de entrada de insumos.',
+            description: 'Divergência nos apontamentos de inspeção de entrada de insumos e laudos.',
             stage: 'Ação Imediata',
             priority: 'alta',
+            departmentKeyword: 'qualidade',
           },
           {
             title: 'RNC-9001-02',
             origin: 'Reclamação de Cliente',
-            description: 'Atraso na liberação técnica da remessa #4521.',
+            description: 'Atraso na liberação técnica da remessa #4521 e divergência dimensional.',
             stage: 'Análise de Causa (5P / Ishikawa)',
             priority: 'média',
+            departmentKeyword: 'operações',
           },
         ],
       },
@@ -91,13 +101,15 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Publicado / Vigente',
           'Histórico / Obsoleto',
         ],
+        suggestedDepartmentKeywords: ['diretoria', 'qualidade', 'documentação', 'gestão'],
         sampleCards: [
           {
             title: 'POP-QUAL-001 Rev.03',
             origin: 'Comitê da Qualidade',
-            description: 'Procedimento Geral de Controle de Registros e Auditorias.',
+            description: 'Procedimento Geral de Controle de Registros, Revisões e Auditorias.',
             stage: 'Publicado / Vigente',
             priority: 'alta',
+            departmentKeyword: 'qualidade',
           },
         ],
       },
@@ -116,6 +128,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Elaboração de Relatório',
           'Follow-up Concluído',
         ],
+        suggestedDepartmentKeywords: ['qualidade', 'diretoria', 'auditoria'],
         sampleCards: [
           {
             title: 'AUD-INT-Q3',
@@ -123,6 +136,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Ciclo semestral de auditoria interna nas cláusulas 4 a 10.',
             stage: 'Planejada / Escopo',
             priority: 'alta',
+            departmentKeyword: 'qualidade',
           },
         ],
       },
@@ -141,13 +155,16 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Plano de Metas / Recursos',
           'Aprovado',
         ],
+        suggestedDepartmentKeywords: ['diretoria', 'operações', 'executiva', 'gestão'],
         sampleCards: [
           {
             title: 'ATA-DIR-2026',
             origin: 'Diretoria Executiva',
-            description: 'Análise anual do desempenho do SGQ e alocação orçamentária.',
+            description:
+              'Análise anual do desempenho do SGQ e alocação orçamentária para certificação.',
             stage: 'Coleta de Entradas',
             priority: 'crítica',
+            departmentKeyword: 'diretoria',
           },
         ],
       },
@@ -166,13 +183,21 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Calibrado / Liberado',
           'Fora de Uso',
         ],
+        suggestedDepartmentKeywords: [
+          'suprimentos',
+          'almoxarifado',
+          'obras',
+          'manutenção',
+          'operações',
+        ],
         sampleCards: [
           {
             title: 'CAL-INSTR-09',
             origin: 'Laboratório RBC',
-            description: 'Calibração do micrômetro digital de alta precisão.',
+            description: 'Calibração periódica do micrômetro e trena laser de precisão.',
             stage: 'Calibrado / Liberado',
             priority: 'média',
+            departmentKeyword: 'suprimentos',
           },
         ],
       },
@@ -191,13 +216,16 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Avaliação de Eficácia (90d)',
           'Certificado Homologado',
         ],
+        suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'dho', 'gestão de pessoas'],
         sampleCards: [
           {
             title: 'TREIN-SGQ-2026',
             origin: 'RH / DHO',
-            description: 'Treinamento de conscientização da Política da Qualidade.',
+            description:
+              'Treinamento de conscientização da Política da Qualidade e procedimentos operacionais.',
             stage: 'Certificado Homologado',
             priority: 'média',
+            departmentKeyword: 'recursos humanos',
           },
         ],
       },
@@ -216,6 +244,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Tratamento de Detratores',
           'Concluído',
         ],
+        suggestedDepartmentKeywords: ['comercial', 'atendimento', 'operações', 'diretoria'],
         sampleCards: [
           {
             title: 'NPS-2026-Q2',
@@ -223,6 +252,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Pesquisa trimestral de satisfação dos principais clientes corporativos.',
             stage: 'Análise de NPS / Métricas',
             priority: 'alta',
+            departmentKeyword: 'comercial',
           },
         ],
       },
@@ -255,13 +285,16 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Monitoramento Operacional',
           'Aspecto Mitigado',
         ],
+        suggestedDepartmentKeywords: ['meio ambiente', 'sesmt', 'segurança', 'obras', 'operações'],
         sampleCards: [
           {
             title: 'LAIA-AMB-01',
             origin: 'Engenharia Ambiental',
-            description: 'Avaliação de geração de efluentes oleosos na área de manutenção.',
+            description:
+              'Avaliação de geração de efluentes oleosos na área de manutenção e canteiro.',
             stage: 'Medida de Controle Proposta',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -280,6 +313,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Licença Vigente',
           'Renovação Concluída',
         ],
+        suggestedDepartmentKeywords: ['diretoria', 'jurídico', 'meio ambiente', 'obras'],
         sampleCards: [
           {
             title: 'LIC-LO-2026',
@@ -287,6 +321,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Renovação da Licença de Operação junto ao órgão ambiental estadual.',
             stage: 'Licença Vigente',
             priority: 'crítica',
+            departmentKeyword: 'diretoria',
           },
         ],
       },
@@ -305,13 +340,16 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Destinação / Reciclagem',
           'CDF Anexado',
         ],
+        suggestedDepartmentKeywords: ['almoxarifado', 'suprimentos', 'obras', 'operações'],
         sampleCards: [
           {
             title: 'MTR-LOTE-441',
             origin: 'Almoxarifado / Pátio',
-            description: 'Destinação de sucata metálica e embalagens plásticas contaminadas.',
+            description:
+              'Destinação de sucata metálica e embalagens plásticas contaminadas com CDF.',
             stage: 'Destinação / Reciclagem',
             priority: 'média',
+            departmentKeyword: 'suprimentos',
           },
         ],
       },
@@ -330,6 +368,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Adequações / Kits',
           'Homologado',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'brigada', 'obras'],
         sampleCards: [
           {
             title: 'SIMULADO-VAZAM-26',
@@ -337,6 +376,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Simulação de contenção de óleo com barreiras e mantas absorventes.',
             stage: 'Homologado',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -355,6 +395,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Ação Preventiva',
           'Em Conformidade',
         ],
+        suggestedDepartmentKeywords: ['obras', 'engenharia', 'qualidade', 'sesmt'],
         sampleCards: [
           {
             title: 'LAUDO-RUIDO-Q3',
@@ -362,6 +403,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Medição perimetral de ruído diurno e noturno conforme NBR 10151.',
             stage: 'Em Conformidade',
             priority: 'média',
+            departmentKeyword: 'obras',
           },
         ],
       },
@@ -394,6 +436,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Comunicação DPO / Diretoria',
           'Incidente Mitigado',
         ],
+        suggestedDepartmentKeywords: ['ti', 'tecnologia', 'cibersegurança', 'diretoria'],
         sampleCards: [
           {
             title: 'INC-SEC-2026-04',
@@ -401,6 +444,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Tentativa de ataque de força bruta bloqueada no firewall corporativo.',
             stage: 'Incidente Mitigado',
             priority: 'alta',
+            departmentKeyword: 'ti',
           },
         ],
       },
@@ -419,6 +463,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Implementação SoA',
           'Risco Residual Aceito',
         ],
+        suggestedDepartmentKeywords: ['ti', 'tecnologia', 'diretoria', 'qualidade'],
         sampleCards: [
           {
             title: 'RSK-TI-CLOUD-01',
@@ -427,6 +472,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Migração de banco de dados com exigência de criptografia em trânsito e repouso.',
             stage: 'Implementação SoA',
             priority: 'crítica',
+            departmentKeyword: 'ti',
           },
         ],
       },
@@ -445,6 +491,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Revisão Periódica',
           'Revogado / Offboarding',
         ],
+        suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'ti', 'dho'],
         sampleCards: [
           {
             title: 'REQ-ACC-2026-88',
@@ -452,6 +499,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Liberação de permissões VPN e ERP com autenticação em duas etapas.',
             stage: 'Concessão TI / MFA Ativo',
             priority: 'média',
+            departmentKeyword: 'rh',
           },
         ],
       },
@@ -470,6 +518,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Deploy de Atualização',
           'Re-Scan Homologado',
         ],
+        suggestedDepartmentKeywords: ['ti', 'tecnologia', 'infraestrutura'],
         sampleCards: [
           {
             title: 'VULN-PATCH-AGOSTO',
@@ -477,6 +526,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Atualização de segurança crítica nos servidores Linux de produção.',
             stage: 'Deploy de Atualização',
             priority: 'alta',
+            departmentKeyword: 'ti',
           },
         ],
       },
@@ -495,6 +545,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Resposta ao Titular',
           'Registro Arquivado',
         ],
+        suggestedDepartmentKeywords: ['jurídico', 'compliance', 'dpo', 'diretoria'],
         sampleCards: [
           {
             title: 'DSAR-LGPD-012',
@@ -502,6 +553,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Solicitação de confirmação de tratamento de dados por ex-colaborador.',
             stage: 'Resposta ao Titular',
             priority: 'média',
+            departmentKeyword: 'diretoria',
           },
         ],
       },
@@ -534,6 +586,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Plano de Prevenção',
           'Eficácia Comprovada',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'saúde', 'obras'],
         sampleCards: [
           {
             title: 'INC-SST-032',
@@ -541,6 +594,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Quase-acidente com rompimento de cinta de içamento de carga no pátio.',
             stage: 'Plano de Prevenção',
             priority: 'crítica',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -559,6 +613,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Trabalho em Execução',
           'PT Encerrada',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'obras', 'engenharia'],
         sampleCards: [
           {
             title: 'APR-ALTURA-084',
@@ -566,6 +621,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Trabalho em altura com andaime fachadeiro e linha de vida.',
             stage: 'Trabalho em Execução',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -584,6 +640,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Substituição de EPI',
           'Conforme',
         ],
+        suggestedDepartmentKeywords: ['suprimentos', 'almoxarifado', 'segurança', 'sesmt'],
         sampleCards: [
           {
             title: 'INSP-EPI-019',
@@ -591,6 +648,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Substituição de capacetes com jugular e talabartes com absorvedor.',
             stage: 'Conforme',
             priority: 'média',
+            departmentKeyword: 'suprimentos',
           },
         ],
       },
@@ -609,6 +667,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Execução do DDS / SIPAT',
           'Ata Aprovada',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'rh', 'recursos humanos', 'cipa'],
         sampleCards: [
           {
             title: 'CIPA-ATA-08',
@@ -617,6 +676,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Adequação ergonômica dos postos de trabalho e iluminação do almoxarifado.',
             stage: 'Plano de Melhoria',
             priority: 'média',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -635,6 +695,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'ASO Homologado (Apto)',
           'Registrado no eSocial',
         ],
+        suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'sesmt', 'saúde'],
         sampleCards: [
           {
             title: 'ASO-PER-2026',
@@ -642,6 +703,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Lote de 18 exames periódicos para equipe operacional.',
             stage: 'ASO Homologado (Apto)',
             priority: 'alta',
+            departmentKeyword: 'rh',
           },
         ],
       },
@@ -674,6 +736,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Controle Proposto',
           'Inventário Consolidado',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'engenharia', 'obras'],
         sampleCards: [
           {
             title: 'GRO-GHE-03',
@@ -682,6 +745,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Avaliação de ruído contínuo e vibração de mãos e braços no corte de estruturas.',
             stage: 'Controle Proposto',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -700,6 +764,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Eficácia In Loco',
           'Ação Concluída',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'diretoria', 'obras'],
         sampleCards: [
           {
             title: 'PGR-ACAO-2026-05',
@@ -707,6 +772,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Instalação de exaustão localizada na bancada de solda.',
             stage: 'Em Execução',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -725,6 +791,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Avaliação de Aprendizado',
           'Certificado eSocial',
         ],
+        suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'sesmt', 'dho'],
         sampleCards: [
           {
             title: 'CAP-NR01-INTEG',
@@ -733,6 +800,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Treinamento de integração geral sobre riscos dos setores e medidas de segurança.',
             stage: 'Certificado eSocial',
             priority: 'média',
+            departmentKeyword: 'rh',
           },
         ],
       },
@@ -751,6 +819,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Homologação Responsável Técnico',
           'PGR Vigente',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'saúde', 'diretoria'],
         sampleCards: [
           {
             title: 'REV-PGR-ANUAL',
@@ -758,6 +827,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Revisão das medidas de prevenção após alterações de layout fabril.',
             stage: 'PGR Vigente',
             priority: 'alta',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -790,6 +860,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Profissional Habilitado',
           'Renovação Periódica',
         ],
+        suggestedDepartmentKeywords: ['recursos humanos', 'rh', 'dho', 'engenharia'],
         sampleCards: [
           {
             title: 'HAB-ENG-MEC-01',
@@ -798,6 +869,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Validação da certidão de registro e quitação no CREA do engenheiro responsável.',
             stage: 'Profissional Habilitado',
             priority: 'alta',
+            departmentKeyword: 'rh',
           },
         ],
       },
@@ -816,6 +888,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Vinculada ao Projeto/Obra',
           'Baixa por Conclusão',
         ],
+        suggestedDepartmentKeywords: ['obras', 'engenharia', 'operações', 'diretoria'],
         sampleCards: [
           {
             title: 'ART-LAUDO-NR12',
@@ -823,6 +896,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'ART de apreciação de risco de prensas e máquinas operatrizes.',
             stage: 'Vinculada ao Projeto/Obra',
             priority: 'crítica',
+            departmentKeyword: 'obras',
           },
         ],
       },
@@ -841,6 +915,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Em Operação Liberada',
           'Reciclagem Anual',
         ],
+        suggestedDepartmentKeywords: ['segurança', 'sesmt', 'suprimentos', 'operações'],
         sampleCards: [
           {
             title: 'AUT-EMPILH-04',
@@ -848,6 +923,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
             description: 'Reciclagem e emissão de crachá para operador de empilhadeira a gás.',
             stage: 'Em Operação Liberada',
             priority: 'média',
+            departmentKeyword: 'segurança',
           },
         ],
       },
@@ -866,6 +942,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
           'Prestação de Serviço Liberada',
           'Auditoria Mensal',
         ],
+        suggestedDepartmentKeywords: ['suprimentos', 'jurídico', 'almoxarifado', 'diretoria'],
         sampleCards: [
           {
             title: 'TERC-ELETRICA-SP',
@@ -874,6 +951,7 @@ export const STANDARD_PRESETS: StandardPreset[] = [
               'Auditoria documental mensal da terceirizada de manutenção elétrica predial.',
             stage: 'Prestação de Serviço Liberada',
             priority: 'alta',
+            departmentKeyword: 'suprimentos',
           },
         ],
       },
@@ -882,16 +960,163 @@ export const STANDARD_PRESETS: StandardPreset[] = [
 ]
 
 /**
- * Applies a complete preset of pipes and realistic cards to a target client / certification
+ * Intelligent helper to match a pipe/card to the most suitable department from the client's onboarding
+ */
+export function findBestMatchingDepartment(
+  keywords: string[] | undefined,
+  departments: CompanyDepartment[],
+): CompanyDepartment | null {
+  if (!departments || departments.length === 0) return null
+  if (!keywords || keywords.length === 0) return departments[0]
+
+  // Try exact or partial string matching on department name or notes
+  for (const kw of keywords) {
+    const cleanKw = kw.toLowerCase().trim()
+    const found = departments.find((d) => {
+      const name = (d.name || '').toLowerCase()
+      const notes = (d.notes || '').toLowerCase()
+      return name.includes(cleanKw) || notes.includes(cleanKw)
+    })
+    if (found) return found
+  }
+
+  return departments[0]
+}
+
+/**
+ * Custom Presets (persisted in PocketBase collection 'custom_presets')
+ */
+export async function getCustomPresets(): Promise<StandardPreset[]> {
+  try {
+    const records = await pb.collection('custom_presets').getFullList({
+      sort: '-created',
+    })
+    return records.map((r) => ({
+      id: r.id,
+      standardCode: r.standardCode || '9001',
+      name: r.name,
+      subtitle: r.subtitle || 'Pre-set Personalizado do Auditor',
+      badge: r.badge || 'Personalizado',
+      color: r.color || 'from-indigo-600 to-purple-800',
+      icon: r.icon || 'Layers',
+      summary: r.summary || 'Conjunto personalizado de fluxos e etapas.',
+      pipesCount: Array.isArray(r.pipes) ? r.pipes.length : r.pipesCount || 0,
+      pipes: Array.isArray(r.pipes) ? r.pipes : [],
+      isCustom: true,
+      author: r.author,
+      created: r.created,
+      updated: r.updated,
+    }))
+  } catch (e) {
+    console.error('Erro ao buscar pre-sets personalizados:', e)
+    return []
+  }
+}
+
+export async function saveCustomPreset(preset: Partial<StandardPreset>): Promise<StandardPreset> {
+  const pipes = preset.pipes || []
+  const payload = {
+    name: preset.name || 'Novo Pre-set Personalizado',
+    subtitle: preset.subtitle || 'Conjunto customizado de pipes',
+    standardCode: preset.standardCode || '9001',
+    badge: preset.badge || 'Personalizado',
+    color: preset.color || 'from-blue-600 to-indigo-800',
+    icon: preset.icon || 'Layers',
+    summary: preset.summary || 'Fluxos adaptados pelo auditor para clientes específicos.',
+    pipes: pipes,
+    pipesCount: pipes.length,
+    author: pb.authStore.record?.id,
+    is_public: true,
+  }
+
+  if (preset.id && !preset.id.startsWith('preset-')) {
+    // Update existing in PocketBase
+    const updated = await pb.collection('custom_presets').update(preset.id, payload)
+    return {
+      id: updated.id,
+      standardCode: updated.standardCode,
+      name: updated.name,
+      subtitle: updated.subtitle,
+      badge: updated.badge,
+      color: updated.color,
+      icon: updated.icon,
+      summary: updated.summary,
+      pipesCount: updated.pipesCount,
+      pipes: updated.pipes,
+      isCustom: true,
+      author: updated.author,
+      created: updated.created,
+      updated: updated.updated,
+    }
+  } else {
+    // Create new
+    const created = await pb.collection('custom_presets').create(payload)
+    return {
+      id: created.id,
+      standardCode: created.standardCode,
+      name: created.name,
+      subtitle: created.subtitle,
+      badge: created.badge,
+      color: created.color,
+      icon: created.icon,
+      summary: created.summary,
+      pipesCount: created.pipesCount,
+      pipes: created.pipes,
+      isCustom: true,
+      author: created.author,
+      created: created.created,
+      updated: created.updated,
+    }
+  }
+}
+
+export async function deleteCustomPreset(id: string): Promise<boolean> {
+  try {
+    await pb.collection('custom_presets').delete(id)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Applies a complete preset (standard or custom) of pipes and realistic cards to a target client / certification
+ * Automatically links client onboarding departments & managers to the cards!
  */
 export async function applyStandardPresetToClient(params: {
-  presetId: string
+  presetId?: string
+  customPreset?: StandardPreset
   clientId: string
   certificationId?: string
 }): Promise<{ createdPipesCount: number; createdCardsCount: number }> {
-  const { presetId, clientId, certificationId } = params
+  const { presetId, customPreset, clientId, certificationId } = params
 
-  const preset = STANDARD_PRESETS.find((p) => p.id === presetId)
+  let preset: StandardPreset | undefined = customPreset
+
+  if (!preset && presetId) {
+    preset = STANDARD_PRESETS.find((p) => p.id === presetId)
+    if (!preset) {
+      try {
+        const customRec = await pb.collection('custom_presets').getOne(presetId)
+        preset = {
+          id: customRec.id,
+          standardCode: customRec.standardCode,
+          name: customRec.name,
+          subtitle: customRec.subtitle,
+          badge: customRec.badge,
+          color: customRec.color,
+          icon: customRec.icon,
+          summary: customRec.summary,
+          pipesCount: customRec.pipesCount,
+          pipes: customRec.pipes,
+          isCustom: true,
+        }
+      } catch {
+        /* noop */
+      }
+    }
+  }
+
   if (!preset) {
     throw new Error('Pre-set não encontrado.')
   }
@@ -906,15 +1131,19 @@ export async function applyStandardPresetToClient(params: {
       isoTypeId = isoType.id
     }
   } catch {
-    // If not found by exact code, try without dashes or fallback
+    // If not found by exact code, fallback
   }
 
-  // 2. Resolve client business model if available
+  // 2. Resolve client business model & departments from onboarding
   let businessModelId = ''
+  let clientDepartments: CompanyDepartment[] = []
   try {
     const clientUser = await pb.collection('users').getOne(clientId)
     if (clientUser.business_model) {
       businessModelId = clientUser.business_model
+    }
+    if (clientUser.departments && Array.isArray(clientUser.departments)) {
+      clientDepartments = clientUser.departments
     }
   } catch {
     /* intentionally ignored */
@@ -932,10 +1161,11 @@ export async function applyStandardPresetToClient(params: {
       title: p.title,
       code: p.code,
       description: p.description,
-      icon: p.icon,
-      color: p.color,
-      order: p.order,
-      stages: p.stages,
+      icon: p.icon || 'Layers',
+      color: p.color || 'bg-blue-600 text-white',
+      order: p.order || i + 1,
+      stages:
+        p.stages && p.stages.length > 0 ? p.stages : ['Ação Imediata', 'Em Análise', 'Concluído'],
     }
 
     if (isoTypeId) {
@@ -948,19 +1178,38 @@ export async function applyStandardPresetToClient(params: {
     const createdPipe = await pb.collection('pipes').create(pipePayload)
     createdPipesCount++
 
-    // 4. Create sample starter cards if defined
+    // Determine matching department for this pipe
+    const pipeDept = findBestMatchingDepartment(p.suggestedDepartmentKeywords, clientDepartments)
+
+    // 4. Create sample starter cards if defined, with automatic department linking
     if (p.sampleCards && p.sampleCards.length > 0) {
       for (let j = 0; j < p.sampleCards.length; j++) {
         const sc = p.sampleCards[j]
+        const cardKeywords = sc.departmentKeyword
+          ? [sc.departmentKeyword, ...(p.suggestedDepartmentKeywords || [])]
+          : p.suggestedDepartmentKeywords
+
+        const assignedDept = findBestMatchingDepartment(cardKeywords, clientDepartments) || pipeDept
+
+        const cardData: Record<string, any> = {}
+        if (assignedDept) {
+          cardData.department_name = assignedDept.name
+          cardData.department_manager = assignedDept.manager
+          cardData.department_phone = assignedDept.phone
+          cardData.department_email = assignedDept.email
+          cardData.assigned_sector = assignedDept.name
+        }
+
         const cardPayload: Record<string, any> = {
           pipe: createdPipe.id,
           title: sc.title,
           origin: sc.origin,
           description: sc.description,
-          stage: sc.stage,
-          priority: sc.priority,
+          stage: sc.stage || p.stages[0] || 'Ação Imediata',
+          priority: sc.priority || 'média',
           user: clientId,
           order: j + 1,
+          data: cardData,
         }
 
         if (certificationId) {
@@ -979,7 +1228,7 @@ export async function applyStandardPresetToClient(params: {
       user: clientId,
       type: 'task_assigned',
       title: `Pre-set de Pipes Ativado: ${preset.name}`,
-      message: `O auditor aplicou o fluxo completo de ${preset.name} (${preset.pipesCount} pipes). Os módulos já estão disponíveis na sua área de Processos & Pipes.`,
+      message: `O auditor aplicou o fluxo completo de ${preset.name} (${preset.pipesCount || createdPipesCount} pipes). Os módulos já estão disponíveis na sua área de Processos & Pipes.`,
       is_read: false,
     })
   } catch {

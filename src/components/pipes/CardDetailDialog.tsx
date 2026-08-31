@@ -9,6 +9,10 @@ import {
   ShieldCheck,
   User,
   Building,
+  Phone,
+  Mail,
+  UserCheck,
+  Tag,
 } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
@@ -24,6 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { PipeCard, updateCard, deleteCard, moveCardStage } from '@/services/cards'
+import { getAllUsers, IsoUser, CompanyDepartment } from '@/services/users'
 import { toast } from 'sonner'
 
 interface CardDetailDialogProps {
@@ -47,6 +52,14 @@ export function CardDetailDialog({
   const [origin, setOrigin] = useState(card?.origin || '')
   const [priority, setPriority] = useState<string>(card?.priority || 'média')
   const [dueDate, setDueDate] = useState(card?.due_date ? card.due_date.split('T')[0] : '')
+
+  // Department & Responsible assignment fields
+  const [departmentName, setDepartmentName] = useState(card?.data?.department_name || '')
+  const [departmentManager, setDepartmentManager] = useState(card?.data?.department_manager || '')
+  const [departmentPhone, setDepartmentPhone] = useState(card?.data?.department_phone || '')
+  const [departmentEmail, setDepartmentEmail] = useState(card?.data?.department_email || '')
+
+  const [availableDepartments, setAvailableDepartments] = useState<CompanyDepartment[]>([])
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -55,6 +68,22 @@ export function CardDetailDialog({
       setOrigin(card.origin || '')
       setPriority(card.priority || 'média')
       setDueDate(card.due_date ? card.due_date.split('T')[0] : '')
+      setDepartmentName(card.data?.department_name || card.data?.assigned_sector || '')
+      setDepartmentManager(card.data?.department_manager || '')
+      setDepartmentPhone(card.data?.department_phone || '')
+      setDepartmentEmail(card.data?.department_email || '')
+
+      // Load client departments if user is populated
+      if (card.user) {
+        getAllUsers()
+          .then((users) => {
+            const targetUser = users.find((u) => u.id === card.user)
+            if (targetUser?.departments && Array.isArray(targetUser.departments)) {
+              setAvailableDepartments(targetUser.departments)
+            }
+          })
+          .catch(() => {})
+      }
     }
   }, [card])
 
@@ -70,14 +99,34 @@ export function CardDetailDialog({
     }
   }
 
+  const handleSelectDepartment = (deptId: string) => {
+    const found = availableDepartments.find((d) => d.id === deptId)
+    if (found) {
+      setDepartmentName(found.name)
+      setDepartmentManager(found.manager || '')
+      setDepartmentPhone(found.phone || '')
+      setDepartmentEmail(found.email || '')
+    }
+  }
+
   const handleSave = async () => {
     setSaving(true)
     try {
+      const updatedData = {
+        ...(card.data || {}),
+        department_name: departmentName,
+        department_manager: departmentManager,
+        department_phone: departmentPhone,
+        department_email: departmentEmail,
+        assigned_sector: departmentName,
+      }
+
       await updateCard(card.id, {
         origin,
         description,
         priority: priority as any,
         due_date: dueDate || undefined,
+        data: updatedData,
       })
       toast.success('Card atualizado')
       onUpdated()
@@ -118,7 +167,7 @@ export function CardDetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b pb-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-2">
@@ -156,6 +205,100 @@ export function CardDetailDialog({
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+
+          {/* SOLICITAÇÃO 3: Vínculo com Setor & Responsável do Onboarding */}
+          <div className="p-3.5 bg-blue-50/50 rounded-xl border border-blue-200/80 space-y-3 text-xs">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <span className="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <Building className="h-3.5 w-3.5 text-[#0055A4]" />
+                Setor e Responsável Atribuído (Onboarding)
+              </span>
+
+              {availableDepartments.length > 0 && (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] text-slate-500">Selecionar setor:</span>
+                  <Select onValueChange={handleSelectDepartment}>
+                    <SelectTrigger className="h-7 text-[11px] bg-white border-blue-200 w-48">
+                      <SelectValue placeholder="Escolher setor..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableDepartments.map((d) => (
+                        <SelectItem key={d.id} value={d.id} className="text-xs">
+                          {d.name} {d.manager ? `(${d.manager})` : ''}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label htmlFor="c-dept" className="text-[11px] font-medium text-slate-600">
+                  Nome do Setor / Área
+                </Label>
+                <Input
+                  id="c-dept"
+                  value={departmentName}
+                  onChange={(e) => setDepartmentName(e.target.value)}
+                  placeholder="Ex: Garantia da Qualidade, SESMT..."
+                  className="h-8 text-xs bg-white font-semibold text-slate-900"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label
+                  htmlFor="c-mgr"
+                  className="text-[11px] font-medium text-slate-600 flex items-center gap-1"
+                >
+                  <UserCheck className="h-3 w-3 text-emerald-600" /> Responsável Direto
+                </Label>
+                <Input
+                  id="c-mgr"
+                  value={departmentManager}
+                  onChange={(e) => setDepartmentManager(e.target.value)}
+                  placeholder="Nome do gestor responsável"
+                  className="h-8 text-xs bg-white font-medium text-slate-800"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label
+                  htmlFor="c-phone"
+                  className="text-[11px] font-medium text-slate-600 flex items-center gap-1"
+                >
+                  <Phone className="h-3 w-3 text-slate-400" /> Telefone / WhatsApp
+                </Label>
+                <Input
+                  id="c-phone"
+                  value={departmentPhone}
+                  onChange={(e) => setDepartmentPhone(e.target.value)}
+                  placeholder="(11) 99999-9999"
+                  className="h-8 text-xs bg-white"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label
+                  htmlFor="c-email"
+                  className="text-[11px] font-medium text-slate-600 flex items-center gap-1"
+                >
+                  <Mail className="h-3 w-3 text-slate-400" /> E-mail de Notificação
+                </Label>
+                <Input
+                  id="c-email"
+                  type="email"
+                  value={departmentEmail}
+                  onChange={(e) => setDepartmentEmail(e.target.value)}
+                  placeholder="responsavel@empresa.com"
+                  className="h-8 text-xs bg-white"
+                />
+              </div>
             </div>
           </div>
 
