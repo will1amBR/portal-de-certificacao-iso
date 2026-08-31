@@ -655,6 +655,18 @@ export function AdminOnboardingPipeline() {
 
                     {/* Right: Quick Action Buttons */}
                     <div className="flex flex-wrap items-center gap-2 shrink-0 border-t xl:border-t-0 pt-3 xl:pt-0 border-slate-100">
+                      <Link to={`/consultor`}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs font-medium border-blue-200 text-[#0055A4] hover:bg-blue-50 whitespace-nowrap min-h-[36px]"
+                          title="Inserir pre-set de pipes por norma"
+                        >
+                          <Sparkles className="h-3.5 w-3.5 mr-1 text-[#0055A4] shrink-0" />
+                          Pre-sets de Pipes
+                        </Button>
+                      </Link>
+
                       <Button
                         variant="outline"
                         size="sm"

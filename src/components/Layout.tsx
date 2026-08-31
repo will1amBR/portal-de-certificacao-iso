@@ -43,8 +43,19 @@ export default function Layout() {
     return <Outlet />
   }
 
+  const isConsultantOrAdmin = user?.role === 'admin' || user?.role === 'consultor'
+
   const navItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    ...(isConsultantOrAdmin
+      ? [
+          {
+            label: 'Pre-sets & Hub do Auditor',
+            path: '/consultor',
+            icon: Sparkles,
+          },
+        ]
+      : []),
     { label: 'Processos & Pipes', path: '/certificacoes', icon: ShieldCheck },
     { label: 'Documentos', path: '/documentos', icon: FileText },
     { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
@@ -274,6 +285,15 @@ export default function Layout() {
                 <User className="h-3.5 w-3.5 mr-2" />
                 Meu Perfil
               </DropdownMenuItem>
+              {isConsultantOrAdmin && (
+                <DropdownMenuItem
+                  onClick={() => navigate('/consultor')}
+                  className="cursor-pointer text-xs font-semibold text-[#0055A4]"
+                >
+                  <Sparkles className="h-3.5 w-3.5 mr-2 text-[#0055A4]" />
+                  Hub do Auditor & Pre-sets
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onClick={() => navigate('/certificacoes')}
                 className="cursor-pointer text-xs"

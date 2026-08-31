@@ -20,6 +20,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import AdminIsoTypes from './pages/AdminIsoTypes'
 import DocumentsPage from './pages/Documents'
 import SchedulesPage from './pages/Schedules'
+import AuditorPipesHub from './pages/AuditorPipesHub'
 
 const App = () => (
   <BrowserRouter>
@@ -36,6 +37,8 @@ const App = () => (
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
+              <Route path="/consultor" element={<AuditorPipesHub />} />
+              <Route path="/auditor" element={<AuditorPipesHub />} />
               <Route element={<OnboardingRoute />}>
                 <Route path="/app" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />

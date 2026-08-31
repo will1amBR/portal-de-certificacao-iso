@@ -33,11 +33,11 @@ const demoAccounts = [
   },
   {
     email: 'demo.auditor@alc.com.br',
-    label: 'Auditor',
+    label: 'Auditor Técnico (Pre-sets de Pipes)',
     description:
-      'Ana Costa: analise documentos, agende auditorias e gerencie tarefas dos clientes.',
+      'Ana Costa: consulte setores dos clientes e aplique pre-sets de Pipes em 1 clique por norma ISO/NR.',
     icon: ClipboardCheck,
-    redirect: '/dashboard',
+    redirect: '/consultor',
   },
   {
     email: 'demo.admin@alc.com.br',

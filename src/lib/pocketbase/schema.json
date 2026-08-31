@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T17:55:19.255Z",
+  "generatedAt": "2026-08-31T15:08:01.103Z",
   "collections": [
     {
       "name": "users",
@@ -57,6 +57,18 @@
           "required": false,
           "system": false,
           "collectionRef": "business_models"
+        },
+        {
+          "name": "departments",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "onboarding_completed",
+          "type": "bool",
+          "required": false,
+          "system": false
         }
       ],
       "indexes": [

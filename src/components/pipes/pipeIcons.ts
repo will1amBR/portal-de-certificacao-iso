@@ -18,6 +18,11 @@ import {
   AlertCircle,
   HelpCircle,
   Layers,
+  Leaf,
+  Lock,
+  HeartPulse,
+  ShieldAlert,
+  FileCheck2,
 } from 'lucide-react'
 
 export const PIPE_ICON_MAP: Record<string, any> = {
@@ -39,6 +44,11 @@ export const PIPE_ICON_MAP: Record<string, any> = {
   CheckCircle2,
   AlertCircle,
   Layers,
+  Leaf,
+  Lock,
+  HeartPulse,
+  ShieldAlert,
+  FileCheck2,
 }
 
 export function getPipeIcon(iconName?: string) {

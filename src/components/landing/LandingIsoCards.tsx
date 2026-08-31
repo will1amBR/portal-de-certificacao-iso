@@ -97,7 +97,7 @@ export function LandingIsoCards() {
               {selected && <selected.icon className={`h-6 w-6 ${selected.color}`} />}
             </div>
             <DialogTitle className="text-lg">
-              {selected?.code} — {selected?.title}
+              {selected?.code} - {selected?.title}
             </DialogTitle>
             <DialogDescription className="text-slate-600 text-sm leading-relaxed pt-2">
               {selected?.long}

@@ -112,6 +112,17 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
+          {(user?.role === 'consultor' || user?.role === 'admin') && (
+            <Button
+              asChild
+              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[40px]"
+            >
+              <Link to="/consultor">
+                <Sparkles className="h-4 w-4 mr-2 shrink-0 text-yellow-300" />
+                Pre-sets de Pipes por Norma
+              </Link>
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={() => setTourOpen(true)}
@@ -122,11 +133,11 @@ export default function Dashboard() {
           </Button>
           <Button
             asChild
-            className="bg-[#0055A4] hover:bg-[#1A73E8] text-white whitespace-nowrap min-h-[40px]"
+            className="bg-[#00A86B] hover:bg-emerald-600 text-white whitespace-nowrap min-h-[40px]"
           >
             <Link to="/certificacoes">
               <Plus className="h-4 w-4 mr-2 shrink-0" />
-              Nova Certificação / Pipe
+              Processos & Pipes
             </Link>
           </Button>
         </div>
