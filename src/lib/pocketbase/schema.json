@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T15:35:21.708Z",
+  "generatedAt": "2026-08-31T16:08:47.629Z",
   "collections": [
     {
       "name": "users",
@@ -567,9 +567,9 @@
       "apiRules": {
         "list": "@request.auth.id != ''",
         "view": "@request.auth.id != ''",
-        "create": "@request.auth.role = 'admin'",
-        "update": "@request.auth.role = 'admin'",
-        "delete": "@request.auth.role = 'admin'"
+        "create": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'",
+        "update": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'",
+        "delete": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'"
       },
       "fields": [
         {
@@ -613,9 +613,9 @@
       "apiRules": {
         "list": "@request.auth.id != ''",
         "view": "@request.auth.id != ''",
-        "create": "@request.auth.role = 'admin'",
-        "update": "@request.auth.role = 'admin'",
-        "delete": "@request.auth.role = 'admin'"
+        "create": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'",
+        "update": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'",
+        "delete": "@request.auth.role = 'admin' || @request.auth.role = 'consultor'"
       },
       "fields": [
         {

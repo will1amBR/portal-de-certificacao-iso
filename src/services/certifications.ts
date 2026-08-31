@@ -20,7 +20,14 @@ export interface Certification {
   updated: string
   expand?: {
     iso_type?: IsoType
-    user?: { id: string; name: string; email: string; avatar?: string }
+    user?: {
+      id: string
+      name: string
+      email: string
+      avatar?: string
+      business_model?: string
+      cnpj?: string
+    }
     consultant?: { id: string; name: string; email: string; avatar?: string }
   }
 }
@@ -28,7 +35,7 @@ export interface Certification {
 export const getCertifications = () =>
   pb.collection('certifications').getFullList<Certification>({
     sort: '-created',
-    expand: 'iso_type,consultant',
+    expand: 'iso_type,consultant,user',
   })
 
 export const getCertification = (id: string) =>

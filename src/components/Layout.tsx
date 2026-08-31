@@ -59,7 +59,11 @@ export default function Layout() {
     { label: 'Processos & Pipes', path: '/certificacoes', icon: ShieldCheck },
     { label: 'Documentos', path: '/documentos', icon: FileText },
     { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
-    { label: 'Meus Modelos', path: '/modelos', icon: LayoutTemplate },
+    {
+      label: isConsultantOrAdmin ? 'Catálogo de Templates' : 'Meus Modelos',
+      path: '/modelos',
+      icon: LayoutTemplate,
+    },
     ...(user?.role === 'admin'
       ? [
           { label: 'Painel Admin & Funil', path: '/admin', icon: Building2 },

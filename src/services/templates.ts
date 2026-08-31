@@ -1,18 +1,32 @@
 import pb from '@/lib/pocketbase/client'
 
+export type TemplateCategory =
+  | 'qualidade'
+  | 'meio ambiente'
+  | 'saúde e segurança'
+  | 'indicadores'
+  | 'licenças e documentos'
+  | 'cotação'
+  | 'controle de estoque'
+  | 'renovação'
+  | 'gestão de funcionários'
+  | 'outro'
+
+export type TemplateType = 'task' | 'document' | 'schedule'
+
 export interface Template {
   id: string
   business_model: string
-  type: 'task' | 'document' | 'schedule'
+  type: TemplateType
   title: string
   description: string
-  category: string
+  category: TemplateCategory | string
   required: boolean
   due_days: number
   created: string
   updated: string
   expand?: {
-    business_model?: { id: string; name: string; icon: string }
+    business_model?: { id: string; name: string; icon: string; description?: string }
   }
 }
 
@@ -26,11 +40,17 @@ export const getTemplatesByBusinessModel = (businessModelId: string) =>
   pb.collection('templates').getFullList<Template>({
     filter: `business_model = "${businessModelId}"`,
     sort: 'type,title',
+    expand: 'business_model',
+  })
+
+export const getTemplate = (id: string) =>
+  pb.collection('templates').getOne<Template>(id, {
+    expand: 'business_model',
   })
 
 export const createTemplate = (data: {
   business_model: string
-  type: 'task' | 'document' | 'schedule'
+  type: TemplateType
   title: string
   description?: string
   category?: string
@@ -41,7 +61,8 @@ export const createTemplate = (data: {
 export const updateTemplate = (
   id: string,
   data: Partial<{
-    type: string
+    business_model: string
+    type: TemplateType
     title: string
     description: string
     category: string
@@ -51,6 +72,18 @@ export const updateTemplate = (
 ) => pb.collection('templates').update<Template>(id, data)
 
 export const deleteTemplate = (id: string) => pb.collection('templates').delete(id)
+
+export const duplicateTemplate = async (template: Template, targetBusinessModelId?: string) => {
+  return createTemplate({
+    business_model: targetBusinessModelId || template.business_model,
+    type: template.type,
+    title: `${template.title} (Cópia)`,
+    description: template.description || '',
+    category: template.category || 'outro',
+    required: template.required ?? false,
+    due_days: template.due_days ?? 0,
+  })
+}
 
 export const instantiateTemplatesForCertification = async (
   certId: string,
