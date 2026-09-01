@@ -34,7 +34,7 @@ export function OnboardingRoute() {
     return <Navigate to="/login" replace />
   }
 
-  if (user?.role !== 'admin' && (!user?.cnpj || !user?.business_model)) {
+  if (user?.role === 'cliente' && (!user?.cnpj || !user?.business_model)) {
     return <Navigate to="/onboarding" replace />
   }
 
