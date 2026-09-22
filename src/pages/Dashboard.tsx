@@ -140,7 +140,7 @@ export default function Dashboard() {
                 {user?.role === 'admin'
                   ? 'Painel da Certificadora (ALC)'
                   : user?.role === 'consultor'
-                    ? 'Painel do Auditor Técnico (Ana Costa)'
+                    ? 'Painel do Auditor Técnico (Cauli)'
                     : 'Painel da Empresa (Construtora Horizonte)'}
               </span>
               <span className="text-xs text-blue-100 font-medium bg-white/10 px-2 py-0.5 rounded">
@@ -312,7 +312,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-amber-600" />
                 <CardTitle className="text-base font-bold text-slate-800">
-                  Ações Rápidas de Auditoria (Ana Costa)
+                  Ações Rápidas de Auditoria (Cauli)
                 </CardTitle>
               </div>
               <Badge className="bg-amber-600 text-white">Auditor Técnico</Badge>

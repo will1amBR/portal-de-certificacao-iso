@@ -6,6 +6,7 @@ import { AuthProvider } from '@/hooks/use-auth'
 import { ProtectedRoute, OnboardingRoute } from '@/components/ProtectedRoute'
 import Layout from '@/components/Layout'
 import Landing from './pages/Landing'
+import Demo from './pages/Demo'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
@@ -30,6 +31,7 @@ const App = () => (
         <Sonner />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/demo" element={<Demo />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Login />} />
           <Route path="/cadastro" element={<Login />} />

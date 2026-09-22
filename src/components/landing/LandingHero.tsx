@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ShieldCheck, Leaf, HeartPulse, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
-import { DemoSelector } from '@/components/DemoSelector'
 
 export function LandingHero() {
   const { isAuthenticated } = useAuth()
@@ -59,20 +58,29 @@ export function LandingHero() {
               {isAuthenticated ? 'Ir para o Painel' : 'Acessar Conta'}
             </Button>
           </Link>
+
+          {!isAuthenticated && (
+            <Link to="/demo" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="ghost"
+                className="bg-white/10 hover:bg-white/20 text-blue-100 hover:text-white border border-white/20 px-5 h-11 w-full sm:w-auto font-medium rounded-xl text-sm transition-all"
+              >
+                <Sparkles className="h-4 w-4 mr-2 text-yellow-300" />
+                Conhecer as Demos
+              </Button>
+            </Link>
+          )}
         </div>
 
-        {/* Demo Fast Selector & Tour link */}
+        {/* Clean explanatory link */}
         {!isAuthenticated && (
-          <div className="mt-6 pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-blue-200">
-            <div className="flex items-center gap-2 flex-wrap justify-center">
-              <span>Ou explore direto com dados de teste:</span>
-              <DemoSelector variant="hero" />
-            </div>
+          <div className="mt-6 pt-3 flex items-center justify-center gap-4 text-xs text-blue-200">
             <a
               href="#onboarding-explicativo"
-              className="inline-flex items-center gap-1 text-white hover:text-yellow-300 font-semibold underline underline-offset-4 transition-colors"
+              className="inline-flex items-center gap-1 text-blue-100 hover:text-yellow-300 font-medium underline underline-offset-4 transition-colors"
             >
-              <Sparkles className="h-3.5 w-3.5 text-yellow-300" /> Entenda como funciona em 3 passos
+              Entenda como funciona o portal em 3 passos
             </a>
           </div>
         )}

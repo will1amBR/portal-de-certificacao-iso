@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: 'Como funcionam os 3 perfis da Demonstração?',
-    a: 'Você pode testar a qualquer momento: Perfil Cliente (Construtora Horizonte) para enviar documentos e acompanhar progresso; Perfil Auditor (Ana Costa) para revisar não-conformidades e validar evidências; Perfil Certificadora (ALC) com funil de onboarding, pipeline de clientes e configuração global de modelos.',
+    a: 'Você pode testar a qualquer momento na página de Demonstração (/demo): Perfil Cliente (Construtora Horizonte) para enviar documentos e acompanhar progresso; Perfil Auditor (Cauli) para revisar não-conformidades e validar evidências; Perfil Certificadora (ALC) com funil de onboarding, pipeline de clientes e configuração global de modelos.',
   },
   {
     q: 'Quais normas ISO são atendidas?',

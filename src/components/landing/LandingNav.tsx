@@ -15,7 +15,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useAuth } from '@/hooks/use-auth'
-import { DemoSelector } from '@/components/DemoSelector'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -23,7 +22,6 @@ const navLinks = [
   { label: 'Normas ISO', href: '#certificacoes', icon: ShieldCheck },
   { label: 'Como Funciona (Onboarding)', href: '#onboarding-explicativo', icon: CheckCircle2 },
   { label: 'Etapas de Certificação', href: '#como-funciona', icon: ShieldCheck },
-  { label: 'Demonstração Interativa', href: '#demo-interativa', icon: Sparkles },
   { label: 'Dúvidas Frequentes', href: '#faq', icon: HelpCircle },
   { label: 'Contato', href: '#contato', icon: Phone },
 ]
@@ -78,7 +76,24 @@ export function LandingNav() {
         </a>
 
         {/* Right action & Hamburger Menu button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {!isAuthenticated && (
+            <Link to="/demo" className="hidden sm:inline-flex">
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  'text-xs font-semibold px-3 py-2 h-9 rounded-lg transition-colors',
+                  scrolled
+                    ? 'text-slate-600 hover:text-[#0055A4] hover:bg-slate-100'
+                    : 'text-blue-100 hover:text-white hover:bg-white/10',
+                )}
+              >
+                <Sparkles className="h-3.5 w-3.5 mr-1.5 text-yellow-400" /> Ver Demonstração
+              </Button>
+            </Link>
+          )}
+
           {isAuthenticated ? (
             <Link to="/dashboard">
               <Button
@@ -160,13 +175,22 @@ export function LandingNav() {
                   })}
                 </div>
 
-                {/* Quick Access Demo */}
+                {/* Discreto link para /demo */}
                 {!isAuthenticated && (
-                  <div className="px-4 py-3 mx-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                    <p className="text-xs font-semibold text-slate-700 mb-2">
-                      Testar sem cadastro:
+                  <div className="px-4 py-3 mx-4 rounded-xl bg-blue-50/60 border border-blue-100 text-center">
+                    <p className="text-xs text-slate-600 mb-2">
+                      Quer testar sem precisar criar conta?
                     </p>
-                    <DemoSelector variant="default" />
+                    <Link to="/demo" onClick={() => setOpen(false)} className="block">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs font-semibold text-[#0055A4] border-blue-200 hover:bg-blue-100/60"
+                      >
+                        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
+                        Conhecer as Demos
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>

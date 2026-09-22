@@ -26,10 +26,10 @@ const team = [
     img: 'https://img.usecurling.com/ppl/large?gender=male&seed=10',
   },
   {
-    name: 'Ana Costa',
-    role: 'Consultora Sênior',
-    bio: 'Especialista em gestão ambiental com 15 anos de experiência em auditorias ISO 14001.',
-    img: 'https://img.usecurling.com/ppl/large?gender=female&seed=20',
+    name: 'Cauli',
+    role: 'Auditor e Consultor Sênior',
+    bio: 'Especialista em auditoria e conformidade com ampla experiência em auditorias ISO 9001, 14001 e 45001.',
+    img: 'https://img.usecurling.com/ppl/large?gender=male&seed=20',
   },
   {
     name: 'Roberto Lima',

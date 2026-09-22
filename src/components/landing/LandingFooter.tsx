@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react'
+import { Mail, Phone, MapPin, ArrowRight, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -72,9 +72,12 @@ export function LandingFooter() {
                 </a>
               </li>
               <li>
-                <a href="#demo-interativa" className="hover:text-white transition-colors">
-                  Demonstração
-                </a>
+                <Link
+                  to="/demo"
+                  className="hover:text-white transition-colors flex items-center gap-1"
+                >
+                  Demonstração <Sparkles className="h-3 w-3 text-yellow-400" />
+                </Link>
               </li>
             </ul>
           </div>

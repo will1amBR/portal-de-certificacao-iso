@@ -12,7 +12,7 @@ export function DemoBanner({ onOpenTour }: { onOpenTour?: () => void }) {
     userRole === 'admin'
       ? 'Empresa de Auditoria (ALC Certificadora)'
       : userRole === 'consultor'
-        ? 'Auditor / Consultor Técnico (Ana Costa)'
+        ? 'Auditor / Consultor Técnico (Cauli)'
         : 'Cliente (Construtora Horizonte)'
 
   return (

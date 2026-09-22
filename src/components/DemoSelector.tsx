@@ -35,7 +35,7 @@ const demoAccounts = [
     email: 'demo.auditor@alc.com.br',
     label: 'Auditor Técnico (Pre-sets de Pipes)',
     description:
-      'Ana Costa: consulte setores dos clientes e aplique pre-sets de Pipes em 1 clique por norma ISO/NR.',
+      'Cauli: consulte setores dos clientes e aplique pre-sets de Pipes em 1 clique por norma ISO/NR.',
     icon: ClipboardCheck,
     redirect: '/dashboard',
   },
