@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <defs>
+    <linearGradient id="appleIsoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#003B73" />
+      <stop offset="50%" stop-color="#0055A4" />
+      <stop offset="100%" stop-color="#002850" />
+    </linearGradient>
+    <linearGradient id="appleGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A86B" />
+      <stop offset="100%" stop-color="#007F52" />
+    </linearGradient>
+  </defs>
+
+  <rect width="180" height="180" rx="40" fill="url(#appleIsoGrad)" />
+
+  <!-- Shield Base Outline -->
+  <path d="M90 22 L142 39 V84 C142 118 118 144 90 158 C62 144 38 118 38 84 V39 Z" 
+        fill="rgba(0,36,71,0.6)" 
+        stroke="rgba(255,255,255,0.22)" 
+        stroke-width="4" />
+
+  <!-- ISO Text -->
+  <text x="90" y="88" 
+        text-anchor="middle" 
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+        font-weight="900" 
+        font-size="40" 
+        letter-spacing="2" 
+        fill="#FFFFFF">ISO</text>
+
+  <!-- Ribbon -->
+  <rect x="52" y="100" width="76" height="16" rx="8" fill="url(#appleGreen)" />
+  <text x="90" y="111.5" 
+        text-anchor="middle" 
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+        font-weight="800" 
+        font-size="8" 
+        letter-spacing="1" 
+        fill="#FFFFFF">CERTIFICAÇÃO</text>
+</svg>

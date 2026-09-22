@@ -13,7 +13,7 @@ export default function Login() {
   const { signIn, signUp, isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const isSignup = location.pathname === '/signup'
+  const isSignup = location.pathname === '/signup' || location.pathname === '/cadastro'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')

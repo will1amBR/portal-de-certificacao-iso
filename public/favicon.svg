@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="isoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#003B73" />
+      <stop offset="50%" stop-color="#0055A4" />
+      <stop offset="100%" stop-color="#002850" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A86B" />
+      <stop offset="100%" stop-color="#007F52" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Rounded Shield / Badge -->
+  <rect width="512" height="512" rx="112" fill="url(#isoGrad)" />
+
+  <!-- Shield Base Outline -->
+  <path d="M256 64 L396 112 V240 C396 336 332 408 256 448 C180 408 116 336 116 240 V112 Z" 
+        fill="none" 
+        stroke="rgba(255,255,255,0.18)" 
+        stroke-width="12" />
+
+  <!-- Inner Ribbon Accent -->
+  <path d="M256 86 L376 128 V236 C376 320 320 384 256 422 C192 384 136 320 136 236 V128 Z" 
+        fill="#002447" 
+        opacity="0.65" />
+
+  <!-- Stylized ISO Typography inside -->
+  <text x="256" y="248" 
+        text-anchor="middle" 
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+        font-weight="900" 
+        font-size="108" 
+        letter-spacing="6" 
+        fill="#FFFFFF">ISO</text>
+
+  <!-- Certification Ribbon / Subtitle Badge -->
+  <rect x="156" y="278" width="200" height="34" rx="17" fill="url(#shieldGrad)" />
+  <text x="256" y="301" 
+        text-anchor="middle" 
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+        font-weight="800" 
+        font-size="16" 
+        letter-spacing="3" 
+        fill="#FFFFFF">CERTIFICAÇÃO</text>
+
+  <!-- Accreditation Stars / Checkmark -->
+  <g fill="#38BDF8">
+    <circle cx="196" cy="352" r="7" />
+    <circle cx="256" cy="358" r="9" />
+    <circle cx="316" cy="352" r="7" />
+  </g>
+</svg>

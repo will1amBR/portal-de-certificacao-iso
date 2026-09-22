@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
@@ -32,20 +32,33 @@ const App = () => (
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Login />} />
+          <Route path="/cadastro" element={<Login />} />
           <Route element={<Layout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
-              <Route path="/consultor" element={<AuditorPipesHub />} />
-              <Route path="/auditor" element={<AuditorPipesHub />} />
+
+              {/* Rotas exclusivas de Admin */}
+              <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
+                <Route path="/admin/modelos" element={<AdminModels />} />
+              </Route>
+
+              {/* Rotas de Auditor / Consultor e Admin */}
+              <Route element={<ProtectedRoute allowedRoles={['consultor', 'admin']} />}>
+                <Route path="/consultor" element={<AuditorPipesHub />} />
+                <Route path="/auditor" element={<AuditorPipesHub />} />
+              </Route>
+
+              {/* Rotas autenticadas do cliente (após onboarding completo) e equipe técnica */}
               <Route element={<OnboardingRoute />}>
                 <Route path="/app" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/certificacoes" element={<Certifications />} />
                 <Route path="/certificacoes/:id" element={<CertificationDetail />} />
+                <Route path="/pipes" element={<Certifications />} />
+                <Route path="/processos" element={<Certifications />} />
                 <Route path="/modelos" element={<Templates />} />
-                <Route path="/admin/modelos" element={<AdminModels />} />
                 <Route path="/documentos" element={<DocumentsPage />} />
                 <Route path="/agendamentos" element={<SchedulesPage />} />
                 <Route path="/relatorio-onboarding" element={<OnboardingReport />} />

@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#001F3F" />
+      <stop offset="40%" stop-color="#003B73" />
+      <stop offset="100%" stop-color="#0B192C" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.08)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.02)" />
+    </linearGradient>
+    <linearGradient id="accentIso" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A86B" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Subtle grid lines pattern -->
+  <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+    <line x1="100" y1="0" x2="100" y2="630" />
+    <line x1="250" y1="0" x2="250" y2="630" />
+    <line x1="400" y1="0" x2="400" y2="630" />
+    <line x1="550" y1="0" x2="550" y2="630" />
+    <line x1="700" y1="0" x2="700" y2="630" />
+    <line x1="850" y1="0" x2="850" y2="630" />
+    <line x1="1000" y1="0" x2="1000" y2="630" />
+    <line x1="0" y1="120" x2="1200" y2="120" />
+    <line x1="0" y1="260" x2="1200" y2="260" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="520" x2="1200" y2="520" />
+  </g>
+
+  <!-- Glowing background orb -->
+  <circle cx="1020" cy="180" r="260" fill="#0055A4" opacity="0.25" filter="blur(80px)" />
+  <circle cx="200" cy="500" r="220" fill="#00A86B" opacity="0.18" filter="blur(70px)" />
+
+  <!-- Top Brand Tag -->
+  <g transform="translate(80, 70)">
+    <rect width="72" height="42" rx="10" fill="#0055A4" />
+    <text x="36" y="27" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF" letter-spacing="1">ISO</text>
+    <text x="90" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20" fill="#E2E8F0" letter-spacing="0.5">ALC CERTIFICADORA • INMETRO</text>
+  </g>
+
+  <!-- Main Headline -->
+  <text x="80" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#FFFFFF" letter-spacing="-1">
+    Portal de Certificação ISO
+  </text>
+  <text x="80" y="255" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="34" fill="#38BDF8" letter-spacing="-0.5">
+    ISO 9001 • ISO 14001 • ISO 45001
+  </text>
+
+  <!-- Description Subtitle -->
+  <text x="80" y="325" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" font-size="20" fill="#94A3B8" width="600">
+    Área integrada do cliente, auditor e administrador. Gestão de não-conformidades em
+  </text>
+  <text x="80" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" font-size="20" fill="#94A3B8">
+    pipes Kanban, relatórios oficiais em PDF com assinatura digital e auditoria técnica.
+  </text>
+
+  <!-- 3 Norm Pills -->
+  <g transform="translate(80, 420)">
+    <!-- Pill 1: ISO 9001 -->
+    <rect x="0" y="0" width="190" height="48" rx="24" fill="rgba(2,132,199,0.18)" stroke="#38BDF8" stroke-width="1.5" />
+    <text x="95" y="29" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="16" fill="#BAE6FD">ISO 9001 (Qualidade)</text>
+
+    <!-- Pill 2: ISO 14001 -->
+    <rect x="210" y="0" width="220" height="48" rx="24" fill="rgba(16,185,129,0.18)" stroke="#34D399" stroke-width="1.5" />
+    <text x="320" y="29" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="16" fill="#A7F3D0">ISO 14001 (Ambiental)</text>
+
+    <!-- Pill 3: ISO 45001 -->
+    <rect x="450" y="0" width="220" height="48" rx="24" fill="rgba(244,63,94,0.18)" stroke="#FB7185" stroke-width="1.5" />
+    <text x="560" y="29" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="16" fill="#FECDD3">ISO 45001 (SST / NR-1)</text>
+  </g>
+
+  <!-- Right Side Mockup Card (Kanban & Compliance) -->
+  <g transform="translate(770, 90)">
+    <!-- Card Frame -->
+    <rect width="360" height="460" rx="20" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.14)" stroke-width="1.5" />
+
+    <!-- Mockup Header -->
+    <rect x="20" y="20" width="320" height="42" rx="10" fill="rgba(255,255,255,0.06)" />
+    <circle cx="42" cy="41" r="6" fill="#EF4444" />
+    <circle cx="62" cy="41" r="6" fill="#F59E0B" />
+    <circle cx="82" cy="41" r="6" fill="#10B981" />
+    <text x="105" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="13" fill="#E2E8F0">Processos & Pipes ISO</text>
+
+    <!-- Mini Kanban Columns -->
+    <g transform="translate(20, 80)">
+      <!-- Col 1 -->
+      <rect width="150" height="200" rx="10" fill="rgba(0,0,0,0.3)" />
+      <text x="14" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="11" fill="#93C5FD">AÇÃO IMEDIATA (3)</text>
+      
+      <!-- Mini card 1 -->
+      <rect x="10" y="36" width="130" height="48" rx="6" fill="rgba(255,255,255,0.08)" />
+      <text x="18" y="54" font-family="monospace" font-weight="700" font-size="10" fill="#38BDF8">NC-139517</text>
+      <text x="18" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" fill="#CBD5E1">Desvio obra bloco B</text>
+
+      <!-- Mini card 2 -->
+      <rect x="10" y="92" width="130" height="48" rx="6" fill="rgba(255,255,255,0.08)" />
+      <text x="18" y="110" font-family="monospace" font-weight="700" font-size="10" fill="#38BDF8">NC-140395</text>
+      <text x="18" y="126" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" fill="#CBD5E1">Calibração de trena</text>
+
+      <!-- Col 2 -->
+      <rect x="170" y="0" width="150" height="200" rx="10" fill="rgba(0,0,0,0.3)" />
+      <text x="184" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="11" fill="#86EFAC">CONCLUÍDO (12)</text>
+
+      <!-- Mini card 3 -->
+      <rect x="180" y="36" width="130" height="48" rx="6" fill="rgba(255,255,255,0.08)" />
+      <text x="188" y="54" font-family="monospace" font-weight="700" font-size="10" fill="#34D399">NC-140129</text>
+      <text x="188" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" fill="#CBD5E1">Guarda-corpo NR-18</text>
+    </g>
+
+    <!-- Signature Badge Box -->
+    <g transform="translate(20, 300)">
+      <rect width="320" height="74" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(52,211,153,0.3)" />
+      <circle cx="34" cy="37" r="14" fill="#10B981" />
+      <path d="M28 37 L32 41 L40 33" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="58" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="13" fill="#D1FAE5">Assinatura Digital Homologada</text>
+      <text x="58" y="51" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="11" fill="#6EE7B7">RD Empresa &amp; Auditor Líder INMETRO</text>
+    </g>
+
+    <!-- Bottom quick info -->
+    <text x="180" y="420" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="12" fill="#94A3B8">
+      Demo interativa disponível em 3 perfis
+    </text>
+  </g>
+
+  <!-- Footer accreditation note -->
+  <text x="80" y="580" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14" fill="#64748B">
+    © Portal de Certificação ISO • Conformidade com normas ABNT NBR ISO/IEC 17021
+  </text>
+</svg>
