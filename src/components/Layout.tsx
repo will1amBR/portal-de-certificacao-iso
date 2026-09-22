@@ -44,19 +44,31 @@ export default function Layout() {
   }
 
   const isConsultantOrAdmin = user?.role === 'admin' || user?.role === 'consultor'
+  const isClient = user?.role === 'cliente'
 
   const navItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    {
+      label: isClient
+        ? 'Meu Painel'
+        : user?.role === 'admin'
+          ? 'Dashboard Geral'
+          : 'Dashboard Técnico',
+      path: '/dashboard',
+      icon: LayoutDashboard,
+    },
+    ...(user?.role === 'admin'
+      ? [{ label: 'Funil & Pipeline de Clientes', path: '/admin', icon: Building2 }]
+      : []),
     ...(isConsultantOrAdmin
       ? [
           {
-            label: 'Pre-sets & Hub do Auditor',
+            label: 'Hub do Auditor & Pre-sets',
             path: '/consultor',
             icon: Sparkles,
           },
         ]
       : []),
-    { label: 'Processos & Pipes', path: '/certificacoes', icon: ShieldCheck },
+    { label: 'Processos & Pipes ISO', path: '/certificacoes', icon: ShieldCheck },
     { label: 'Documentos', path: '/documentos', icon: FileText },
     { label: 'Agendamentos', path: '/agendamentos', icon: Calendar },
     {
@@ -65,10 +77,7 @@ export default function Layout() {
       icon: LayoutTemplate,
     },
     ...(user?.role === 'admin'
-      ? [
-          { label: 'Painel Admin & Funil', path: '/admin', icon: Building2 },
-          { label: 'Gerenciar Modelos', path: '/admin/modelos', icon: Settings },
-        ]
+      ? [{ label: 'Gerenciar Modelos', path: '/admin/modelos', icon: Settings }]
       : []),
     { label: 'Meu Perfil', path: '/perfil', icon: User },
   ]
@@ -291,6 +300,15 @@ export default function Layout() {
                 <User className="h-3.5 w-3.5 mr-2" />
                 Meu Perfil
               </DropdownMenuItem>
+              {user?.role === 'admin' && (
+                <DropdownMenuItem
+                  onClick={() => navigate('/admin')}
+                  className="cursor-pointer text-xs font-semibold text-[#0055A4]"
+                >
+                  <Building2 className="h-3.5 w-3.5 mr-2 text-[#0055A4]" />
+                  Painel Admin & Funil
+                </DropdownMenuItem>
+              )}
               {isConsultantOrAdmin && (
                 <DropdownMenuItem
                   onClick={() => navigate('/consultor')}

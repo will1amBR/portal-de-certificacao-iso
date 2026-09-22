@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Settings, FileText, LayoutDashboard } from 'lucide-react'
+import { Settings, FileText, LayoutDashboard, Sparkles } from 'lucide-react'
 import { Users2, ShieldCheck, UserCheck, LayoutDashboard as DashboardIcon } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
@@ -21,7 +21,16 @@ export default function AdminDashboard() {
             certificações
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
+          <Link to="/consultor">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-amber-700 hover:text-amber-800 hover:bg-amber-50 border-amber-300"
+            >
+              <Sparkles className="h-4 w-4 text-amber-600" /> Hub do Auditor
+            </Button>
+          </Link>
           <Link to="/admin/modelos">
             <Button variant="outline" size="sm" className="gap-1.5">
               <Settings className="h-4 w-4 text-[#0055A4]" /> Modelos & Templates

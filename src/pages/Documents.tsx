@@ -188,8 +188,19 @@ export default function DocumentsPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          {defaultCertId && (
+          {defaultCertId ? (
             <UploadDocumentDialog certificationId={defaultCertId} onUploaded={loadData} />
+          ) : (
+            <Button
+              size="sm"
+              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white gap-1.5"
+              onClick={() =>
+                toast.info('Cadastre ou selecione uma certificação para associar novos documentos.')
+              }
+            >
+              <Upload className="h-3.5 w-3.5" />
+              Enviar Documento
+            </Button>
           )}
           <Button variant="outline" size="sm" onClick={handleCsv}>
             <FileSpreadsheet className="h-4 w-4 mr-1.5 text-emerald-600" /> Exportar CSV

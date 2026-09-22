@@ -20,7 +20,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
 
   if (isAuthenticated) {
-    if (user?.role === 'admin') return <Navigate to="/admin" replace />
     return <Navigate to="/dashboard" replace />
   }
 

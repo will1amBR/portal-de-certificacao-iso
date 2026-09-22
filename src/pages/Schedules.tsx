@@ -110,7 +110,17 @@ export default function SchedulesPage() {
           </p>
         </div>
 
-        {defaultCertId && <ScheduleModal certificationId={defaultCertId} onScheduled={loadData} />}
+        {defaultCertId ? (
+          <ScheduleModal certificationId={defaultCertId} onScheduled={loadData} />
+        ) : (
+          <Button
+            className="bg-[#00A86B] hover:bg-emerald-600 text-white gap-2 font-medium"
+            onClick={() => toast.info('Cadastre uma certificação para associar aos agendamentos.')}
+          >
+            <CalendarIcon className="h-4 w-4" />
+            Solicitar Agendamento
+          </Button>
+        )}
       </div>
 
       {/* Filters */}

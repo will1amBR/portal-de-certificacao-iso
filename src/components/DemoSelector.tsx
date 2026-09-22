@@ -29,7 +29,7 @@ const demoAccounts = [
     description:
       'Construtora Horizonte: acompanhe certificações, envie documentos e veja o progresso.',
     icon: Building2,
-    redirect: '/app',
+    redirect: '/dashboard',
   },
   {
     email: 'demo.auditor@alc.com.br',
@@ -37,14 +37,14 @@ const demoAccounts = [
     description:
       'Ana Costa: consulte setores dos clientes e aplique pre-sets de Pipes em 1 clique por norma ISO/NR.',
     icon: ClipboardCheck,
-    redirect: '/consultor',
+    redirect: '/dashboard',
   },
   {
     email: 'demo.admin@alc.com.br',
     label: 'Empresa de Auditoria',
     description: 'ALC Certificadora: gerencie clientes, certificações, modelos e visualize KPIs.',
     icon: Landmark,
-    redirect: '/admin',
+    redirect: '/dashboard',
   },
 ]
 

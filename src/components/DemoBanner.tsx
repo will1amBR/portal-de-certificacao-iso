@@ -20,11 +20,10 @@ export function DemoBanner({ onOpenTour }: { onOpenTour?: () => void }) {
       <div className="flex items-center gap-2 min-w-0 flex-wrap">
         <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded text-[11px]">
           <Sparkles className="h-3.5 w-3.5 text-yellow-300" />
-          Modo Demo
+          Modo Demo Ativo
         </div>
         <span className="text-white font-medium">
-          Conectado como <strong>{user?.name || roleLabel}</strong> ({roleLabel}). Explore
-          livremente as ferramentas.
+          Perfil: <strong>{user?.name || roleLabel}</strong> ({roleLabel}).
         </span>
         {onOpenTour && (
           <button

@@ -23,9 +23,7 @@ export function ProtectedRoute({ allowedRoles }: RoleProtectedRouteProps = {}) {
   if (allowedRoles && allowedRoles.length > 0) {
     const role = user?.role || 'cliente'
     if (!allowedRoles.includes(role)) {
-      if (role === 'admin') return <Navigate to="/admin" replace />
-      if (role === 'consultor') return <Navigate to="/consultor" replace />
-      return <Navigate to="/app" replace />
+      return <Navigate to="/dashboard" replace />
     }
   }
 

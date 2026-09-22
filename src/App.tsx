@@ -52,7 +52,7 @@ const App = () => (
 
               {/* Rotas autenticadas do cliente (após onboarding completo) e equipe técnica */}
               <Route element={<OnboardingRoute />}>
-                <Route path="/app" element={<Dashboard />} />
+                <Route path="/app" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/certificacoes" element={<Certifications />} />
                 <Route path="/certificacoes/:id" element={<CertificationDetail />} />
