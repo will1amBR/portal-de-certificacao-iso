@@ -164,8 +164,8 @@ export function DigitalSignatureModal({
             <div>
               <DialogTitle className="text-lg font-bold text-slate-900">
                 {isRd
-                  ? 'Assinatura Digital — Responsável da Empresa (RD)'
-                  : 'Assinatura Digital — Auditor Líder / ALC INMETRO'}
+                  ? 'Assinatura Digital: Responsável da Empresa (RD)'
+                  : 'Assinatura Digital: Auditor Líder / ALC INMETRO'}
               </DialogTitle>
               <p className="text-xs text-slate-500">
                 {isRd
