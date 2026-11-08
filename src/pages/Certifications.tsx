@@ -408,17 +408,22 @@ export default function Certifications() {
             </div>
 
             <div className="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
-              <Button variant="outline" size="sm" onClick={handleExportCsv} className="text-xs h-8">
-                <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5 text-emerald-600" />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportCsv}
+                className="text-xs h-9 whitespace-nowrap"
+              >
+                <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5 text-emerald-600 shrink-0" />
                 CSV
               </Button>
               <Button
                 variant="default"
                 size="sm"
                 onClick={() => setReportModalOpen(true)}
-                className="bg-[#0055A4] hover:bg-[#1A73E8] text-white text-xs h-8"
+                className="bg-[#0055A4] hover:bg-[#1A73E8] text-white text-xs h-9 whitespace-nowrap"
               >
-                <Printer className="h-3.5 w-3.5 mr-1.5" />
+                <Printer className="h-3.5 w-3.5 mr-1.5 shrink-0" />
                 Imprimir / PDF com Filtros
               </Button>
             </div>

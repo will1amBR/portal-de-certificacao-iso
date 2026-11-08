@@ -123,7 +123,13 @@ export function CertMessages({ certId }: { certId: string }) {
             className="hidden"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
-          <Button type="button" variant="ghost" size="icon">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10"
+            aria-label="Anexar arquivo"
+          >
             <Paperclip className="h-4 w-4 text-slate-500" />
           </Button>
         </label>
@@ -133,7 +139,13 @@ export function CertMessages({ certId }: { certId: string }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button type="submit" size="icon" disabled={sending} className="bg-[#0055A4]">
+        <Button
+          type="submit"
+          size="icon"
+          disabled={sending}
+          className="bg-[#0055A4] h-10 w-10 shrink-0"
+          aria-label="Enviar mensagem"
+        >
           <Send className="h-4 w-4" />
         </Button>
       </form>

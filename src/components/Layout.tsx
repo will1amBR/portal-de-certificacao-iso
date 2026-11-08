@@ -256,9 +256,9 @@ export default function Layout() {
             variant="ghost"
             size="sm"
             onClick={() => setTourOpen(true)}
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-[#0055A4] hover:bg-blue-50 h-9 px-3 border border-slate-200 rounded-lg cursor-pointer min-h-[36px]"
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-[#0055A4] hover:bg-blue-50 h-10 px-3 border border-slate-200 rounded-lg cursor-pointer whitespace-nowrap"
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#0055A4]" />
+            <Sparkles className="h-3.5 w-3.5 text-[#0055A4] shrink-0" />
             <span>Tour Guiado</span>
           </Button>
 
@@ -269,7 +269,7 @@ export default function Layout() {
               <button
                 type="button"
                 aria-label="Menu do usuário"
-                className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+                className="flex items-center gap-2 p-1.5 min-h-[40px] rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <Avatar className="h-8 w-8 border border-slate-200">
                   <AvatarImage src={user?.avatar} />

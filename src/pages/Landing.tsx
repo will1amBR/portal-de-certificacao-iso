@@ -4,6 +4,8 @@ import { LandingHero } from '@/components/landing/LandingHero'
 import { LandingIsoCards } from '@/components/landing/LandingIsoCards'
 import { LandingMiniOnboarding } from '@/components/landing/LandingMiniOnboarding'
 import { LandingProcess } from '@/components/landing/LandingProcess'
+import { LandingAudience } from '@/components/landing/LandingAudience'
+import { LandingTestimonials } from '@/components/landing/LandingTestimonials'
 import { LandingFaq } from '@/components/landing/LandingFaq'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Link } from 'react-router-dom'
@@ -28,6 +30,8 @@ export default function Landing() {
           <LandingMiniOnboarding />
         </section>
         <LandingProcess />
+        <LandingAudience />
+        <LandingTestimonials />
 
         {/* Clean Callout Section para a página dedicada /demo */}
         <section className="py-14 bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-slate-50 border-y border-blue-100/80">

@@ -193,17 +193,17 @@ export default function DocumentsPage() {
           ) : (
             <Button
               size="sm"
-              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white gap-1.5"
+              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white gap-1.5 whitespace-nowrap"
               onClick={() =>
                 toast.info('Cadastre ou selecione uma certificação para associar novos documentos.')
               }
             >
-              <Upload className="h-3.5 w-3.5" />
+              <Upload className="h-3.5 w-3.5 shrink-0" />
               Enviar Documento
             </Button>
           )}
-          <Button variant="outline" size="sm" onClick={handleCsv}>
-            <FileSpreadsheet className="h-4 w-4 mr-1.5 text-emerald-600" /> Exportar CSV
+          <Button variant="outline" size="sm" onClick={handleCsv} className="whitespace-nowrap">
+            <FileSpreadsheet className="h-4 w-4 mr-1.5 text-emerald-600 shrink-0" /> Exportar CSV
           </Button>
         </div>
       </div>
@@ -394,18 +394,18 @@ export default function DocumentsPage() {
           </span>
           <Button
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+            className="h-9 bg-emerald-600 hover:bg-emerald-700 text-white gap-1 whitespace-nowrap"
             onClick={() => handleBulk('approve')}
           >
-            <CheckCircle2 className="h-4 w-4" /> Aprovar em Lote
+            <CheckCircle2 className="h-4 w-4 shrink-0" /> Aprovar em Lote
           </Button>
           <Button
             size="sm"
             variant="destructive"
-            className="gap-1"
+            className="h-9 gap-1 whitespace-nowrap"
             onClick={() => setRejectOpen(true)}
           >
-            <XCircle className="h-4 w-4" /> Rejeitar
+            <XCircle className="h-4 w-4 shrink-0" /> Rejeitar
           </Button>
         </div>
       )}

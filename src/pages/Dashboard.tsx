@@ -172,19 +172,19 @@ export default function Dashboard() {
               variant="outline"
               size="sm"
               onClick={() => setTourOpen(true)}
-              className="bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-sm font-medium cursor-pointer"
+              className="bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-sm font-medium cursor-pointer whitespace-nowrap"
             >
-              <Sparkles className="h-4 w-4 mr-1.5 text-yellow-300" />
+              <Sparkles className="h-4 w-4 mr-1.5 text-yellow-300 shrink-0" />
               Tour do Portal
             </Button>
             {user?.role === 'admin' && (
               <Button
                 asChild
                 size="sm"
-                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer"
+                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer whitespace-nowrap"
               >
                 <Link to="/admin">
-                  <Building2 className="h-4 w-4 mr-1.5" />
+                  <Building2 className="h-4 w-4 mr-1.5 shrink-0" />
                   Abrir Funil & Pipeline
                 </Link>
               </Button>
@@ -193,10 +193,10 @@ export default function Dashboard() {
               <Button
                 asChild
                 size="sm"
-                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer"
+                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer whitespace-nowrap"
               >
                 <Link to="/consultor">
-                  <Sparkles className="h-4 w-4 mr-1.5" />
+                  <Sparkles className="h-4 w-4 mr-1.5 shrink-0" />
                   Hub do Auditor
                 </Link>
               </Button>
@@ -205,10 +205,10 @@ export default function Dashboard() {
               <Button
                 asChild
                 size="sm"
-                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer"
+                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold shadow-md cursor-pointer whitespace-nowrap"
               >
                 <Link to="/certificacoes">
-                  <Plus className="h-4 w-4 mr-1.5" />
+                  <Plus className="h-4 w-4 mr-1.5 shrink-0" />
                   Nova Certificação
                 </Link>
               </Button>

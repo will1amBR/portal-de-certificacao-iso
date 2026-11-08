@@ -244,18 +244,18 @@ export default function SchedulesPage() {
                         <>
                           <Button
                             size="sm"
-                            className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-1"
+                            className="h-9 bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-1 whitespace-nowrap"
                             onClick={() => handleUpdateStatus(s.id, 'confirmado')}
                           >
-                            <CheckCircle2 className="h-3.5 w-3.5" /> Confirmar
+                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> Confirmar
                           </Button>
                           <Button
                             size="sm"
                             variant="destructive"
-                            className="h-8 text-xs gap-1"
+                            className="h-9 text-xs gap-1 whitespace-nowrap"
                             onClick={() => handleUpdateStatus(s.id, 'cancelado')}
                           >
-                            <XCircle className="h-3.5 w-3.5" /> Recusar
+                            <XCircle className="h-3.5 w-3.5 shrink-0" /> Recusar
                           </Button>
                         </>
                       )}
@@ -264,11 +264,11 @@ export default function SchedulesPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="h-8 text-xs text-slate-700 gap-1 hover:bg-slate-100"
+                          className="h-9 text-xs text-slate-700 gap-1 whitespace-nowrap hover:bg-slate-100"
                           onClick={() => handleUpdateStatus(s.id, 'realizado')}
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> Marcar como
-                          Realizado
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Marcar
+                          como Realizado
                         </Button>
                       )}
                     </div>
