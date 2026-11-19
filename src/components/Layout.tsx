@@ -35,7 +35,7 @@ import { useSiteContent } from '@/hooks/use-site-content'
 
 export default function Layout() {
   const { user, signOut, isAuthenticated } = useAuth()
-  const { content: siteContent } = useSiteContent()
+  const siteContent = useSiteContent()
   const location = useLocation()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
