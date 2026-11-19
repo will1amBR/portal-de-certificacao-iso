@@ -31,9 +31,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Button } from '@/components/ui/button'
 import { DemoBanner, DemoBadge } from '@/components/DemoBanner'
 import { NotificationBell } from '@/components/NotificationBell'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export default function Layout() {
   const { user, signOut, isAuthenticated } = useAuth()
+  const { content: siteContent } = useSiteContent()
   const location = useLocation()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -142,12 +144,20 @@ export default function Layout() {
               <div>
                 <SheetHeader className="p-5 border-b border-slate-100 text-left bg-slate-50/50">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm">
-                      ISO
-                    </div>
+                    {siteContent?.branding.logoUrl ? (
+                      <img
+                        src={siteContent.branding.logoUrl}
+                        alt={siteContent.branding.orgName}
+                        className="h-9 w-9 rounded-lg object-contain"
+                      />
+                    ) : (
+                      <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm">
+                        ISO
+                      </div>
+                    )}
                     <div>
                       <SheetTitle className="text-sm font-bold text-slate-900 leading-tight">
-                        Portal de Certificação
+                        {siteContent?.branding.orgName || 'Portal de Certificação'}
                       </SheetTitle>
                       <p className="text-[11px] text-slate-500">Menu Principal</p>
                     </div>
@@ -234,10 +244,18 @@ export default function Layout() {
           </Sheet>
 
           {/* Clean Logo */}
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="p-1 rounded bg-[#003B73] text-white font-black text-xs">ISO</div>
-            <span className="font-bold text-slate-900 text-sm hidden sm:inline">
-              Portal de Certificação
+          <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
+            {siteContent?.branding.logoUrl ? (
+              <img
+                src={siteContent.branding.logoUrl}
+                alt={siteContent.branding.orgName}
+                className="h-8 rounded object-contain"
+              />
+            ) : (
+              <div className="p-1 rounded bg-[#003B73] text-white font-black text-xs">ISO</div>
+            )}
+            <span className="font-bold text-slate-900 text-sm hidden sm:inline truncate">
+              {siteContent?.branding.orgName || 'Portal de Certificação'}
             </span>
           </Link>
 

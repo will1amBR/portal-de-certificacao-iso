@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react'
-import { Globe, Save, Loader2, RotateCcw } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Globe, Save, Loader2, RotateCcw, Upload, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
-import { SiteContent, getSiteContent, saveSiteContent } from '@/services/site_content'
+import {
+  SiteContent,
+  getSiteContent,
+  saveSiteContent,
+  uploadSiteLogo,
+  removeSiteLogo,
+} from '@/services/site_content'
 import { invalidateSiteContentCache } from '@/hooks/use-site-content'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 
@@ -14,6 +20,10 @@ export function AdminSiteContent() {
   const [content, setContent] = useState<SiteContent | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [logoUploading, setLogoUploading] = useState(false)
+  const logoInputRef = useRef<HTMLInputElement>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null)
+  const [pendingLogoFile, setPendingLogoFile] = useState<File | null>(null)
 
   useEffect(() => {
     let active = true
@@ -48,6 +58,16 @@ export function AdminSiteContent() {
   const handleSave = async () => {
     setSaving(true)
     try {
+      // Se o admin escolheu um arquivo, envia primeiro (a URL gerada
+      // substitui qualquer URL externa digitada no campo ao lado).
+      if (pendingLogoFile) {
+        const url = await uploadSiteLogo(pendingLogoFile)
+        if (url) {
+          content.branding.logoUrl = url
+          setLogoPreview(null)
+          setPendingLogoFile(null)
+        }
+      }
       await saveSiteContent(content)
       invalidateSiteContentCache()
       toast({ title: 'Conteúdo salvo', description: 'A landing já reflete as mudanças.' })
@@ -62,11 +82,33 @@ export function AdminSiteContent() {
     }
   }
 
+  const handleRemoveLogo = async () => {
+    setLogoUploading(true)
+    try {
+      await removeSiteLogo()
+      setLogoPreview(null)
+      setPendingLogoFile(null)
+      set({ branding: { ...content.branding, logoUrl: '', logoFile: '' } })
+      invalidateSiteContentCache()
+      toast({ title: 'Logo removido' })
+    } catch (err) {
+      toast({
+        title: 'Erro ao remover logo',
+        description: getErrorMessage(err),
+        variant: 'destructive',
+      })
+    } finally {
+      setLogoUploading(false)
+    }
+  }
+
   const handleReset = async () => {
     setSaving(true)
     try {
       const fresh = await getSiteContent()
       setContent(fresh)
+      setLogoPreview(null)
+      setPendingLogoFile(null)
       toast({ title: 'Alterações descartadas' })
     } catch {
       toast({ title: 'Erro ao recarregar', variant: 'destructive' })
@@ -118,7 +160,7 @@ export function AdminSiteContent() {
             preenchido, substitui o selo ISO no topo da home.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <CardContent className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-slate-700">Nome de exibição</label>
             <Input
@@ -127,13 +169,95 @@ export function AdminSiteContent() {
               placeholder="ALC Certificadora"
             />
           </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">URL do logo (opcional)</label>
-            <Input
-              value={content.branding.logoUrl}
-              onChange={(e) => set({ branding: { ...content.branding, logoUrl: e.target.value } })}
-              placeholder="https://.../logo.png"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">Logo (upload)</label>
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  e.target.value = ''
+                  if (!file) return
+                  if (file.size > 2 * 1024 * 1024) {
+                    toast({
+                      title: 'Arquivo muito grande',
+                      description: 'O logo deve ter no máximo 2 MB.',
+                      variant: 'destructive',
+                    })
+                    return
+                  }
+                  setLogoPreview(URL.createObjectURL(file))
+                  setPendingLogoFile(file)
+                }}
+              />
+              <div className="flex items-center gap-3">
+                <div className="w-16 h-16 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden shrink-0">
+                  {logoPreview ? (
+                    <img
+                      src={logoPreview}
+                      alt="Pré-visualização do logo"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  ) : content.branding.logoUrl ? (
+                    <img
+                      src={content.branding.logoUrl}
+                      alt="Logo atual"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  ) : (
+                    <span className="text-[10px] text-slate-400 text-center px-1">sem logo</span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2 min-w-0">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="min-h-[40px] whitespace-nowrap"
+                    disabled={logoUploading || saving}
+                    onClick={() => logoInputRef.current?.click()}
+                  >
+                    {logoUploading ? (
+                      <Loader2 className="h-4 w-4 mr-1.5 animate-spin shrink-0" />
+                    ) : (
+                      <Upload className="h-4 w-4 mr-1.5 shrink-0" />
+                    )}
+                    Enviar arquivo
+                  </Button>
+                  {(logoPreview || content.branding.logoUrl) && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="min-h-[40px] whitespace-nowrap text-rose-600 hover:bg-rose-50"
+                      disabled={logoUploading || saving}
+                      onClick={handleRemoveLogo}
+                    >
+                      <Trash2 className="h-4 w-4 mr-1.5 shrink-0" />
+                      Remover
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <p className="text-xs text-slate-500">
+                PNG, JPG, WEBP ou SVG até 2 MB. O logo substitui o selo ISO no topo da home.
+              </p>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">
+                URL do logo (alternativa ao upload)
+              </label>
+              <Input
+                value={content.branding.logoUrl}
+                onChange={(e) =>
+                  set({ branding: { ...content.branding, logoUrl: e.target.value } })
+                }
+                placeholder="https://.../logo.png"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

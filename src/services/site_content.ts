@@ -26,6 +26,8 @@ export interface SiteTeamContent {
 export interface SiteBranding {
   orgName: string
   logoUrl: string
+  /** Nome do arquivo de logo enviado ao backend (campo file da coleção). */
+  logoFile?: string
 }
 
 export interface SiteContent {
@@ -97,6 +99,9 @@ type SiteContentRecord = {
   id: string
   section: string
   data: string | Record<string, unknown> | null
+  logo?: string
+  collectionId?: string
+  collectionName?: string
 }
 
 const parseData = (raw: string | Record<string, unknown> | null | undefined): unknown => {
@@ -147,9 +152,12 @@ export async function getSiteContent(): Promise<SiteContent> {
       } else if (row.section === 'branding') {
         const branding = data as Partial<SiteBranding>
         if (branding && typeof branding.orgName === 'string' && branding.orgName.trim() !== '') {
+          // O arquivo enviado tem prioridade sobre uma URL externa.
+          const fileUrl = row.logo ? pb.files.getURL(row, row.logo) : ''
           result.branding = {
             orgName: branding.orgName,
-            logoUrl: typeof branding.logoUrl === 'string' ? branding.logoUrl : '',
+            logoUrl: fileUrl || (typeof branding.logoUrl === 'string' ? branding.logoUrl : ''),
+            logoFile: row.logo || '',
           }
         }
       }
@@ -187,4 +195,32 @@ export async function saveSiteContent(content: SiteContent): Promise<void> {
     saveSiteContentSection('team', content.team),
     saveSiteContentSection('branding', content.branding),
   ])
+}
+
+/** Garante que exista o registro da seção "branding" e o retorna. */
+async function ensureBrandingRecord(): Promise<SiteContentRecord> {
+  const existing = await pb.collection('site_content').getList<SiteContentRecord>(1, 1, {
+    filter: 'section = "branding"',
+  })
+  if (existing.items.length > 0) return existing.items[0]
+  return pb.collection('site_content').create<SiteContentRecord>({
+    section: 'branding',
+    data: JSON.stringify(SITE_CONTENT_FALLBACK.branding),
+  })
+}
+
+/** Envia o arquivo de logo ao backend e retorna a URL pública gerada. */
+export async function uploadSiteLogo(file: File): Promise<string> {
+  const record = await ensureBrandingRecord()
+  const fd = new FormData()
+  fd.append('logo', file)
+  const updated = await pb.collection('site_content').update<SiteContentRecord>(record.id, fd)
+  const uploaded = updated.logo
+  return uploaded ? pb.files.getURL(updated, uploaded) : ''
+}
+
+/** Remove o arquivo de logo do registro de branding. */
+export async function removeSiteLogo(): Promise<void> {
+  const record = await ensureBrandingRecord()
+  await pb.collection('site_content').update(record.id, { logo: null })
 }

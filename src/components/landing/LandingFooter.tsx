@@ -47,6 +47,13 @@ export function LandingFooter() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
         <div>
+          {branding.logoUrl && (
+            <img
+              src={branding.logoUrl}
+              alt={branding.orgName}
+              className="h-10 rounded object-contain bg-white/95 p-1.5 mb-3"
+            />
+          )}
           <p className="font-bold text-white text-base mb-2">{branding.orgName}</p>
           <p className="text-slate-400 leading-relaxed">
             Plataforma da {branding.orgName} para gestão completa de certificações ISO 9001, 14001,
