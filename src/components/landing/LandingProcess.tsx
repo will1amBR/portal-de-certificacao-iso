@@ -1,107 +1,75 @@
-import {
-  FileText,
-  Zap,
-  CheckCircle2,
-  Users,
-  Brain,
-  Bell,
-  BarChart3,
-  MessageSquare,
-  FileCheck,
-  RefreshCw,
-} from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/use-auth'
 
 const steps = [
   {
-    icon: FileText,
-    title: 'Informe seu CNPJ',
-    desc: 'Cadastro rápido com identificação automática da sua empresa.',
-    benefit: 'Comece em minutos, sem burocracia.',
+    title: 'Cadastre sua empresa',
+    desc: 'Em poucos minutos: informe o segmento e as normas que você busca. O portal monta seu plano de adequação automaticamente.',
+    n: '01',
   },
   {
-    icon: Zap,
-    title: 'Selecione seu modelo de negócio',
-    desc: 'Escolha entre Mercado, Construtora ou Prestador de Serviços.',
-    benefit: 'Templates personalizados para o seu segmento.',
+    title: 'Siga o plano guiado',
+    desc: 'Checklists, documentos e templates aparecem prontos para o seu segmento. Você marca o que já tem e o que falta.',
+    n: '02',
   },
   {
-    icon: CheckCircle2,
-    title: 'Receba templates prontos',
-    desc: 'Tarefas, documentos e agendamentos gerados automaticamente.',
-    benefit: 'Economize semanas de trabalho manual.',
-  },
-  {
-    icon: Users,
-    title: 'Acompanhe com seu consultor',
-    desc: 'Suporte especializado em tempo real durante todo o processo.',
-    benefit: 'Nunca fique sozinho na jornada de certificação.',
-  },
-]
-
-const benefits = [
-  {
-    icon: Brain,
-    title: 'Templates inteligentes',
-    desc: 'Checklists e documentos adaptados ao seu segmento.',
-  },
-  { icon: Zap, title: 'Automação total', desc: 'Tarefas, lembretes e notificações automáticas.' },
-  {
-    icon: BarChart3,
-    title: 'Acompanhamento visual',
-    desc: 'Gráficos de progresso e relatórios em PDF.',
-  },
-  {
-    icon: MessageSquare,
-    title: 'Chat com consultor',
-    desc: 'Comunicação direta e histórica com especialistas.',
-  },
-  { icon: FileCheck, title: 'Aprovação em lote', desc: 'Gerencie documentos de forma eficiente.' },
-  {
-    icon: RefreshCw,
-    title: 'Renovação facilitada',
-    desc: 'Modelos prontos para renovar sua certificação.',
+    title: 'Auditoria final e certificado',
+    desc: 'Com a conformidade validada, a ALC Certificadora conduz a auditoria e emite o certificado oficial com selo digital.',
+    n: '03',
   },
 ]
 
 export function LandingProcess() {
+  const { isAuthenticated } = useAuth()
   return (
-    <section
-      id="como-funciona"
-      className="bg-slate-50/70 border-y border-slate-200/80 py-16 md:py-20 scroll-mt-16"
-    >
+    <section id="processo" className="py-16 md:py-20 bg-white scroll-mt-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Como Funciona
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+            Do cadastro ao certificado em 3 etapas
           </h2>
-          <p className="text-slate-500 mt-2 text-sm sm:text-base">
-            Do cadastro inicial à certificação em 4 etapas diretas
+          <p className="text-slate-500 text-sm sm:text-base">
+            Sem planilhas avulsas, sem e-mail perdido, sem retrabalho: o portal guia cada etapa e
+            conecta você ao auditor responsável.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {steps.map((step, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {steps.map((s, i) => (
             <div
-              key={step.title}
-              className="bg-white rounded-xl p-5 border border-slate-200 shadow-none flex flex-col justify-between"
+              key={i}
+              className="relative bg-slate-50 rounded-2xl border border-slate-200 p-6 hover:border-sky-300 hover:shadow-sm transition-all"
             >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="p-2 rounded-lg bg-blue-50 text-[#0055A4]">
-                    <step.icon className="h-5 w-5" />
-                  </div>
-                  <span className="w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold flex items-center justify-center">
-                    {i + 1}
-                  </span>
-                </div>
-                <h3 className="font-semibold text-slate-900 text-sm">{step.title}</h3>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{step.desc}</p>
-              </div>
-              <p className="text-[11px] font-semibold text-emerald-600 mt-3 pt-2 border-t border-slate-100">
-                {step.benefit}
-              </p>
+              <span className="absolute top-5 right-5 text-4xl font-black text-slate-200 select-none">
+                {s.n}
+              </span>
+              <h3 className="font-bold text-slate-900 pr-10">{s.title}</h3>
+              <p className="text-sm text-slate-500 mt-2 leading-relaxed">{s.desc}</p>
             </div>
           ))}
+        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
+          <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+            <Button
+              size="lg"
+              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
+            >
+              {isAuthenticated ? 'Ir para o Painel' : 'Começar agora, é gratuito'}
+              <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Button>
+          </Link>
+          {!isAuthenticated && (
+            <Link to="/demo">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold px-5 h-11 rounded-xl text-sm whitespace-nowrap"
+              >
+                Prefiro ver as demos primeiro
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </section>

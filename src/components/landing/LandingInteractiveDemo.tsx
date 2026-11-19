@@ -10,10 +10,11 @@ export function LandingInteractiveDemo() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-xl mx-auto mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Interface Intuitiva & Visual
+            Veja o painel por dentro, antes de criar conta
           </h2>
           <p className="text-slate-500 mt-2 text-sm sm:text-base">
-            Visão simplificada em Pipes, indicadores atualizados e automação por modelo de negócio.
+            Pipes visuais de não-conformidades, indicadores que a diretoria entende e automação por
+            segmento. Uma amostra real do que você encontra logado.
           </p>
 
           {/* Clean Segmented Control */}

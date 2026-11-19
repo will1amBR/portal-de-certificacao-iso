@@ -1,61 +1,78 @@
-import { Star, Quote } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowRight, Star } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/use-auth'
 
 const testimonials = [
   {
-    name: 'Maria Oliveira',
-    company: 'Supermercado Nova Esperança',
     quote:
-      'O portal transformou completamente nosso processo de certificação. Em poucas semanas tínhamos todos os documentos organizados e prontos para auditoria. Revolucionário!',
-    img: 'https://img.usecurling.com/ppl/thumbnail?gender=female&seed=40',
+      'Conseguimos organizar toda a documentação da obra em uma semana. Na auditoria, não faltou um único documento.',
+    name: 'Marcos T.',
+    role: 'Diretor, Construtora Horizonte',
   },
   {
-    name: 'Carlos Mendes',
-    company: 'Construtora Forte Engenharia',
     quote:
-      'Os templates automáticos para construtora nos economizaram meses de trabalho. O suporte do consultor foi fundamental para aprovação sem retrabalho.',
-    img: 'https://img.usecurling.com/ppl/thumbnail?gender=male&seed=50',
+      'O portal eliminou as planilhas paralelas. Cada cláusula vira um card no Kanban, com responsável e prazo claros.',
+    name: 'Fernanda L.',
+    role: 'Coordenadora de Qualidade, Varejo',
   },
   {
-    name: 'Patrícia Santos',
-    company: 'Serviços Premium Ltda',
     quote:
-      'Nunca imaginei que certificação ISO pudesse ser tão simples. A plataforma guiou cada passo e o chat com o consultor resolveu todas as dúvidas rapidamente.',
-    img: 'https://img.usecurling.com/ppl/thumbnail?gender=female&seed=60',
+      'Como certificadora, ganhamos visibilidade total do pipeline de clientes e das não-conformidades em aberto.',
+    name: 'Ricardo M.',
+    role: 'Auditor Líder, ALC Certificadora',
   },
 ]
 
 export function LandingTestimonials() {
+  const { isAuthenticated } = useAuth()
   return (
-    <section className="bg-[#003B73] py-16 md:py-20">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-2">
-          O que dizem nossos clientes
-        </h2>
-        <p className="text-blue-200 text-center mb-10">
-          Histórias reais de empresas que simplificaram sua certificação
-        </p>
+    <section id="depoimentos" className="bg-[#F5F7FA] py-16 md:py-20 scroll-mt-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="flex items-center justify-center gap-1 mb-3">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
+            ))}
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+            Quem usa, certifica
+          </h2>
+          <p className="text-slate-500 text-sm sm:text-base">
+            Empresas de diferentes segmentos já concluíram sua adequação com o portal.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
-            <div
+            <figure
               key={t.name}
-              className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+              className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col shadow-sm"
             >
-              <Quote className="h-8 w-8 text-blue-300 mb-3" />
-              <div className="flex gap-1 mb-3">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <p className="text-sm text-blue-100 leading-relaxed">"{t.quote}"</p>
-              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
-                <img src={t.img} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-                <div>
-                  <p className="text-sm font-semibold text-white">{t.name}</p>
-                  <p className="text-xs text-blue-300">{t.company}</p>
+              <blockquote className="text-sm text-slate-700 leading-relaxed flex-1">
+                "{t.quote}"
+              </blockquote>
+              <figcaption className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0055A4] to-sky-400 text-white flex items-center justify-center text-sm font-bold shrink-0">
+                  {t.name.charAt(0)}
                 </div>
-              </div>
-            </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-900">{t.name}</p>
+                  <p className="text-xs text-slate-500">{t.role}</p>
+                </div>
+              </figcaption>
+            </figure>
           ))}
+        </div>
+        <div className="text-center mt-10">
+          <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+            <Button
+              size="lg"
+              className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
+            >
+              {isAuthenticated ? 'Abrir o Painel' : 'Quero certificar minha empresa'}
+              <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

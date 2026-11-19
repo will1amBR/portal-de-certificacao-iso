@@ -58,9 +58,13 @@ export default function Login() {
           <div className="inline-flex p-3 rounded-xl bg-[#003B73] text-white font-black text-2xl mb-3">
             ISO
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">Portal de Certificação ISO</h1>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {isSignup ? 'Crie sua conta gratuita' : 'Portal de Certificação ISO'}
+          </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Gestão completa de certificações 9001, 14001 e 45001
+            {isSignup
+              ? 'Comece o onboarding guiado da sua empresa em poucos minutos'
+              : 'Gestão completa de certificações 9001, 14001 e 45001'}
           </p>
         </div>
 

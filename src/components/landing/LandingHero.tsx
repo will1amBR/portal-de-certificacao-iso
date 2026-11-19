@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Sparkles, ExternalLink } from 'lucide-react'
+import { ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -9,7 +9,7 @@ export function LandingHero() {
   return (
     <section
       id="sobre"
-      className="relative overflow-hidden bg-gradient-to-b from-[#003060] via-[#004080] to-[#0055A4] text-white pt-28 pb-20 md:pt-36 md:pb-28"
+      className="relative overflow-hidden bg-gradient-to-b from-[#003060] via-[#004080] to-[#0055A4] text-white pt-24 pb-16 md:pt-32 md:pb-24"
     >
       {/* Subtle background glow */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
@@ -21,41 +21,32 @@ export function LandingHero() {
         <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-3.5 py-1 mb-6 border border-white/15 shadow-sm">
           <Sparkles className="h-3.5 w-3.5 text-yellow-300" />
           <span className="text-xs font-medium text-blue-100">
-            Plataforma Integrada de Gestão ISO
+            Plataforma usada por certificadoras e empresas em certificação ISO
           </span>
         </div>
 
         {/* Hero Title */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white">
-          Sua certificação ISO simplificada, ágil e em conformidade total
+          Conquiste a certificação ISO <span className="text-sky-300">em até 60% menos tempo</span>,
+          com documentos prontos e auditoria sem surpresas
         </h1>
 
         {/* Subtitle */}
         <p className="mt-5 text-sm sm:text-base md:text-lg text-blue-100/90 max-w-2xl mx-auto leading-relaxed">
-          Templates inteligentes, gestão em Pipes e suporte técnico para as normas ISO 9001, 14001 e
-          45001 em um único ambiente limpo e organizado.
+          Templates inteligentes por segmento, gestão visual em Pipes e suporte de auditores
+          sêniores para ISO 9001, 14001 e 45001. Da primeira tarefa até o selo, em um único
+          ambiente.
         </p>
 
         {/* Action Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
-          {!isAuthenticated && (
-            <Link to="/signup" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-7 h-11 w-full sm:w-auto shadow-md rounded-xl text-sm"
-              >
-                Começar Gratuitamente <ArrowRight className="h-4 w-4 ml-2 shrink-0" />
-              </Button>
-            </Link>
-          )}
-
-          <Link to={isAuthenticated ? '/dashboard' : '/login'} className="w-full sm:w-auto">
+          <Link to="/signup" className="w-full sm:w-auto">
             <Button
               size="lg"
-              variant="outline"
-              className="bg-white/10 hover:bg-white/20 text-white border-white/25 px-7 h-11 w-full sm:w-auto font-medium rounded-xl text-sm backdrop-blur-sm"
+              className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-7 h-11 w-full sm:w-auto shadow-md rounded-xl text-sm whitespace-nowrap"
             >
-              {isAuthenticated ? 'Ir para o Painel' : 'Acessar Conta'}
+              {isAuthenticated ? 'Ir para o Painel' : 'Criar Conta Gratuita'}
+              <ArrowRight className="h-4 w-4 ml-2 shrink-0" />
             </Button>
           </Link>
 
@@ -63,30 +54,43 @@ export function LandingHero() {
             <Link to="/demo" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                variant="ghost"
-                className="bg-white/10 hover:bg-white/20 text-blue-100 hover:text-white border border-white/20 px-5 h-11 w-full sm:w-auto font-medium rounded-xl text-sm transition-all"
+                variant="outline"
+                className="bg-white/10 hover:bg-white/20 text-white border-white/25 px-6 h-11 w-full sm:w-auto font-medium rounded-xl text-sm backdrop-blur-sm whitespace-nowrap"
               >
                 <Sparkles className="h-4 w-4 mr-2 text-yellow-300" />
                 Conhecer as Demos
               </Button>
             </Link>
           )}
+
+          <a href="#onboarding-explicativo" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              variant="ghost"
+              className="text-blue-100 hover:text-white hover:bg-white/10 px-5 h-11 w-full sm:w-auto font-medium rounded-xl text-sm transition-all whitespace-nowrap"
+            >
+              Ver como funciona
+            </Button>
+          </a>
         </div>
 
-        {/* Clean explanatory link */}
+        {/* Trust microcopy */}
         {!isAuthenticated && (
-          <div className="mt-6 pt-3 flex items-center justify-center gap-4 text-xs text-blue-200">
-            <a
-              href="#onboarding-explicativo"
-              className="inline-flex items-center gap-1 text-blue-100 hover:text-yellow-300 font-medium underline underline-offset-4 transition-colors"
-            >
-              Entenda como funciona o portal em 3 passos
-            </a>
-          </div>
+          <p className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-blue-200">
+            <span className="inline-flex items-center gap-1">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-300" /> Sem cartão de crédito
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-300" /> Onboarding guiado em minutos
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-300" /> Dados isolados por empresa
+            </span>
+          </p>
         )}
 
         {/* Key Clean Highlights */}
-        <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <div className="mt-10 pt-8 border-t border-white/10 grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
           <div>
             <p className="text-xl sm:text-2xl font-bold text-white">-60%</p>
             <p className="text-xs text-blue-200/80 mt-0.5">Tempo de Adequação</p>

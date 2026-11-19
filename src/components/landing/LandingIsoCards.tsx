@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ShieldCheck, Leaf, HeartPulse, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 import {
   Dialog,
   DialogContent,
@@ -48,14 +49,15 @@ export function LandingIsoCards() {
   return (
     <section
       id="certificacoes"
-      className="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-20 scroll-mt-16"
+      className="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-20 scroll-mt-16 bg-[#F5F7FA]"
     >
       <div className="text-center max-w-xl mx-auto mb-10">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-          Normas Atendidas
+          Normas atendidas, do básico ao regulatório
         </h2>
         <p className="text-slate-500 mt-2 text-sm sm:text-base">
-          Metodologia completa e templates prontos para auditoria e conformidade.
+          ISO 9001, 14001 e 45001 com templates e checklists prontos, além de ISO 27001, 22000 e NRs
+          para operações mais críticas.
         </p>
       </div>
 
@@ -102,6 +104,14 @@ export function LandingIsoCards() {
             <DialogDescription className="text-slate-600 text-sm leading-relaxed pt-2">
               {selected?.long}
             </DialogDescription>
+            <div className="pt-4">
+              <Link to="/signup">
+                <Button className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold h-10 px-5 rounded-xl text-sm whitespace-nowrap">
+                  Começar por esta norma
+                  <ArrowRight className="h-4 w-4 ml-1.5" />
+                </Button>
+              </Link>
+            </div>
           </DialogHeader>
         </DialogContent>
       </Dialog>

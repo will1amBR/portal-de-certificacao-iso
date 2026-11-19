@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Menu,
-  X,
   ArrowRight,
+  Building2,
   ShieldCheck,
   CheckCircle2,
   HelpCircle,
-  Phone,
+  Users,
   Sparkles,
   LogIn,
   UserPlus,
@@ -20,10 +20,11 @@ import { cn } from '@/lib/utils'
 const navLinks = [
   { label: 'Visão Geral', href: '#sobre', icon: Sparkles },
   { label: 'Normas ISO', href: '#certificacoes', icon: ShieldCheck },
-  { label: 'Como Funciona (Onboarding)', href: '#onboarding-explicativo', icon: CheckCircle2 },
-  { label: 'Etapas de Certificação', href: '#como-funciona', icon: ShieldCheck },
+  { label: 'Tour do Portal', href: '#onboarding-explicativo', icon: CheckCircle2 },
+  { label: 'Para Quem É', href: '#segmentos', icon: Building2 },
+  { label: 'Etapas de Certificação', href: '#processo', icon: ArrowRight },
+  { label: 'Nosso Time', href: '#time', icon: Users },
   { label: 'Dúvidas Frequentes', href: '#faq', icon: HelpCircle },
-  { label: 'Contato', href: '#contato', icon: Phone },
 ]
 
 export function LandingNav() {
@@ -90,6 +91,17 @@ export function LandingNav() {
                 )}
               >
                 <Sparkles className="h-3.5 w-3.5 mr-1.5 text-yellow-400" /> Ver Demonstração
+              </Button>
+            </Link>
+          )}
+
+          {!isAuthenticated && (
+            <Link to="/signup" className="hidden sm:inline-flex">
+              <Button
+                size="sm"
+                className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm px-3.5 py-2 h-9 rounded-lg shadow-sm whitespace-nowrap"
+              >
+                <UserPlus className="h-3.5 w-3.5 mr-1.5" /> Criar Conta
               </Button>
             </Link>
           )}

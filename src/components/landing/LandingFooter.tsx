@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin, ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -7,100 +7,95 @@ export function LandingFooter() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <footer id="contato" className="bg-slate-900 text-slate-300 scroll-mt-16">
-      {/* Clean Call to Action */}
-      <div className="border-b border-slate-800 py-12 bg-slate-950">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-            Inicie sua jornada de certificação hoje
-          </h3>
-          <p className="text-slate-400 text-xs sm:text-sm mb-6">
-            Acelere a adequação da sua empresa com processos claros e suporte especializado.
-          </p>
-          <div className="flex justify-center gap-3 flex-wrap">
-            {!isAuthenticated && (
-              <Link to="/signup">
-                <Button
-                  size="default"
-                  className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-5 h-10 rounded-lg text-xs sm:text-sm"
-                >
-                  Criar Conta Gratuita <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
-                </Button>
-              </Link>
-            )}
-            <Link to={isAuthenticated ? '/dashboard' : '/login'}>
+    <footer className="bg-[#0A1F33] text-slate-300">
+      {/* Final conversion band */}
+      <div className="bg-gradient-to-r from-[#003B73] to-[#0055A4] text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold">
+              Pronto para destravar a certificação da sua empresa?
+            </h2>
+            <p className="text-blue-100 text-sm mt-1.5">
+              Cadastro gratuito, templates prontos e suporte de auditores sêniores do primeiro dia.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
+            <Link to={isAuthenticated ? '/dashboard' : '/signup'} className="w-full sm:w-auto">
               <Button
-                size="default"
-                variant="outline"
-                className="bg-transparent border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-white px-5 h-10 rounded-lg text-xs sm:text-sm"
+                size="lg"
+                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold px-6 h-11 shadow-md rounded-xl text-sm w-full whitespace-nowrap"
               >
-                {isAuthenticated ? 'Painel de Gestão' : 'Entrar na Conta'}
+                {isAuthenticated ? 'Abrir o Painel' : 'Criar conta gratuita'}
+                <ArrowRight className="h-4 w-4 ml-1.5" />
+              </Button>
+            </Link>
+            <Link to="/demo" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent hover:bg-white/10 text-white border-white/30 font-medium px-5 h-11 rounded-xl text-sm w-full whitespace-nowrap"
+              >
+                <Sparkles className="h-4 w-4 mr-1.5 text-yellow-300" />
+                Conhecer as Demos
               </Button>
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-xs">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="p-1 rounded bg-[#0055A4] text-white font-bold text-xs">ISO</div>
-              <span className="font-bold text-white text-sm">Portal de Certificação</span>
-            </div>
-            <p className="text-slate-400 leading-relaxed">
-              Automação e conformidade para ISO 9001, ISO 14001 e ISO 45001.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-white mb-2.5">Atalhos</h4>
-            <ul className="space-y-1.5 text-slate-400">
-              <li>
-                <a href="#sobre" className="hover:text-white transition-colors">
-                  Início
-                </a>
-              </li>
-              <li>
-                <a href="#certificacoes" className="hover:text-white transition-colors">
-                  Normas ISO
-                </a>
-              </li>
-              <li>
-                <a href="#como-funciona" className="hover:text-white transition-colors">
-                  Como Funciona
-                </a>
-              </li>
-              <li>
-                <Link
-                  to="/demo"
-                  className="hover:text-white transition-colors flex items-center gap-1"
-                >
-                  Demonstração <Sparkles className="h-3 w-3 text-yellow-400" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-white mb-2.5">Contato & Suporte</h4>
-            <ul className="space-y-1.5 text-slate-400">
-              <li className="flex items-center gap-2">
-                <Mail className="h-3.5 w-3.5 text-sky-400 shrink-0" /> contato@alc.com.br
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-3.5 w-3.5 text-sky-400 shrink-0" /> (11) 4003-8920
-              </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="h-3.5 w-3.5 text-sky-400 shrink-0" /> São Paulo - SP
-              </li>
-            </ul>
-          </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
+        <div>
+          <p className="font-bold text-white text-base mb-2">Portal de Certificação ISO</p>
+          <p className="text-slate-400 leading-relaxed">
+            Plataforma da ALC Certificadora para gestão completa de certificações ISO 9001, 14001,
+            45001 e NRs: onboarding guiado, pipes de não-conformidades e relatórios com assinatura
+            digital.
+          </p>
         </div>
-
-        <div className="mt-8 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-          <p>© {new Date().getFullYear()} ALC Certificadora ISO. Todos os direitos reservados.</p>
-          <span>Conforme LGPD • ISO 9001, 14001, 45001</span>
+        <div>
+          <p className="font-bold text-white text-base mb-2">Navegar</p>
+          <ul className="space-y-2">
+            <li>
+              <a href="#sobre" className="hover:text-white transition-colors">
+                Sobre a plataforma
+              </a>
+            </li>
+            <li>
+              <a href="#time" className="hover:text-white transition-colors">
+                Nosso time
+              </a>
+            </li>
+            <li>
+              <a href="#processo" className="hover:text-white transition-colors">
+                Como funciona
+              </a>
+            </li>
+            <li>
+              <a href="#faq" className="hover:text-white transition-colors">
+                Perguntas frequentes
+              </a>
+            </li>
+            <li>
+              <Link to="/demo" className="hover:text-white transition-colors">
+                Demos interativas
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p className="font-bold text-white text-base mb-2">Normas cobertas</p>
+          <ul className="space-y-2 text-slate-400">
+            <li>ISO 9001: Gestão da Qualidade</li>
+            <li>ISO 14001: Gestão Ambiental</li>
+            <li>ISO 45001: Saúde e Segurança</li>
+            <li>ISO 27001 e 22000: Info e Alimentos</li>
+            <li>NR-1 e NR-27: Regulamentadoras</li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-500">
+          © {new Date().getFullYear()} ALC Certificadora. Todos os direitos reservados.
         </div>
       </div>
     </footer>
