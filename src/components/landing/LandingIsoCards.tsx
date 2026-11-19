@@ -85,7 +85,7 @@ export function LandingIsoCards() {
             <Button
               variant="ghost"
               size="sm"
-              className="mt-4 w-fit px-2.5 -ml-2 text-xs text-[#0055A4] hover:bg-blue-50 font-semibold"
+              className="mt-4 w-fit h-10 px-2.5 -ml-2 text-xs text-[#0055A4] hover:bg-blue-50 font-semibold whitespace-nowrap"
               onClick={() => setSelected(iso)}
             >
               Ver Detalhes <ArrowRight className="h-3.5 w-3.5 ml-1" />

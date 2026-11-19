@@ -5,12 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
-import {
-  SiteContent,
-  getSiteContent,
-  saveSiteContent,
-  invalidateSiteContentCache,
-} from '@/services/site_content'
+import { SiteContent, getSiteContent, saveSiteContent } from '@/services/site_content'
+import { invalidateSiteContentCache } from '@/hooks/use-site-content'
 import { getErrorMessage } from '@/lib/pocketbase/errors'
 
 export function AdminSiteContent() {
