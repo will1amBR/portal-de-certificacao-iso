@@ -19,6 +19,7 @@ import OnboardingReport from './pages/OnboardingReport'
 import Profile from './pages/Profile'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminIsoTypes from './pages/AdminIsoTypes'
+import AdminSiteContent from './pages/AdminSiteContent'
 import DocumentsPage from './pages/Documents'
 import SchedulesPage from './pages/Schedules'
 import AuditorPipesHub from './pages/AuditorPipesHub'
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/iso-types" element={<AdminIsoTypes />} />
                 <Route path="/admin/modelos" element={<AdminModels />} />
+                <Route path="/admin/conteudo" element={<AdminSiteContent />} />
               </Route>
 
               {/* Rotas de Auditor / Consultor e Admin */}

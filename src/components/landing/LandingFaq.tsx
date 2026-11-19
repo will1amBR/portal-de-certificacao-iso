@@ -36,7 +36,7 @@ export function LandingFaq() {
             Perguntas frequentes
           </h2>
           <p className="text-slate-500 text-sm sm:text-base">
-            Ficou alguma dúvida? O suporte do portal responde durante toda a jornada.
+            Ficou com alguma dúvida? O suporte do portal responde durante toda a jornada.
           </p>
         </div>
         <div className="space-y-3">

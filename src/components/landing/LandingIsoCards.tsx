@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ShieldCheck, Leaf, HeartPulse, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import { useAuth } from '@/hooks/use-auth'
 import {
   Dialog,
   DialogContent,
@@ -45,6 +46,7 @@ const isoData = [
 
 export function LandingIsoCards() {
   const [selected, setSelected] = useState<(typeof isoData)[0] | null>(null)
+  const { isAuthenticated } = useAuth()
 
   return (
     <section
@@ -105,10 +107,10 @@ export function LandingIsoCards() {
               {selected?.long}
             </DialogDescription>
             <div className="pt-4">
-              <Link to="/signup">
+              <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
                 <Button className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold h-10 px-5 rounded-xl text-sm whitespace-nowrap">
-                  Começar por esta norma
-                  <ArrowRight className="h-4 w-4 ml-1.5" />
+                  {isAuthenticated ? 'Ir para o Painel' : 'Começar por esta norma'}
+                  <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
                 </Button>
               </Link>
             </div>

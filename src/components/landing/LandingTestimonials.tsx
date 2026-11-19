@@ -2,30 +2,11 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
-
-const testimonials = [
-  {
-    quote:
-      'Conseguimos organizar toda a documentação da obra em uma semana. Na auditoria, não faltou um único documento.',
-    name: 'Marcos T.',
-    role: 'Diretor, Construtora Horizonte',
-  },
-  {
-    quote:
-      'O portal eliminou as planilhas paralelas. Cada cláusula vira um card no Kanban, com responsável e prazo claros.',
-    name: 'Fernanda L.',
-    role: 'Coordenadora de Qualidade, Varejo',
-  },
-  {
-    quote:
-      'Como certificadora, ganhamos visibilidade total do pipeline de clientes e das não-conformidades em aberto.',
-    name: 'Ricardo M.',
-    role: 'Auditor Líder, ALC Certificadora',
-  },
-]
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export function LandingTestimonials() {
   const { isAuthenticated } = useAuth()
+  const { testimonials } = useSiteContent()
   return (
     <section id="depoimentos" className="bg-[#F5F7FA] py-16 md:py-20 scroll-mt-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -49,7 +30,7 @@ export function LandingTestimonials() {
               className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col shadow-sm"
             >
               <blockquote className="text-sm text-slate-700 leading-relaxed flex-1">
-                "{t.quote}"
+                “{t.quote}”
               </blockquote>
               <figcaption className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0055A4] to-sky-400 text-white flex items-center justify-center text-sm font-bold shrink-0">
@@ -69,8 +50,8 @@ export function LandingTestimonials() {
               size="lg"
               className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
             >
-              {isAuthenticated ? 'Abrir o Painel' : 'Quero certificar minha empresa'}
-              <ArrowRight className="h-4 w-4 ml-1.5" />
+              {isAuthenticated ? 'Ir para o Painel' : 'Quero certificar minha empresa'}
+              <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
             </Button>
           </Link>
         </div>

@@ -28,7 +28,7 @@ function DemoCalloutSection() {
         </h2>
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
           Disponibilizamos 3 perfis completos com dados simulados prontos para testar: Cliente
-          Construtora Horizonte, Auditor Cauli e Empresa Certificadora ALC.
+          Construtora Horizonte, Auditor Cauli e Certificadora ALC.
         </p>
         <div className="pt-2">
           <Link to="/demo">

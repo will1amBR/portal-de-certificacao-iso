@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 const audiences = [
   {
@@ -24,29 +25,9 @@ const audiences = [
   },
 ]
 
-const team = [
-  {
-    name: 'João Silva',
-    role: 'Fundador e CEO',
-    bio: 'Mais de 20 anos liderando certificações ISO para empresas de todos os portes.',
-    img: 'https://img.usecurling.com/ppl/large?gender=male&seed=10',
-  },
-  {
-    name: 'Cauli',
-    role: 'Auditor Líder e Consultor Sênior',
-    bio: 'Especialista em auditoria e conformidade com ampla experiência em auditorias ISO 9001, 14001 e 45001.',
-    img: 'https://img.usecurling.com/ppl/large?gender=male&seed=20',
-  },
-  {
-    name: 'Roberto Lima',
-    role: 'Diretor Técnico',
-    bio: 'Engenheiro de segurança com ampla atuação em ISO 45001, NRs e gestão de riscos ocupacionais.',
-    img: 'https://img.usecurling.com/ppl/large?gender=male&seed=30',
-  },
-]
-
 export function LandingAudience() {
   const { isAuthenticated } = useAuth()
+  const { team } = useSiteContent()
 
   return (
     <>
@@ -100,13 +81,10 @@ export function LandingAudience() {
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight mb-2">
             Nosso Time
           </h2>
-          <p className="text-slate-500 text-sm sm:text-base">
-            Décadas de experiência em certificações ISO, auditorias e consultoria técnica. Quem
-            responde você dentro do portal é gente que já conduziu centenas de auditorias.
-          </p>
+          <p className="text-slate-500 text-sm sm:text-base">{team.headline}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {team.map((m) => (
+          {team.members.map((m) => (
             <div key={m.name} className="text-center">
               <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4">
                 <img
@@ -144,7 +122,7 @@ export function LandingAudience() {
                 size="lg"
                 className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
               >
-                {isAuthenticated ? 'Abrir o Painel' : 'Começar com suporte incluso'}
+                {isAuthenticated ? 'Ir para o Painel' : 'Começar com suporte incluso'}
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </Link>

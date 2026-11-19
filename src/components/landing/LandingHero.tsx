@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export function LandingHero() {
   const { isAuthenticated } = useAuth()
+  const { metrics } = useSiteContent()
 
   return (
     <section
@@ -40,12 +42,12 @@ export function LandingHero() {
 
         {/* Action Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
-          <Link to="/signup" className="w-full sm:w-auto">
+          <Link to={isAuthenticated ? '/dashboard' : '/signup'} className="w-full sm:w-auto">
             <Button
               size="lg"
               className="bg-[#00A86B] hover:bg-emerald-600 font-semibold text-white px-7 h-11 w-full sm:w-auto shadow-md rounded-xl text-sm whitespace-nowrap"
             >
-              {isAuthenticated ? 'Ir para o Painel' : 'Criar Conta Gratuita'}
+              {isAuthenticated ? 'Ir para o Painel' : 'Criar conta gratuita'}
               <ArrowRight className="h-4 w-4 ml-2 shrink-0" />
             </Button>
           </Link>
@@ -91,18 +93,18 @@ export function LandingHero() {
 
         {/* Key Clean Highlights */}
         <div className="mt-10 pt-8 border-t border-white/10 grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
-          <div>
-            <p className="text-xl sm:text-2xl font-bold text-white">-60%</p>
-            <p className="text-xs text-blue-200/80 mt-0.5">Tempo de Adequação</p>
-          </div>
-          <div>
-            <p className="text-xl sm:text-2xl font-bold text-emerald-300">100%</p>
-            <p className="text-xs text-blue-200/80 mt-0.5">Conformidade Normativa</p>
-          </div>
-          <div>
-            <p className="text-xl sm:text-2xl font-bold text-sky-300">3 Normas</p>
-            <p className="text-xs text-blue-200/80 mt-0.5">9001 • 14001 • 45001</p>
-          </div>
+          {metrics.map((m, i) => (
+            <div key={`${m.value}-${m.label}-${i}`}>
+              <p
+                className={`text-xl sm:text-2xl font-bold ${
+                  i === 1 ? 'text-emerald-300' : i === 2 ? 'text-sky-300' : 'text-white'
+                }`}
+              >
+                {m.value}
+              </p>
+              <p className="text-xs text-blue-200/80 mt-0.5">{m.label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

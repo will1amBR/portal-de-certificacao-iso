@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 const steps = [
   {
@@ -16,13 +17,14 @@ const steps = [
   },
   {
     title: 'Auditoria final e certificado',
-    desc: 'Com a conformidade validada, a ALC Certificadora conduz a auditoria e emite o certificado oficial com selo digital.',
+    desc: '',
     n: '03',
   },
 ]
 
 export function LandingProcess() {
   const { isAuthenticated } = useAuth()
+  const { branding } = useSiteContent()
   return (
     <section id="processo" className="py-16 md:py-20 bg-white scroll-mt-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -45,7 +47,11 @@ export function LandingProcess() {
                 {s.n}
               </span>
               <h3 className="font-bold text-slate-900 pr-10">{s.title}</h3>
-              <p className="text-sm text-slate-500 mt-2 leading-relaxed">{s.desc}</p>
+              <p className="text-sm text-slate-500 mt-2 leading-relaxed">
+                {i === 2
+                  ? `Com a conformidade validada, a ${branding.orgName} conduz a auditoria e emite o certificado oficial com selo digital.`
+                  : s.desc}
+              </p>
             </div>
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Settings, FileText, LayoutDashboard, Sparkles } from 'lucide-react'
+import { Settings, FileText, LayoutDashboard, Sparkles, Globe } from 'lucide-react'
 import { Users2, ShieldCheck, UserCheck, LayoutDashboard as DashboardIcon } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
@@ -7,6 +7,7 @@ import { AdminOverview } from '@/components/admin/AdminOverview'
 import { AdminClients } from '@/components/admin/AdminClients'
 import { AdminCertifications } from '@/components/admin/AdminCertifications'
 import { AdminOnboardingPipeline } from '@/components/admin/AdminOnboardingPipeline'
+import { AdminSiteContent } from '@/components/admin/AdminSiteContent'
 
 export default function AdminDashboard() {
   return (
@@ -39,6 +40,11 @@ export default function AdminDashboard() {
           <Link to="/admin/iso-types">
             <Button variant="outline" size="sm" className="gap-1.5">
               <FileText className="h-4 w-4 text-[#0055A4]" /> Tipos ISO
+            </Button>
+          </Link>
+          <Link to="/admin/conteudo">
+            <Button variant="outline" size="sm" className="gap-1.5 whitespace-nowrap h-10">
+              <Globe className="h-4 w-4 text-[#0055A4]" /> Conteúdo do Site
             </Button>
           </Link>
         </div>

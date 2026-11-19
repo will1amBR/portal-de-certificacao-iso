@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
+import { useSiteContent } from '@/hooks/use-site-content'
 
 export function LandingFooter() {
   const { isAuthenticated } = useAuth()
+  const { branding } = useSiteContent()
 
   return (
     <footer className="bg-[#0A1F33] text-slate-300">
@@ -25,7 +27,7 @@ export function LandingFooter() {
                 size="lg"
                 className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold px-6 h-11 shadow-md rounded-xl text-sm w-full whitespace-nowrap"
               >
-                {isAuthenticated ? 'Abrir o Painel' : 'Criar conta gratuita'}
+                {isAuthenticated ? 'Ir para o Painel' : 'Criar conta gratuita'}
                 <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
             </Link>
@@ -45,9 +47,9 @@ export function LandingFooter() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
         <div>
-          <p className="font-bold text-white text-base mb-2">Portal de Certificação ISO</p>
+          <p className="font-bold text-white text-base mb-2">{branding.orgName}</p>
           <p className="text-slate-400 leading-relaxed">
-            Plataforma da ALC Certificadora para gestão completa de certificações ISO 9001, 14001,
+            Plataforma da {branding.orgName} para gestão completa de certificações ISO 9001, 14001,
             45001 e NRs: onboarding guiado, pipes de não-conformidades e relatórios com assinatura
             digital.
           </p>
@@ -95,7 +97,7 @@ export function LandingFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} ALC Certificadora. Todos os direitos reservados.
+          © {new Date().getFullYear()} {branding.orgName}. Todos os direitos reservados.
         </div>
       </div>
     </footer>

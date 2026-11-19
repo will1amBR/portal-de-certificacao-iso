@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useAuth } from '@/hooks/use-auth'
+import { useSiteContent } from '@/hooks/use-site-content'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -29,6 +30,7 @@ const navLinks = [
 
 export function LandingNav() {
   const { isAuthenticated } = useAuth()
+  const { branding } = useSiteContent()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -53,9 +55,17 @@ export function LandingNav() {
           href="#sobre"
           className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-lg"
         >
-          <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm tracking-wide shadow-sm group-hover:bg-[#0055A4] transition-colors">
-            ISO
-          </div>
+          {branding.logoUrl ? (
+            <img
+              src={branding.logoUrl}
+              alt={branding.orgName}
+              className="h-9 w-9 rounded-lg object-cover shadow-sm"
+            />
+          ) : (
+            <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm tracking-wide shadow-sm group-hover:bg-[#0055A4] transition-colors">
+              ISO
+            </div>
+          )}
           <div className="flex flex-col">
             <span
               className={cn(
@@ -63,7 +73,7 @@ export function LandingNav() {
                 scrolled ? 'text-slate-900' : 'text-white',
               )}
             >
-              Portal ISO
+              {branding.orgName}
             </span>
             <span
               className={cn(
@@ -71,7 +81,7 @@ export function LandingNav() {
                 scrolled ? 'text-slate-500' : 'text-blue-200',
               )}
             >
-              Qualidade & Conformidade
+              Portal de Certificação ISO
             </span>
           </div>
         </a>
@@ -84,7 +94,7 @@ export function LandingNav() {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  'text-xs font-semibold px-3 py-2 h-9 rounded-lg transition-colors',
+                  'text-xs font-semibold px-3 py-2 h-10 rounded-lg transition-colors whitespace-nowrap',
                   scrolled
                     ? 'text-slate-600 hover:text-[#0055A4] hover:bg-slate-100'
                     : 'text-blue-100 hover:text-white hover:bg-white/10',
@@ -99,7 +109,7 @@ export function LandingNav() {
             <Link to="/signup" className="hidden sm:inline-flex">
               <Button
                 size="sm"
-                className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm px-3.5 py-2 h-9 rounded-lg shadow-sm whitespace-nowrap"
+                className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm px-3.5 py-2 h-10 rounded-lg shadow-sm whitespace-nowrap"
               >
                 <UserPlus className="h-3.5 w-3.5 mr-1.5" /> Criar Conta
               </Button>
@@ -110,9 +120,9 @@ export function LandingNav() {
             <Link to="/dashboard">
               <Button
                 size="sm"
-                className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-medium text-xs sm:text-sm px-3.5 py-2 h-9 rounded-lg shadow-sm"
+                className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-medium text-xs sm:text-sm px-3.5 py-2 h-10 rounded-lg shadow-sm whitespace-nowrap"
               >
-                Ir ao Painel <ArrowRight className="h-3.5 w-3.5 ml-1.5 shrink-0" />
+                Ir para o Painel <ArrowRight className="h-3.5 w-3.5 ml-1.5 shrink-0" />
               </Button>
             </Link>
           ) : (
@@ -121,7 +131,7 @@ export function LandingNav() {
                 variant={scrolled ? 'outline' : 'ghost'}
                 size="sm"
                 className={cn(
-                  'text-xs font-semibold px-3.5 py-2 h-9 rounded-lg transition-colors',
+                  'text-xs font-semibold px-3.5 py-2 h-10 rounded-lg transition-colors whitespace-nowrap',
                   scrolled
                     ? 'border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                     : 'text-white hover:bg-white/10 hover:text-white',
@@ -157,12 +167,20 @@ export function LandingNav() {
               <div>
                 <SheetHeader className="p-5 border-b border-slate-100 text-left">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm">
-                      ISO
-                    </div>
+                    {branding.logoUrl ? (
+                      <img
+                        src={branding.logoUrl}
+                        alt={branding.orgName}
+                        className="h-9 w-9 rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="p-1.5 rounded-lg bg-[#003B73] text-white font-black text-sm">
+                        ISO
+                      </div>
+                    )}
                     <div>
                       <SheetTitle className="text-base font-bold text-slate-900">
-                        Navegação Principal
+                        {branding.orgName}
                       </SheetTitle>
                       <p className="text-xs text-slate-500">Portal de Certificação e Gestão</p>
                     </div>
@@ -197,7 +215,7 @@ export function LandingNav() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full text-xs font-semibold text-[#0055A4] border-blue-200 hover:bg-blue-100/60"
+                        className="w-full text-xs font-semibold text-[#0055A4] border-blue-200 hover:bg-blue-100/60 h-10 whitespace-nowrap"
                       >
                         <Sparkles className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
                         Conhecer as Demos
@@ -211,23 +229,23 @@ export function LandingNav() {
               <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-2">
                 {isAuthenticated ? (
                   <Link to="/dashboard" onClick={() => setOpen(false)} className="block">
-                    <Button className="w-full bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold">
-                      Acessar Painel <ArrowRight className="h-4 w-4 ml-1.5" />
+                    <Button className="w-full bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold h-10">
+                      Ir para o Painel <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
                     </Button>
                   </Link>
                 ) : (
                   <>
                     <Link to="/signup" onClick={() => setOpen(false)} className="block">
-                      <Button className="w-full bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold shadow-sm">
-                        <UserPlus className="h-4 w-4 mr-1.5" /> Criar Conta Gratuita
+                      <Button className="w-full bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold shadow-sm h-10">
+                        <UserPlus className="h-4 w-4 mr-1.5 shrink-0" /> Criar Conta Gratuita
                       </Button>
                     </Link>
                     <Link to="/login" onClick={() => setOpen(false)} className="block">
                       <Button
                         variant="outline"
-                        className="w-full border-slate-300 text-slate-700 hover:bg-white"
+                        className="w-full border-slate-300 text-slate-700 hover:bg-white h-10"
                       >
-                        <LogIn className="h-4 w-4 mr-1.5" /> Fazer Login
+                        <LogIn className="h-4 w-4 mr-1.5 shrink-0" /> Fazer Login
                       </Button>
                     </Link>
                   </>
