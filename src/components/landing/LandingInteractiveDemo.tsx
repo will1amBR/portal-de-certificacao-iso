@@ -18,7 +18,7 @@ export function LandingInteractiveDemo() {
           </p>
 
           {/* Clean Segmented Control */}
-          <div className="inline-flex bg-slate-100 p-1 rounded-xl mt-6 border border-slate-200 max-w-full overflow-x-auto">
+          <div className="flex bg-slate-100 p-1 rounded-xl mt-6 border border-slate-200 max-w-full overflow-x-auto mx-auto w-fit">
             <button
               type="button"
               onClick={() => setActiveTab('pipes')}

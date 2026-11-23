@@ -116,6 +116,52 @@ const parseData = (raw: string | Record<string, unknown> | null | undefined): un
   return raw
 }
 
+/* Sanitização defensiva: um item malformado salvo pelo admin nunca pode
+   quebrar a landing (texto vazio, avatar sem inicial, número em branco). */
+const asText = (v: unknown): string => (typeof v === 'string' ? v.trim() : '')
+
+const sanitizeMetric = (raw: unknown): SiteMetric | null => {
+  if (!raw || typeof raw !== 'object') return null
+  const value = asText((raw as Record<string, unknown>).value)
+  const label = asText((raw as Record<string, unknown>).label)
+  if (!value || !label) return null
+  return { value, label }
+}
+
+const sanitizeTestimonial = (raw: unknown): SiteTestimonial | null => {
+  if (!raw || typeof raw !== 'object') return null
+  const quote = asText((raw as Record<string, unknown>).quote)
+  const name = asText((raw as Record<string, unknown>).name)
+  if (!quote || !name) return null
+  return {
+    quote,
+    name,
+    role: asText((raw as Record<string, unknown>).role),
+  }
+}
+
+const sanitizeTeam = (raw: unknown): SiteTeamContent | null => {
+  if (!raw || typeof raw !== 'object') return null
+  const obj = raw as Record<string, unknown>
+  const headline = asText(obj.headline)
+  if (!Array.isArray(obj.members)) return null
+  const members = (obj.members as unknown[])
+    .map((m): SiteTeamMember | null => {
+      if (!m || typeof m !== 'object') return null
+      const name = asText((m as Record<string, unknown>).name)
+      if (!name) return null
+      return {
+        name,
+        role: asText((m as Record<string, unknown>).role),
+        bio: asText((m as Record<string, unknown>).bio),
+        img: asText((m as Record<string, unknown>).img),
+      }
+    })
+    .filter((m): m is SiteTeamMember => m !== null)
+  if (!headline || members.length === 0) return null
+  return { headline, members }
+}
+
 /** Carrega o conteúdo gerenciável do site. Nunca lança: em erro devolve o fallback. */
 export async function getSiteContent(): Promise<SiteContent> {
   const result: SiteContent = {
@@ -134,21 +180,20 @@ export async function getSiteContent(): Promise<SiteContent> {
       if (row.section === 'metrics') {
         const list = (data as { metrics?: unknown }).metrics ?? data
         if (Array.isArray(list) && list.length > 0) {
-          result.metrics = list as SiteMetric[]
+          const metrics = list.map(sanitizeMetric).filter((m): m is SiteMetric => m !== null)
+          if (metrics.length > 0) result.metrics = metrics
         }
       } else if (row.section === 'testimonials') {
         const list = (data as { testimonials?: unknown }).testimonials ?? data
         if (Array.isArray(list) && list.length > 0) {
-          result.testimonials = list as SiteTestimonial[]
+          const testimonials = list
+            .map(sanitizeTestimonial)
+            .filter((t): t is SiteTestimonial => t !== null)
+          if (testimonials.length > 0) result.testimonials = testimonials
         }
       } else if (row.section === 'team') {
-        const team = data as Partial<SiteTeamContent>
-        if (team && typeof team.headline === 'string' && Array.isArray(team.members)) {
-          result.team = {
-            headline: team.headline,
-            members: team.members,
-          }
-        }
+        const team = sanitizeTeam(data)
+        if (team) result.team = team
       } else if (row.section === 'branding') {
         const branding = data as Partial<SiteBranding>
         if (branding && typeof branding.orgName === 'string' && branding.orgName.trim() !== '') {

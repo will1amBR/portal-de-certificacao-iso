@@ -191,8 +191,8 @@ export function LandingMiniOnboarding() {
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{current.desc}</p>
 
               <div className="pt-2 flex items-center gap-3 flex-wrap">
-                <Link to="/signup">
-                  <Button className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold whitespace-nowrap min-h-[40px] px-5 shadow-sm">
+                <Link to="/signup" className="w-full sm:w-auto">
+                  <Button className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold whitespace-nowrap min-h-[40px] px-5 shadow-sm w-full sm:w-auto">
                     Iniciar Meu Onboarding <ArrowRight className="h-4 w-4 ml-1.5" />
                   </Button>
                 </Link>

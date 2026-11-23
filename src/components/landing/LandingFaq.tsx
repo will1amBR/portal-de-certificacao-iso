@@ -56,10 +56,13 @@ export function LandingFaq() {
           ))}
         </div>
         <div className="text-center mt-8">
-          <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+          <Link
+            to={isAuthenticated ? '/dashboard' : '/signup'}
+            className="inline-block w-full sm:w-auto"
+          >
             <Button
               size="lg"
-              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
+              className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap w-full sm:w-auto"
             >
               {isAuthenticated ? 'Ir para o Painel' : 'Começar minha certificação'}
               <ArrowRight className="h-4 w-4 ml-1.5" />

@@ -56,7 +56,7 @@ export function LandingProcess() {
           ))}
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
-          <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+          <Link to={isAuthenticated ? '/dashboard' : '/signup'} className="w-full sm:w-auto">
             <Button
               size="lg"
               className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
@@ -66,11 +66,11 @@ export function LandingProcess() {
             </Button>
           </Link>
           {!isAuthenticated && (
-            <Link to="/demo">
+            <Link to="/demo" className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
-                className="border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold px-5 h-11 rounded-xl text-sm whitespace-nowrap"
+                className="border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold px-5 h-11 rounded-xl text-sm whitespace-nowrap w-full sm:w-auto"
               >
                 Prefiro ver as demos primeiro
               </Button>

@@ -117,7 +117,7 @@ export function LandingNav() {
           )}
 
           {isAuthenticated ? (
-            <Link to="/dashboard">
+            <Link to="/dashboard" className="hidden sm:inline-flex">
               <Button
                 size="sm"
                 className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-medium text-xs sm:text-sm px-3.5 py-2 h-10 rounded-lg shadow-sm whitespace-nowrap"

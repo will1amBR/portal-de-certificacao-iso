@@ -63,10 +63,10 @@ export function LandingAudience() {
           </div>
 
           <div className="text-center mt-8">
-            <Link to="/signup">
+            <Link to="/signup" className="inline-block w-full sm:w-auto">
               <Button
                 size="lg"
-                className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
+                className="bg-[#00A86B] hover:bg-emerald-600 text-white font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap w-full sm:w-auto"
               >
                 Encontrar meu segmento no cadastro
                 <ArrowRight className="h-4 w-4 ml-1.5" />
@@ -117,10 +117,13 @@ export function LandingAudience() {
             documentos enviados e prepara sua empresa para a auditoria final sem retrabalho.
           </p>
           <div className="mt-6">
-            <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+            <Link
+              to={isAuthenticated ? '/dashboard' : '/signup'}
+              className="inline-block w-full sm:w-auto"
+            >
               <Button
                 size="lg"
-                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap"
+                className="bg-white text-[#0055A4] hover:bg-blue-50 font-semibold px-6 h-11 shadow-md rounded-xl text-sm whitespace-nowrap w-full sm:w-auto"
               >
                 {isAuthenticated ? 'Ir para o Painel' : 'Começar com suporte incluso'}
                 <ArrowRight className="h-4 w-4 ml-1.5" />

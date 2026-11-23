@@ -49,74 +49,73 @@ export function LandingIsoCards() {
   const { isAuthenticated } = useAuth()
 
   return (
-    <section
-      id="certificacoes"
-      className="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-20 scroll-mt-16 bg-[#F5F7FA]"
-    >
-      <div className="text-center max-w-xl mx-auto mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-          Normas atendidas, do básico ao regulatório
-        </h2>
-        <p className="text-slate-500 mt-2 text-sm sm:text-base">
-          ISO 9001, 14001 e 45001 com templates e checklists prontos, além de ISO 27001, 22000 e NRs
-          para operações mais críticas.
-        </p>
-      </div>
+    <section id="certificacoes" className="bg-[#F5F7FA] py-16 md:py-20 scroll-mt-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            Normas atendidas, do básico ao regulatório
+          </h2>
+          <p className="text-slate-500 mt-2 text-sm sm:text-base">
+            ISO 9001, 14001 e 45001 com templates e checklists prontos, além de ISO 27001, 22000 e
+            NRs para operações mais críticas.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {isoData.map((iso) => (
-          <div
-            key={iso.code}
-            className="rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className={`p-2.5 rounded-lg ${iso.bg}`}>
-                  <iso.icon className={`h-5 w-5 ${iso.color}`} />
-                </div>
-                <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
-                  {iso.code}
-                </span>
-              </div>
-              <h3 className="text-base font-bold text-slate-900">{iso.title}</h3>
-              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{iso.desc}</p>
-            </div>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mt-4 w-fit h-10 px-2.5 -ml-2 text-xs text-[#0055A4] hover:bg-blue-50 font-semibold whitespace-nowrap"
-              onClick={() => setSelected(iso)}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {isoData.map((iso) => (
+            <div
+              key={iso.code}
+              className="rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all flex flex-col justify-between"
             >
-              Ver Detalhes <ArrowRight className="h-3.5 w-3.5 ml-1" />
-            </Button>
-          </div>
-        ))}
-      </div>
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`p-2.5 rounded-lg ${iso.bg}`}>
+                    <iso.icon className={`h-5 w-5 ${iso.color}`} />
+                  </div>
+                  <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                    {iso.code}
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">{iso.title}</h3>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{iso.desc}</p>
+              </div>
 
-      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <div className={`inline-flex p-3 rounded-xl ${selected?.bg} mb-2 w-fit`}>
-              {selected && <selected.icon className={`h-6 w-6 ${selected.color}`} />}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-4 w-fit h-10 px-2.5 -ml-2 text-xs text-[#0055A4] hover:bg-blue-50 font-semibold whitespace-nowrap"
+                onClick={() => setSelected(iso)}
+              >
+                Ver Detalhes <ArrowRight className="h-3.5 w-3.5 ml-1" />
+              </Button>
             </div>
-            <DialogTitle className="text-lg">
-              {selected?.code} - {selected?.title}
-            </DialogTitle>
-            <DialogDescription className="text-slate-600 text-sm leading-relaxed pt-2">
-              {selected?.long}
-            </DialogDescription>
-            <div className="pt-4">
-              <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
-                <Button className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold h-10 px-5 rounded-xl text-sm whitespace-nowrap">
-                  {isAuthenticated ? 'Ir para o Painel' : 'Começar por esta norma'}
-                  <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
-                </Button>
-              </Link>
-            </div>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+          ))}
+        </div>
+
+        <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <div className={`inline-flex p-3 rounded-xl ${selected?.bg} mb-2 w-fit`}>
+                {selected && <selected.icon className={`h-6 w-6 ${selected.color}`} />}
+              </div>
+              <DialogTitle className="text-lg">
+                {selected?.code} - {selected?.title}
+              </DialogTitle>
+              <DialogDescription className="text-slate-600 text-sm leading-relaxed pt-2">
+                {selected?.long}
+              </DialogDescription>
+              <div className="pt-4">
+                <Link to={isAuthenticated ? '/dashboard' : '/signup'}>
+                  <Button className="bg-[#0055A4] hover:bg-[#1A73E8] text-white font-semibold h-10 px-5 rounded-xl text-sm whitespace-nowrap">
+                    {isAuthenticated ? 'Ir para o Painel' : 'Começar por esta norma'}
+                    <ArrowRight className="h-4 w-4 ml-1.5 shrink-0" />
+                  </Button>
+                </Link>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </section>
   )
 }
